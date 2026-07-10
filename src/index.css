@@ -1,0 +1,46 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-script: 'Caveat', cursive;
+
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-200: #c7d2fe;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
+
+  --color-surface: #ffffff;
+  --color-ink: #111827;
+  --color-ink-muted: #6b7280;
+  --color-ink-light: #9ca3af;
+  --color-border: #e5e7eb;
+  --color-star: #fbbf24;
+
+  --shadow-card: 0 4px 20px -2px rgba(99, 102, 241, 0.1), 0 8px 24px -4px rgba(0, 0, 0, 0.06);
+  --shadow-card-lg: 0 8px 32px -4px rgba(99, 102, 241, 0.14), 0 16px 40px -8px rgba(0, 0, 0, 0.08);
+  --shadow-search: 0 16px 48px -12px rgba(99, 102, 241, 0.12), 0 4px 20px -4px rgba(0, 0, 0, 0.05);
+  --shadow-button: 0 4px 16px -2px rgba(99, 102, 241, 0.45);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background-color: var(--color-surface);
+  }
+}
