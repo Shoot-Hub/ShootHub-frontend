@@ -26,7 +26,7 @@ export function Navbar() {
       variants={fadeIn}
       className="sticky top-0 z-50 bg-white"
     >
-      <Container size="wide" padding="tight">
+      <Container size="full" padding="tight" className="xl:px-10 2xl:px-12">
         <nav
           className="relative flex h-[72px] items-center justify-between"
           aria-label="Main navigation"

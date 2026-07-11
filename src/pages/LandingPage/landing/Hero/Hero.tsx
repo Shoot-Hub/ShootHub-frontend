@@ -54,13 +54,13 @@ export function Hero() {
 
             <motion.h1
               variants={fadeInUp}
-              className="mt-5 text-[40px] font-extrabold leading-[1.1] tracking-tight text-ink sm:text-[46px] lg:text-[54px] xl:text-[60px] 2xl:text-[64px]"
+              className="mt-5 text-[44px] font-extrabold leading-[1.08] tracking-tight text-ink sm:text-[52px] lg:text-[60px] xl:text-[66px] 2xl:text-[72px]"
             >
               Book the Perfect{' '}
               <span className="text-primary-500">Creator</span>
               <br className="hidden sm:block" />
               <span className="sm:ml-0"> for Your </span>
-              <span className="relative inline-block font-script text-[46px] font-bold text-ink sm:text-[52px] lg:text-[60px] xl:text-[66px] 2xl:text-[70px]">
+              <span className="relative inline-block font-script text-[50px] font-bold text-ink sm:text-[58px] lg:text-[66px] xl:text-[72px] 2xl:text-[78px]">
                 Special Moments
                 <Heart
                   className="ml-1 inline h-5 w-5 fill-primary-500 text-primary-500 lg:h-6 lg:w-6"

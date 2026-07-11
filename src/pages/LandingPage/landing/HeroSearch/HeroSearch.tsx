@@ -45,7 +45,7 @@ export function HeroSearch() {
       whileInView="visible"
       viewport={{ once: true, margin: '-50px' }}
       variants={fadeInUp}
-      className="relative z-20 -mt-6 md:-mt-12"
+      className="relative z-20 mt-6 md:mt-1"
     >
       <Container size="wide" padding="tight">
         <div className="rounded-2xl border border-border/30 bg-white p-2 shadow-search md:rounded-[20px] md:p-2.5">
