@@ -28,10 +28,10 @@ export function Navbar() {
     >
       <Container size="full" padding="tight" className="xl:px-10 2xl:px-12">
         <nav
-          className="relative flex h-[72px] items-center justify-between"
+          className="relative flex h-24 items-center justify-between"
           aria-label="Main navigation"
         >
-          <Link to="/" aria-label="ShootHub home" className="relative z-10">
+          <Link to="/" aria-label="ShootHub home" className="relative z-10 h-24">
             <Logo />
           </Link>
 
@@ -58,15 +58,17 @@ export function Navbar() {
               <Globe className="h-[18px] w-[18px]" strokeWidth={2} />
               EN
             </button>
-            <button
-              type="button"
+            <Link
+              to="/login"
               className="text-[15px] font-semibold text-ink-muted transition-colors hover:text-ink"
             >
               Log in
-            </button>
-            <Button size="sm" pill className="shadow-button">
-              Get Started
-            </Button>
+            </Link>
+            <Link to="/signup">
+              <Button size="sm" pill className="shadow-button">
+                Get Started
+              </Button>
+            </Link>
           </div>
 
           <button
@@ -102,12 +104,16 @@ export function Navbar() {
               ))}
             </ul>
             <div className="mt-4 flex flex-col gap-3 px-3">
-              <Button variant="ghost" fullWidth>
-                Log in
-              </Button>
-              <Button fullWidth pill>
-                Get Started
-              </Button>
+              <Link to="/login" onClick={() => setMobileOpen(false)}>
+                <Button variant="ghost" fullWidth>
+                  Log in
+                </Button>
+              </Link>
+              <Link to="/signup" onClick={() => setMobileOpen(false)}>
+                <Button fullWidth pill>
+                  Get Started
+                </Button>
+              </Link>
             </div>
           </motion.div>
         )}

@@ -1,20 +1,18 @@
-import { Camera } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import shoothubLogo from '@/assets/landing/shoothublogo.png';
 
 type LogoProps = {
   className?: string;
+  /** Kept for API compatibility; the brand image already includes wordmark. */
   showText?: boolean;
 };
 
-export function Logo({ className, showText = true }: LogoProps) {
+export function Logo({ className }: LogoProps) {
   return (
-    <div className={cn('flex items-center gap-2.5', className)}>
-      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-500 shadow-button">
-        <Camera className="h-5 w-5 text-white" strokeWidth={2.5} />
-      </div>
-      {showText && (
-        <span className="text-[22px] font-bold tracking-tight text-ink">ShootHub</span>
-      )}
-    </div>
+    <img
+      src={shoothubLogo}
+      alt="ShootHub"
+      className={cn('h-40 w-auto object-contain sm:h-24', className)}
+    />
   );
 }
