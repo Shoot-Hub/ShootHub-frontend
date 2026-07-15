@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft } from 'lucide-react';
@@ -8,10 +8,12 @@ import { Button } from '@/components/ui/Button';
 import { AuthLayout, AuthCard, PasswordInput } from '@/components/auth';
 import { resetPasswordSchema, type ResetPasswordFormData } from '@/schemas/auth';
 import { AUTH_ROUTES } from '@/constants/auth';
+import { userService } from '@/services/user';
 
 export function ResetPasswordPage() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  void searchParams.get('token');
+  const token = searchParams.get('token') || '';
 
   const {
     register,
@@ -25,8 +27,20 @@ export function ResetPasswordPage() {
   const password = watch('password');
 
   const onSubmit = async (_data: ResetPasswordFormData) => {
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    toast.success('Password updated successfully!');
+    if (!token) {
+      toast.error('Invalid or missing reset token');
+      return;
+    }
+
+    try {
+      await userService.resetPassword(token, _data.password);
+      toast.success('Password updated successfully!');
+      navigate(AUTH_ROUTES.LOGIN);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Failed to reset password. Please try again.';
+      toast.error(message);
+    }
   };
 
   return (

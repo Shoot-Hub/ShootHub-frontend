@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { AuthLayout, AuthCard, AuthInput } from '@/components/auth';
 import { forgotPasswordSchema, type ForgotPasswordFormData } from '@/schemas/auth';
 import { AUTH_ROUTES } from '@/constants/auth';
+import { userService } from '@/services/user';
 
 export function ForgotPasswordPage() {
   const {
@@ -19,8 +20,14 @@ export function ForgotPasswordPage() {
   });
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    toast.success(`Reset link sent to ${data.email}`);
+    try {
+      await userService.forgotPassword(data.email);
+      toast.success(`Reset link sent to ${data.email}`);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Failed to send reset link. Please try again.';
+      toast.error(message);
+    }
   };
 
   return (

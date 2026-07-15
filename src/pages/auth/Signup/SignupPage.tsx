@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail, User } from 'lucide-react';
@@ -17,8 +17,11 @@ import {
 import { MobileInput } from '@/components/auth/MobileInput';
 import { signupSchema, type SignupFormData } from '@/schemas/auth';
 import { AUTH_ROUTES } from '@/constants/auth';
+import { userService } from '@/services/user';
+import { setAuth } from '@/store';
 
 export function SignupPage() {
+  const navigate = useNavigate();
   const [captchaVerified, setCaptchaVerified] = useState(false);
   const handleCaptchaVerify = useCallback((verified: boolean) => setCaptchaVerified(verified), []);
 
@@ -44,8 +47,44 @@ export function SignupPage() {
       return;
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    toast.success(`Account created for ${data.fullName}!`);
+    try {
+      const nameParts = data.fullName.trim().split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+
+      const roleMap: Record<string, string> = {
+        client: 'client',
+        creator: 'photographer',
+      };
+
+      const response = await userService.signup({
+        firstName,
+        lastName,
+        email: data.email,
+        password: data.password,
+        role: roleMap[data.role] || data.role,
+        phone: `${data.countryCode}${data.mobile}`,
+      });
+
+      if (response.data?.user) {
+        const user = response.data.user;
+        setAuth(user);
+
+        // Redirect based on role
+        if (user.role === 'photographer') {
+          navigate('/creator');
+        } else {
+          navigate('/');
+        }
+        toast.success(`Account created for ${data.fullName}!`);
+      } else {
+        toast.success(`Account created for ${data.fullName}!`);
+      }
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Signup failed. Please try again.';
+      toast.error(message);
+    }
   };
 
   return (

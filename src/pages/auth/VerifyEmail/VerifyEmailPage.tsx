@@ -5,14 +5,21 @@ import toast from 'react-hot-toast';
 import { Button } from '@/components/ui/Button';
 import { AuthLayout, AuthCard } from '@/components/auth';
 import { AUTH_ROUTES } from '@/constants/auth';
+import { userService } from '@/services/user';
 
 export function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email') ?? 'your email';
 
   const handleResend = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    toast.success('Verification email resent!');
+    try {
+      await userService.forgotPassword(email);
+      toast.success('Verification email resent!');
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Failed to resend verification email.';
+      toast.error(message);
+    }
   };
 
   return (
@@ -38,7 +45,7 @@ export function VerifyEmailPage() {
             <MailCheck className="h-8 w-8 text-auth-primary" strokeWidth={1.75} />
           </div>
           <p className="text-sm leading-relaxed text-ink-muted">
-            Didn&apos;t receive the email? Check your spam folder or request a new verification
+            Didn't receive the email? Check your spam folder or request a new verification
             link below.
           </p>
           <motion.div whileTap={{ scale: 0.98 }} className="w-full">

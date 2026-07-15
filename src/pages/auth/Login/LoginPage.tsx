@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail } from 'lucide-react';
@@ -15,8 +15,12 @@ import {
 } from '@/components/auth';
 import { loginSchema, type LoginFormData } from '@/schemas/auth';
 import { AUTH_ROUTES } from '@/constants/auth';
+import { userService } from '@/services/user';
+import { setAuth } from '@/store';
 
 export function LoginPage() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -28,8 +32,28 @@ export function LoginPage() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    toast.success(`Welcome back! (${data.email})`);
+    try {
+      const response = await userService.login(data.email, data.password);
+
+      if (response.data?.user) {
+        const user = response.data.user;
+        setAuth(user);
+
+        // Redirect based on role
+        if (user.role === 'photographer') {
+          navigate('/creator');
+        } else {
+          navigate('/');
+        }
+        toast.success('Welcome back!');
+      } else {
+        toast.success(`Welcome back! (${data.email})`);
+      }
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Login failed. Please try again.';
+      toast.error(message);
+    }
   };
 
   const handleSocialLogin = (provider: string) => {
@@ -44,7 +68,7 @@ export function LoginPage() {
         description="Continue to ShootHub and manage your bookings, galleries and more."
         footer={
           <p className="text-center text-sm text-ink-muted">
-            Don&apos;t have an account?{' '}
+            Don't have an account?{' '}
             <Link
               to={AUTH_ROUTES.SIGNUP}
               className="font-semibold text-auth-primary transition-colors hover:text-auth-accent"
