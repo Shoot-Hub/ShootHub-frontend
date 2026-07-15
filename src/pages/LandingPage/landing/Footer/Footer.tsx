@@ -1,10 +1,27 @@
+import { Link } from 'react-router-dom';
 import { Container } from '@/components/ui/Container';
 import { Logo } from '../Logo';
 
 const footerLinks = {
-  Product: ['Explore', 'Creators', 'Categories', 'Pricing'],
-  Company: ['About', 'Careers', 'Blog', 'Press'],
-  Support: ['Help Center', 'Contact', 'Privacy', 'Terms'],
+  Product: [
+    { label: 'Explore', to: '/' },
+    { label: 'Creators', to: '/creators' },
+    { label: 'Reels', to: '/reels' },
+    { label: 'Categories', to: '/categories' },
+    { label: 'Pricing', to: '/pricing' },
+  ],
+  Company: [
+    { label: 'About', to: '/about' },
+    { label: 'Careers', to: '/about' },
+    { label: 'Blog', to: '/about' },
+    { label: 'Press', to: '/about' },
+  ],
+  Support: [
+    { label: 'Help Center', to: '/about' },
+    { label: 'Contact', to: '/about' },
+    { label: 'Privacy', to: '/about' },
+    { label: 'Terms', to: '/about' },
+  ],
 } as const;
 
 export function Footer() {
@@ -15,7 +32,8 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Logo />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-muted">
-              India&apos;s most trusted platform for booking photographers, videographers, and creative professionals.
+              India&apos;s most trusted platform for booking photographers, videographers, and
+              creative professionals.
             </p>
           </div>
 
@@ -24,13 +42,13 @@ export function Footer() {
               <h3 className="text-sm font-bold text-ink">{title}</h3>
               <ul className="mt-4 space-y-2.5">
                 {links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
+                  <li key={link.label}>
+                    <Link
+                      to={link.to}
                       className="text-sm text-ink-muted transition-colors hover:text-ink"
                     >
-                      {link}
-                    </a>
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -43,12 +61,12 @@ export function Footer() {
             &copy; {new Date().getFullYear()} ShootHub. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#privacy" className="text-sm text-ink-muted hover:text-ink">
+            <Link to="/about" className="text-sm text-ink-muted hover:text-ink">
               Privacy Policy
-            </a>
-            <a href="#terms" className="text-sm text-ink-muted hover:text-ink">
+            </Link>
+            <Link to="/about" className="text-sm text-ink-muted hover:text-ink">
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
       </Container>

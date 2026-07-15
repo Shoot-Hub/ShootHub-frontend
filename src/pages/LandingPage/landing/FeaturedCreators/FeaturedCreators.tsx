@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ShieldCheck, Star } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -109,15 +110,17 @@ export function FeaturedCreators() {
           variants={fadeInUp}
           className="mt-10 flex flex-col items-center gap-3"
         >
-          <Button
-            variant="secondary"
-            size="lg"
-            pill
-            className="border-primary-200 bg-white px-8 text-primary-600 hover:border-primary-300 hover:bg-primary-50"
-            rightIcon={<ArrowRight className="h-4 w-4 text-primary-500" strokeWidth={2.5} />}
-          >
-            View All Creators
-          </Button>
+          <Link to="/creators">
+            <Button
+              variant="secondary"
+              size="lg"
+              pill
+              className="border-primary-200 bg-white px-8 text-primary-600 hover:border-primary-300 hover:bg-primary-50"
+              rightIcon={<ArrowRight className="h-4 w-4 text-primary-500" strokeWidth={2.5} />}
+            >
+              View All Creators
+            </Button>
+          </Link>
           <p className="flex items-center gap-1.5 text-sm text-ink-muted">
             <ShieldCheck className="h-4 w-4" strokeWidth={2} />
             All creators are verified and background checked

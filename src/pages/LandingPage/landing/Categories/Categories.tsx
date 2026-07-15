@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
@@ -165,15 +166,17 @@ export function Categories() {
           variants={fadeInUp}
           className="mt-10 flex justify-center"
         >
-          <Button
-            variant="secondary"
-            size="lg"
-            pill
-            className="border-primary-200 bg-white px-8 text-primary-600 hover:border-primary-300 hover:bg-primary-50"
-            rightIcon={<ArrowRight className="h-4 w-4 text-primary-500" strokeWidth={2.5} />}
-          >
-            View All Categories
-          </Button>
+          <Link to="/categories">
+            <Button
+              variant="secondary"
+              size="lg"
+              pill
+              className="border-primary-200 bg-white px-8 text-primary-600 hover:border-primary-300 hover:bg-primary-50"
+              rightIcon={<ArrowRight className="h-4 w-4 text-primary-500" strokeWidth={2.5} />}
+            >
+              View All Categories
+            </Button>
+          </Link>
         </motion.div>
       </Container>
     </Section>

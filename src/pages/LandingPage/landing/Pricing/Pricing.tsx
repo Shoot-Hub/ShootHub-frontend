@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
@@ -99,15 +100,37 @@ export function Pricing() {
                   </li>
                 ))}
               </ul>
-              <Button
-                variant={plan.highlighted ? 'primary' : 'secondary'}
-                fullWidth
-                className="mt-8"
-              >
-                Get Started
-              </Button>
+              <Link to="/signup">
+                <Button
+                  variant={plan.highlighted ? 'primary' : 'secondary'}
+                  fullWidth
+                  className="mt-8"
+                >
+                  Get Started
+                </Button>
+              </Link>
             </motion.div>
           ))}
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="mt-10 flex justify-center"
+        >
+          <Link to="/pricing">
+            <Button
+              variant="secondary"
+              size="lg"
+              pill
+              className="border-primary-200 bg-white px-8 text-primary-600 hover:border-primary-300 hover:bg-primary-50"
+              rightIcon={<ArrowRight className="h-4 w-4 text-primary-500" strokeWidth={2.5} />}
+            >
+              View Full Pricing
+            </Button>
+          </Link>
         </motion.div>
       </Container>
     </Section>

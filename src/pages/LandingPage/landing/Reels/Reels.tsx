@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChevronRight, Play, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -114,20 +115,22 @@ export function Reels() {
           variants={fadeInUp}
           className="mt-10 flex flex-col items-center gap-4"
         >
-          <Button
-            variant="secondary"
-            size="lg"
-            pill
-            className="border-primary-200 bg-white px-8 text-primary-600 hover:border-primary-300 hover:bg-primary-50"
-            leftIcon={
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-100">
-                <Play className="ml-0.5 h-3 w-3 fill-primary-600" strokeWidth={0} />
-              </span>
-            }
-            rightIcon={<ChevronRight className="h-4 w-4 text-primary-500" strokeWidth={2.5} />}
-          >
-            View All Reels
-          </Button>
+          <Link to="/reels">
+            <Button
+              variant="secondary"
+              size="lg"
+              pill
+              className="border-primary-200 bg-white px-8 text-primary-600 hover:border-primary-300 hover:bg-primary-50"
+              leftIcon={
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-100">
+                  <Play className="ml-0.5 h-3 w-3 fill-primary-600" strokeWidth={0} />
+                </span>
+              }
+              rightIcon={<ChevronRight className="h-4 w-4 text-primary-500" strokeWidth={2.5} />}
+            >
+              View All Reels
+            </Button>
+          </Link>
 
           <div className="flex items-center gap-2" aria-hidden="true">
             <span className="h-1.5 w-6 rounded-full bg-primary-500" />
