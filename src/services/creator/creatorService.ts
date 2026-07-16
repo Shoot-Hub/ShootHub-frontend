@@ -1,7 +1,7 @@
 /**
  * Creator Service - Handles API calls for photographer-specific features
  */
-import { apiRequest } from '@/lib/apiClient';
+import { apiRequest, getAccessToken } from '@/lib/apiClient';
 import { API_CONFIG } from '@/config/api';
 
 type ApiResponse<T = unknown> = {
@@ -136,5 +136,44 @@ export const creatorService = {
       },
     );
     return response;
+  },
+
+  // Update cover photo (PATCH /photographers/me/cover)
+  updateCover: async (imageFile: File, displayName?: string): Promise<ApiResponse> => {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    if (displayName) formData.append('displayName', displayName);
+    const token = getAccessToken();
+    const BASE_URL = API_CONFIG.BASE_URL;
+    const response = await fetch(`${BASE_URL}${API_CONFIG.ENDPOINTS.PHOTOGRAPHER_UPDATE_COVER}`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+    if (!response.ok) {
+      let err: Record<string, unknown> = {};
+      try { err = await response.json(); } catch { /* ignore */ }
+      throw new Error((err?.message as string) || `Cover update failed: ${response.status}`);
+    }
+    return response.json();
+  },
+
+  // Update avatar photo (PATCH /photographers/me/avatar)
+  updateAvatar: async (imageFile: File): Promise<ApiResponse> => {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    const token = getAccessToken();
+    const BASE_URL = API_CONFIG.BASE_URL;
+    const response = await fetch(`${BASE_URL}${API_CONFIG.ENDPOINTS.PHOTOGRAPHER_UPDATE_AVATAR}`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+    if (!response.ok) {
+      let err: Record<string, unknown> = {};
+      try { err = await response.json(); } catch { /* ignore */ }
+      throw new Error((err?.message as string) || `Avatar update failed: ${response.status}`);
+    }
+    return response.json();
   },
 };

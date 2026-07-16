@@ -12,6 +12,7 @@ import {
   Clock,
   Target,
   Award,
+  MessageSquare,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -100,8 +101,20 @@ export function DashboardPage() {
               Here's your creative snapshot — keep capturing those extraordinary moments.
             </p>
           </div>
-          <div className="hidden sm:flex h-20 w-20 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
-            <Camera className="h-10 w-10" />
+          <div className="flex items-center gap-3">
+            {/* Messages CTA — top right of hero */}
+            <Link
+              to="/creator/messages"
+              className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all"
+            >
+              <MessageSquare className="h-6 w-6" />
+              <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-[9px] font-bold text-white flex items-center justify-center ring-1 ring-white">
+                3
+              </span>
+            </Link>
+            <div className="hidden sm:flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
+              <Camera className="h-6 w-6" />
+            </div>
           </div>
         </div>
         {score < 100 && (

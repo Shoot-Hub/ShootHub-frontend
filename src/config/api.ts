@@ -19,5 +19,13 @@ export const API_CONFIG = {
     PHOTOGRAPHER_ADD_EQUIPMENT: '/photographers/me/equipment',
     PHOTOGRAPHER_DELETE_EQUIPMENT: (id: string) => `/photographers/me/equipment/${id}`,
     PHOTOGRAPHER_SET_AVAILABILITY: '/photographers/me/availability',
+    PHOTOGRAPHER_UPDATE_COVER: '/photographers/me/cover',
+    PHOTOGRAPHER_UPDATE_AVATAR: '/photographers/me/cover',
+
+    // Reel endpoints
+    REELS: '/reels',
+    MY_REELS: '/reels/my/reels',
+    REEL_BY_ID: (id: string) => `/reels/${id}`,
+    REEL_LIKE: (id: string) => `/reels/${id}/like`,
   },
 } as const;

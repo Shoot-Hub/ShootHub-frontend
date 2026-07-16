@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth, setAuth } from '@/store';
 import {
@@ -14,6 +14,10 @@ export function ProfilePage() {
   const { user } = useAuth();
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
     displayName: '',
@@ -76,7 +80,6 @@ export function ProfilePage() {
       });
       toast.success('Profile updated successfully! 🎉');
       setEditing(false);
-      // Refresh profile
       const res = await creatorService.getMyProfile();
       if (res.data) setAuth(res.data as typeof user);
     } catch (error: unknown) {
@@ -87,22 +90,63 @@ export function ProfilePage() {
     }
   };
 
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingAvatar(true);
+    try {
+      await creatorService.updateAvatar(file);
+      toast.success('Profile photo updated! 📸');
+      const res = await creatorService.getMyProfile();
+      if (res.data) setAuth(res.data as typeof user);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to update avatar');
+    } finally {
+      setUploadingAvatar(false);
+      e.target.value = '';
+    }
+  };
+
+  const handleCoverChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingCover(true);
+    try {
+      await creatorService.updateCover(file, form.displayName || undefined);
+      toast.success('Cover photo updated! 🖼️');
+      const res = await creatorService.getMyProfile();
+      if (res.data) setAuth(res.data as typeof user);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to update cover');
+    } finally {
+      setUploadingCover(false);
+      e.target.value = '';
+    }
+  };
+
+
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Cover & Avatar */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="rounded-3xl border border-slate-100 bg-white shadow-sm overflow-hidden">
         {/* Cover Photo */}
-        <div className="relative h-48 sm:h-64 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700">
+        <div className="relative h-48 sm:h-56 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700">
           {userCover && <img src={userCover} alt="" className="h-full w-full object-cover" />}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-          <button className="absolute right-5 top-5 flex items-center gap-2 rounded-xl bg-white/20 backdrop-blur-md px-4 py-2 text-sm font-medium text-white hover:bg-white/30 transition-all border border-white/10">
-            <Camera className="h-4 w-4" />
-            Change Cover
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          {/* Hidden cover input */}
+          <input ref={coverInputRef} type="file" accept="image/*" className="hidden" onChange={handleCoverChange} />
+          <button
+            onClick={() => coverInputRef.current?.click()}
+            disabled={uploadingCover}
+            className="absolute right-4 top-4 flex items-center gap-2 rounded-xl bg-white/20 backdrop-blur-md px-3 py-2 text-sm font-medium text-white hover:bg-white/30 transition-all border border-white/10 disabled:opacity-70"
+          >
+            {uploadingCover ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
+            {uploadingCover ? 'Uploading...' : 'Change Cover'}
           </button>
           {!editing && (
             <button
               onClick={() => setEditing(true)}
-              className="absolute left-5 top-5 flex items-center gap-2 rounded-xl bg-white/20 backdrop-blur-md px-4 py-2 text-sm font-medium text-white hover:bg-white/30 transition-all border border-white/10"
+              className="absolute left-4 top-4 flex items-center gap-2 rounded-xl bg-white/20 backdrop-blur-md px-3 py-2 text-sm font-medium text-white hover:bg-white/30 transition-all border border-white/10"
             >
               <Edit3 className="h-4 w-4" />
               Edit Profile
@@ -111,18 +155,38 @@ export function ProfilePage() {
         </div>
 
         {/* Avatar & Info */}
-        <div className="relative px-6 sm:px-8 pb-6">
+        <div className="relative px-5 sm:px-8 pb-6">
           <div className="flex flex-col sm:flex-row sm:items-end gap-5 -mt-16">
-            <div className="relative">
-              <div className="flex h-32 w-32 items-center justify-center rounded-2xl border-4 border-white bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-4xl font-bold text-white shadow-xl">
+            {/* Circular Avatar */}
+            <div className="relative flex-shrink-0">
+              <div className="group relative flex h-28 w-28 sm:h-32 sm:w-32 items-center justify-center rounded-full border-4 border-white bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-3xl sm:text-4xl font-bold text-white shadow-xl overflow-hidden">
                 {userAvatar ? (
-                  <img src={userAvatar} alt="" className="h-full w-full rounded-xl object-cover" />
+                  <img src={userAvatar} alt="" className="h-full w-full object-cover" />
                 ) : (
                   initials
                 )}
+                {/* Hover overlay */}
+                <button
+                  onClick={() => avatarInputRef.current?.click()}
+                  disabled={uploadingAvatar}
+                  className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"
+                >
+                  {uploadingAvatar ? (
+                    <Loader2 className="h-6 w-6 text-white animate-spin" />
+                  ) : (
+                    <Camera className="h-6 w-6 text-white" />
+                  )}
+                </button>
               </div>
-              <button className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full bg-white border-2 border-slate-100 text-blue-600 shadow-md hover:bg-blue-50 transition-all">
-                <Camera className="h-4 w-4" />
+              {/* Hidden avatar input */}
+              <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+              {/* Small camera badge */}
+              <button
+                onClick={() => avatarInputRef.current?.click()}
+                disabled={uploadingAvatar}
+                className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full bg-white border-2 border-slate-100 text-blue-600 shadow-md hover:bg-blue-50 transition-all disabled:opacity-70"
+              >
+                {uploadingAvatar ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Camera className="h-3.5 w-3.5" />}
               </button>
             </div>
             <div className="flex-1 pt-2 sm:pt-0">

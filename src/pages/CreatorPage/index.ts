@@ -7,3 +7,5 @@ export { BookingsPage } from './pages/BookingsPage';
 export { ReviewsPage } from './pages/ReviewsPage';
 export { MessagesPage } from './pages/MessagesPage';
 export { SettingsPage } from './pages/SettingsPage';
+export { MyReelsPage } from './pages/MyReelsPage';
+export { UploadReelPage } from './pages/UploadReelPage';
