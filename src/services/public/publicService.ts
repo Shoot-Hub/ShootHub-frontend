@@ -3,8 +3,6 @@
  * This includes fetching creators, categories, pricing, testimonials, etc.
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
-
 export const publicService = {
   // Get featured creators for landing page
   getFeaturedCreators: async () => {

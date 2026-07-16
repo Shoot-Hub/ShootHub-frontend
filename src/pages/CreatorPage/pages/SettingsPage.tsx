@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Settings, Bell, Shield, Palette, LogOut, Calendar, Check } from 'lucide-react';
+import { Bell, Shield, Palette, LogOut, Calendar, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '@/store';
 import { userService } from '@/services/user';
@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
 export function SettingsPage() {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const [availability, setAvailability] = useState(
     DAYS.map((day) => ({

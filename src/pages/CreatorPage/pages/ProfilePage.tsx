@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAuth, setAuth } from '@/store';
 import {
   MapPin, Mail, Phone, Globe, Link as LinkIcon, Award, CheckCircle, XCircle,
-  Camera, Save, Edit3, X, Plus, Loader2, Sparkles, Tag, Star, BookOpen, Languages,
-  Shield, BadgeCheck, Clock, Palette, Package,
+  Camera, Save, Edit3, X, Loader2, Sparkles, Tag, Star, BookOpen, Languages,
+  Shield, BadgeCheck, Clock, Package,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -438,7 +438,7 @@ export function ProfilePage() {
                     <p className="font-semibold text-slate-800">{String(pkg.name || `Package ${i + 1}`)}</p>
                     <span className="text-sm font-bold text-blue-600">{String(pkg.currency || 'INR')} {String(pkg.price || 0)}</span>
                   </div>
-                  {pkg.description && <p className="mt-1 text-xs text-slate-400 line-clamp-2">{String(pkg.description)}</p>}
+                  {pkg.description ? <p className="mt-1 text-xs text-slate-400 line-clamp-2">{String(pkg.description)}</p> : null}
                   <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
                     {pkg.durationHours ? <span>{String(pkg.durationHours)}h</span> : null}
                     {Array.isArray(pkg.deliverables) && (pkg.deliverables as unknown[]).length > 0 && (

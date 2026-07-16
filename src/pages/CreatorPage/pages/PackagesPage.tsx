@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Package, Plus, X, Edit2, Trash2, Save } from 'lucide-react';
+import { Package, Plus, X, Trash2, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { creatorService } from '@/services/creator';
 
