@@ -167,11 +167,11 @@ export function WatchDemoModal({ open, onClose }: WatchDemoModalProps) {
                   <video
                     ref={videoRef}
                     key={role}
-                    src={demo.video}
+                    src={demos[role].video}
                     controls
                     playsInline
                     className="aspect-video w-full bg-black object-contain"
-                    aria-label={demo.posterHint}
+                    aria-label={demos[role].posterHint}
                   />
                 </div>
                 <p className="mt-3 text-center text-xs text-[#A0A4B0]">
