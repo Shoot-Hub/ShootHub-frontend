@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Star, Users } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Image } from '@/components/ui/Image';
+import { useAuth } from '@/features/auth';
 import { cardHover } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { type CategoryItem } from './data';
@@ -14,6 +15,17 @@ type CategoryDetailCardProps = {
 
 export function CategoryDetailCard({ category }: CategoryDetailCardProps) {
   const Icon = category.icon;
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const creatorsPath = `/creators?category=${encodeURIComponent(category.title)}`;
+
+  const handleBookNow = () => {
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: creatorsPath, intent: 'book' } });
+      return;
+    }
+    navigate(creatorsPath);
+  };
 
   return (
     <motion.article
@@ -65,18 +77,10 @@ export function CategoryDetailCard({ category }: CategoryDetailCardProps) {
         </div>
 
         <div className={cn('mt-5 flex flex-col gap-2 sm:flex-row')}>
-          <Link
-            to={`/creators?category=${encodeURIComponent(category.title)}`}
-            className="flex-1"
-          >
-            <Button fullWidth size="sm" pill>
-              Book Now
-            </Button>
-          </Link>
-          <Link
-            to={`/creators?category=${encodeURIComponent(category.title)}`}
-            className="flex-1"
-          >
+          <Button fullWidth size="sm" pill className="flex-1" onClick={handleBookNow}>
+            Book Now
+          </Button>
+          <Link to={creatorsPath} className="flex-1">
             <Button fullWidth size="sm" variant="secondary" pill>
               View Creators
             </Button>

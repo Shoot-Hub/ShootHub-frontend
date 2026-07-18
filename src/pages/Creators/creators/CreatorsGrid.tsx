@@ -48,6 +48,7 @@ export function CreatorsGrid({ items, category }: CreatorsGridProps) {
             {items.map((creator) => (
               <motion.div key={creator.id} variants={fadeInUp}>
                 <FeaturedCreatorCard
+                  id={creator.id}
                   name={creator.name}
                   title={creator.title}
                   rating={creator.rating}

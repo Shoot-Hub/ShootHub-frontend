@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import shoothubLogo from '@/assets/landing/shoothublogo.png';
+import shoothubLogo from '@/assets/landing/shoothub-logo-mark.png';
 
 type LogoProps = {
   className?: string;
@@ -7,12 +7,13 @@ type LogoProps = {
   showText?: boolean;
 };
 
+/** Tight-cropped ShootHub wordmark (transparent). */
 export function Logo({ className }: LogoProps) {
   return (
     <img
       src={shoothubLogo}
       alt="ShootHub"
-      className={cn('h-40 w-auto object-contain sm:h-24', className)}
+      className={cn('h-10 w-auto object-contain object-left sm:h-12', className)}
     />
   );
 }

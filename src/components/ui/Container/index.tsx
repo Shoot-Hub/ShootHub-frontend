@@ -10,10 +10,10 @@ const sizeClasses = {
   default: 'max-w-[1280px]',
   wide: 'max-w-[1520px]',
   full: 'max-w-full',
-  fluid: 'max-w-[min(100%,1560px)]',
-};
+  fluid: 'max-w-[min(100%,1560px)]',};
 
 const paddingClasses = {
+  /** Matches landing navbar gutters so the whole page feels edge-to-edge */
   default: 'px-5 sm:px-6 lg:px-8',
   tight: 'px-4 sm:px-5 lg:px-6',
   none: 'px-0',

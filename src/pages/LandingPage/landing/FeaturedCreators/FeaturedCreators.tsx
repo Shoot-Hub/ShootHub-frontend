@@ -14,6 +14,7 @@ import creator4 from '@/assets/landing/featured-creator-4.jpg';
 
 const creators = [
   {
+    id: 'aria-moore',
     name: 'Aria Moore',
     title: 'Wedding & Editorial Photographer',
     rating: 4.98,
@@ -24,6 +25,7 @@ const creators = [
     alt: 'Aria Moore, wedding photographer',
   },
   {
+    id: 'kabir-rao',
     name: 'Kabir Rao',
     title: 'Cinematic Videographer',
     rating: 4.91,
@@ -34,6 +36,7 @@ const creators = [
     alt: 'Kabir Rao, cinematic videographer',
   },
   {
+    id: 'noor-fatima',
     name: 'Noor Fatima',
     title: 'Drone & Aerial Specialist',
     rating: 4.87,
@@ -44,6 +47,7 @@ const creators = [
     alt: 'Noor Fatima, drone specialist',
   },
   {
+    id: 'ishaan-verma',
     name: 'Ishaan Verma',
     title: 'Fashion & Portrait Studio',
     rating: 4.95,
@@ -75,7 +79,7 @@ export function FeaturedCreators() {
 
           <motion.h2
             variants={fadeInUp}
-            className="mt-4 text-[44px] font-extrabold leading-tight tracking-tight text-ink sm:text-[52px] md:text-[58px]"
+            className="mt-4 text-[32px] font-extrabold leading-tight tracking-tight text-ink sm:text-[44px] md:text-[58px]"
           >
             Featured{' '}
             <span className="text-primary-500">Creators</span>

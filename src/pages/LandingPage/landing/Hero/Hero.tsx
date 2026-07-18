@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Calendar, Heart, Play, Search, Sparkles, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -9,6 +11,7 @@ import { ReviewCard } from '../ReviewCard';
 import { StatsCard } from '../StatsCard';
 import { StarRating } from '../StarRating';
 import { fadeInUp, floatingCard, staggerContainer } from '@/lib/motion';
+import { WatchDemoModal } from './WatchDemoModal';
 
 import heroPhotographer from '@/assets/landing/hero-photographer.png';
 import heroWedding from '@/assets/landing/hero-wedding.png';
@@ -35,10 +38,13 @@ const creatorAvatars = [
 ];
 
 export function Hero() {
+  const [demoOpen, setDemoOpen] = useState(false);
+
   return (
-    <section className="relative overflow-visible pb-4 pt-6 md:pt-8 lg:pt-10" aria-label="Hero">
+    <section className="relative overflow-visible pb-4 pt-4 sm:pt-6 md:pt-8 lg:pt-10" aria-label="Hero">
+      <WatchDemoModal open={demoOpen} onClose={() => setDemoOpen(false)} />
       <Container size="wide" padding="tight">
-        <div className="grid w-full items-center gap-8 lg:grid-cols-[minmax(0,52%)_minmax(0,48%)] lg:items-center lg:gap-8 xl:gap-9">
+        <div className="grid w-full items-center gap-6 sm:gap-8 lg:grid-cols-[minmax(0,52%)_minmax(0,48%)] lg:items-center lg:gap-8 xl:gap-9">
           {/* Left Content */}
           <motion.div
             initial="hidden"
@@ -54,16 +60,16 @@ export function Hero() {
 
             <motion.h1
               variants={fadeInUp}
-              className="mt-5 text-[44px] font-extrabold leading-[1.08] tracking-tight text-ink sm:text-[52px] lg:text-[60px] xl:text-[66px] 2xl:text-[72px]"
+              className="mt-4 text-[32px] font-extrabold leading-[1.1] tracking-tight text-ink sm:mt-5 sm:text-[44px] sm:leading-[1.08] md:text-[52px] lg:text-[60px] xl:text-[66px] 2xl:text-[72px]"
             >
               Book the Perfect{' '}
               <span className="text-primary-500">Creator</span>
               <br className="hidden sm:block" />
               <span className="sm:ml-0"> for Your </span>
-              <span className="relative inline-block font-script text-[50px] font-bold text-ink sm:text-[58px] lg:text-[66px] xl:text-[72px] 2xl:text-[78px]">
+              <span className="relative inline-block font-script text-[36px] font-bold text-ink sm:text-[50px] md:text-[58px] lg:text-[66px] xl:text-[72px] 2xl:text-[78px]">
                 Special Moments
                 <Heart
-                  className="ml-1 inline h-5 w-5 fill-primary-500 text-primary-500 lg:h-6 lg:w-6"
+                  className="ml-1 inline h-4 w-4 fill-primary-500 text-primary-500 sm:h-5 sm:w-5 lg:h-6 lg:w-6"
                   aria-hidden="true"
                 />
                 <svg
@@ -84,23 +90,28 @@ export function Hero() {
 
             <motion.p
               variants={fadeInUp}
-              className="mt-5 max-w-[520px] text-[15px] leading-[1.7] text-ink-muted lg:max-w-none lg:text-base"
+              className="mt-4 max-w-[520px] text-[14px] leading-[1.7] text-ink-muted sm:mt-5 sm:text-[15px] lg:max-w-none lg:text-base"
             >
               Find top photographers, videographers, studios and creative professionals.
               Compare, chat and book with ease.
             </motion.p>
 
-            <motion.div variants={fadeInUp} className="mt-7 flex flex-wrap items-center gap-3">
-              <Button
-                size="lg"
-                leftIcon={<Search className="h-5 w-5" strokeWidth={2.5} />}
-                rightIcon={<ArrowRight className="h-5 w-5" strokeWidth={2.5} />}
-              >
-                Find Creators
-              </Button>
+            <motion.div variants={fadeInUp} className="mt-5 flex w-full flex-col gap-3 sm:mt-7 sm:flex-row sm:flex-wrap sm:items-center">
+              <Link to="/creators" className="w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto"
+                  leftIcon={<Search className="h-5 w-5" strokeWidth={2.5} />}
+                  rightIcon={<ArrowRight className="h-5 w-5" strokeWidth={2.5} />}
+                >
+                  Find Creators
+                </Button>
+              </Link>
               <Button
                 size="lg"
                 variant="secondary"
+                className="w-full sm:w-auto"
+                onClick={() => setDemoOpen(true)}
                 leftIcon={
                   <span className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white">
                     <Play className="h-3.5 w-3.5 fill-ink text-ink" />
@@ -138,8 +149,7 @@ export function Hero() {
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            className="relative mx-auto h-[480px] w-full max-w-[540px] min-w-0 sm:h-[510px] lg:mx-0 lg:ml-auto lg:h-[560px] lg:max-w-[580px] xl:h-[580px] xl:max-w-[600px]"
-          >
+            className="relative mx-auto h-[380px] w-full max-w-[540px] min-w-0 sm:h-[510px] lg:mx-0 lg:ml-auto lg:h-[560px] lg:max-w-[580px] xl:h-[580px] xl:max-w-[600px]"          >
             {/* Soft blur background */}
             <div className="pointer-events-none absolute inset-0" aria-hidden="true">
               <div className="absolute left-[5%] top-[10%] h-[240px] w-[240px] rounded-full bg-primary-100/75 blur-3xl" />

@@ -13,7 +13,7 @@ import { Footer } from './landing/Footer';
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white">
+    <div className="min-h-screen overflow-x-hidden bg-white pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0">
       <Navbar />
       <main>
         <Hero />

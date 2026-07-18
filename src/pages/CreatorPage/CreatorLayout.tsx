@@ -30,7 +30,7 @@ import {
 import { useAuth, setAuth } from '@/store';
 import { userService } from '@/services/user';
 import { creatorService } from '@/services/creator';
-import shoothubLogo from '@/assets/landing/shoothublogo.png';
+import shoothubLogo from '@/assets/landing/shoothub-logo-mark.png';
 import { ShootHubLoader } from '@/components/ShootHubLoader';
 
 const sidebarNav = [
@@ -137,15 +137,15 @@ export function CreatorLayout() {
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Logo — landing page brand */}
-        <div className="flex h-[84px] shrink-0 items-center justify-between gap-2 px-3 pt-1">
-          <Link to="/creator" className="flex min-w-0 flex-1 flex-col items-start overflow-hidden">
+        {/* Logo — cropped ShootHub wordmark */}
+        <div className="flex h-[84px] shrink-0 items-center justify-between gap-2 px-4 pt-1">
+          <Link to="/creator" className="flex min-w-0 flex-1 flex-col items-start justify-center gap-0.5">
             <img
               src={shoothubLogo}
               alt="ShootHub"
-              className="h-[58px] w-auto max-w-[220px] object-contain object-left"
+              className="h-11 w-auto max-w-[210px] object-contain object-left"
             />
-            <span className="-mt-0.5 pl-1.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#A0A4B0]">
+            <span className="pl-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-[#A0A4B0]">
               Creator Studio
             </span>
           </Link>
