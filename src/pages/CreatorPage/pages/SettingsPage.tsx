@@ -79,36 +79,44 @@ export function SettingsPage() {
 
         <div className="space-y-2.5">
           {availability.map((slot, i) => (
-            <div key={slot.day} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
-              <button
-                onClick={() => toggleDay(i)}
-                className={`flex h-6 w-6 items-center justify-center rounded-md border-2 transition-all ${
-                  slot.isAvailable
-                    ? 'bg-blue-600 border-blue-600 text-white'
-                    : 'border-slate-300 text-transparent'
-                }`}
-              >
-                {slot.isAvailable && <Check className="h-3.5 w-3.5" />}
-              </button>
-              <span className="w-24 text-sm font-medium text-slate-700 capitalize">{slot.day}</span>
+            <div
+              key={slot.day}
+              className="flex flex-col gap-2 rounded-xl bg-slate-50 p-3 transition-colors hover:bg-slate-100 sm:flex-row sm:items-center sm:gap-3"
+            >
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => toggleDay(i)}
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 transition-all sm:h-6 sm:w-6 sm:rounded-md ${
+                    slot.isAvailable
+                      ? 'border-blue-600 bg-blue-600 text-white'
+                      : 'border-slate-300 text-transparent'
+                  }`}
+                  aria-label={`Toggle ${slot.day}`}
+                >
+                  {slot.isAvailable && <Check className="h-3.5 w-3.5" />}
+                </button>
+                <span className="w-auto text-sm font-medium capitalize text-slate-700 sm:w-24">
+                  {slot.day}
+                </span>
+              </div>
               {slot.isAvailable ? (
-                <div className="flex items-center gap-2">
+                <div className="flex flex-1 items-center gap-2 pl-13 sm:pl-0">
                   <input
                     type="time"
                     value={slot.startTime}
                     onChange={(e) => updateTime(i, 'startTime', e.target.value)}
-                    className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 sm:flex-none sm:py-1.5"
                   />
-                  <span className="text-slate-400">to</span>
+                  <span className="shrink-0 text-slate-400">to</span>
                   <input
                     type="time"
                     value={slot.endTime}
                     onChange={(e) => updateTime(i, 'endTime', e.target.value)}
-                    className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 sm:flex-none sm:py-1.5"
                   />
                 </div>
               ) : (
-                <span className="text-sm text-slate-400 italic">Unavailable</span>
+                <span className="pl-13 text-sm italic text-slate-400 sm:pl-0">Unavailable</span>
               )}
             </div>
           ))}

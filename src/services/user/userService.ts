@@ -3,19 +3,7 @@
  */
 import { apiRequest, setTokens, clearTokens } from '@/lib/apiClient';
 import { API_CONFIG } from '@/config/api';
-import type { UserProfile } from '@/store';
-
-type ApiResponse<T = unknown> = {
-  success: boolean;
-  message?: string;
-  data?: T;
-};
-
-type AuthResponseData = {
-  user: UserProfile;
-  accessToken: string;
-  refreshToken: string;
-};
+import type { ApiResponse, AuthResponseData, UserProfile } from '@/features/auth';
 
 export const userService = {
   // User login
@@ -25,6 +13,7 @@ export const userService = {
       {
         method: 'POST',
         body: { email, password },
+        requiresAuth: false,
       },
     );
 
@@ -49,6 +38,7 @@ export const userService = {
       {
         method: 'POST',
         body: data,
+        requiresAuth: false,
       },
     );
 
@@ -59,6 +49,18 @@ export const userService = {
     return response;
   },
 
+  /** Current authenticated user */
+  getMe: async () => {
+    const response = await apiRequest<ApiResponse<NonNullable<UserProfile>>>(
+      API_CONFIG.ENDPOINTS.ME,
+      {
+        method: 'GET',
+        requiresAuth: true,
+      },
+    );
+    return response;
+  },
+
   // Forgot password
   forgotPassword: async (email: string) => {
     const response = await apiRequest<ApiResponse>(
@@ -66,6 +68,7 @@ export const userService = {
       {
         method: 'POST',
         body: { email },
+        requiresAuth: false,
       },
     );
     return response;
@@ -78,6 +81,7 @@ export const userService = {
       {
         method: 'POST',
         body: { token, password },
+        requiresAuth: false,
       },
     );
     return response;
@@ -99,13 +103,10 @@ export const userService = {
   // Logout (requires auth)
   logout: async () => {
     try {
-      await apiRequest<ApiResponse>(
-        API_CONFIG.ENDPOINTS.LOGOUT,
-        {
-          method: 'POST',
-          requiresAuth: true,
-        },
-      );
+      await apiRequest<ApiResponse>(API_CONFIG.ENDPOINTS.LOGOUT, {
+        method: 'POST',
+        requiresAuth: true,
+      });
     } finally {
       clearTokens();
     }

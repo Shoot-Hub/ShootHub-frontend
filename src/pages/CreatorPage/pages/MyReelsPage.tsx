@@ -8,6 +8,7 @@ import {
 import { reelService } from '@/services/creator';
 import type { Reel } from '@/services/creator';
 import { useAuth } from '@/store';
+import { ShootHubLoader } from '@/components/ShootHubLoader';
 import {
   ReelCard,
   ReelsStatsBar,
@@ -63,12 +64,8 @@ function EmptyState({ onUpload, mode }: { onUpload: () => void; mode: 'my' | 'al
 
 function LoadingState() {
   return (
-    <div className="flex flex-col items-center justify-center py-24 gap-4">
-      <div className="relative">
-        <div className="h-12 w-12 rounded-full border-[3px] border-blue-100 border-t-blue-600 animate-spin" />
-        <div className="absolute inset-2 rounded-full border-[2px] border-indigo-100 border-b-indigo-500 animate-spin [animation-direction:reverse] [animation-duration:0.9s]" />
-      </div>
-      <p className="text-sm font-medium text-slate-400 animate-pulse">Loading reels...</p>
+    <div className="flex flex-col items-center justify-center py-24">
+      <ShootHubLoader size="lg" label="Loading reels…" />
     </div>
   );
 }
@@ -204,7 +201,7 @@ export function MyReelsPage() {
             <EmptyState onUpload={() => navigate('/creator/reels/upload')} mode={tab} />
           </div>
         ) : (
-          <div className="fixed bg-black" style={{ top: '3.5rem', bottom: '5rem', left: 0, right: 0 }}>
+          <div className="fixed bg-black" style={{ top: '3.5rem', bottom: 'calc(5.5rem + env(safe-area-inset-bottom))', left: 0, right: 0 }}>
             {/* Top controls overlay */}
             <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-3 pt-2.5 pb-2 bg-gradient-to-b from-black/60 to-transparent">
               {/* Tab switcher */}

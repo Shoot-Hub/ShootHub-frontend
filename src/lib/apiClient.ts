@@ -1,4 +1,15 @@
+/**
+ * Axios API client with automatic access-token refresh.
+ */
+import axios, {
+  type AxiosError,
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type InternalAxiosRequestConfig,
+} from 'axios';
 import { API_CONFIG } from '@/config/api';
+import { tokenService } from '@/features/auth/services/tokenService';
+import { clearAuthSession } from '@/features/auth/store/authStore';
 
 type RequestOptions = {
   method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
@@ -7,31 +18,17 @@ type RequestOptions = {
   requiresAuth?: boolean;
 };
 
-function getStoredTokens() {
-  try {
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-    return { accessToken, refreshToken };
-  } catch {
-    return { accessToken: null, refreshToken: null };
-  }
-}
+type RetryableConfig = InternalAxiosRequestConfig & {
+  _retry?: boolean;
+  requiresAuth?: boolean;
+};
 
-export function setTokens(accessToken: string, refreshToken: string) {
-  localStorage.setItem('accessToken', accessToken);
-  localStorage.setItem('refreshToken', refreshToken);
-}
+type QueueItem = {
+  resolve: (token: string | null) => void;
+  reject: (error: unknown) => void;
+};
 
-export function clearTokens() {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-}
-
-export function getAccessToken(): string | null {
-  return getStoredTokens().accessToken;
-}
-
-class ApiError extends Error {
+export class ApiError extends Error {
   status: number;
   data: unknown;
 
@@ -43,37 +40,156 @@ class ApiError extends Error {
   }
 }
 
+let onUnauthorized: (() => void) | null = null;
+
+export function setUnauthorizedHandler(handler: (() => void) | null): void {
+  onUnauthorized = handler;
+}
+
+function notifyUnauthorized(): void {
+  clearAuthSession();
+  onUnauthorized?.();
+}
+
+export const axiosInstance: AxiosInstance = axios.create({
+  baseURL: API_CONFIG.BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+});
+
+let isRefreshing = false;
+let failedQueue: QueueItem[] = [];
+
+function processQueue(error: unknown, token: string | null = null): void {
+  failedQueue.forEach((item) => {
+    if (error) {
+      item.reject(error);
+    } else {
+      item.resolve(token);
+    }
+  });
+  failedQueue = [];
+}
+
 async function refreshAccessToken(): Promise<string | null> {
-  const { refreshToken } = getStoredTokens();
-  if (!refreshToken) return null;
+  const refreshToken = tokenService.getRefreshToken();
+  if (!refreshToken) {
+    return null;
+  }
 
   try {
-    const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.REFRESH_TOKEN}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refreshToken }),
-    });
+    // Use plain axios to avoid interceptor recursion on the refresh call.
+    const response = await axios.post(
+      `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.REFRESH_TOKEN}`,
+      { refreshToken },
+      { headers: { 'Content-Type': 'application/json' } },
+    );
 
-    if (!response.ok) {
-      clearTokens();
+    const payload = response.data?.data ?? response.data;
+    const newAccessToken: string | undefined =
+      payload?.accessToken ?? response.data?.accessToken;
+    const newRefreshToken: string | undefined =
+      payload?.refreshToken ?? response.data?.refreshToken;
+
+    if (!newAccessToken) {
       return null;
     }
 
-    const data = await response.json();
-    const newAccessToken = data.data?.accessToken || data.accessToken;
-    const newRefreshToken = data.data?.refreshToken || data.refreshToken;
-
-    if (newAccessToken && newRefreshToken) {
-      setTokens(newAccessToken, newRefreshToken);
-    } else if (newAccessToken) {
-      setTokens(newAccessToken, refreshToken);
-    }
-
-    return newAccessToken || null;
+    tokenService.setTokens(newAccessToken, newRefreshToken ?? refreshToken);
+    return newAccessToken;
   } catch {
-    clearTokens();
     return null;
   }
+}
+
+axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  const req = config as RetryableConfig;
+
+  if (req.requiresAuth) {
+    const accessToken = tokenService.getAccessToken();
+    if (accessToken) {
+      req.headers.Authorization = `Bearer ${accessToken}`;
+    }
+  }
+
+  return req;
+});
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    const originalRequest = error.config as RetryableConfig | undefined;
+
+    if (!originalRequest || error.response?.status !== 401) {
+      return Promise.reject(error);
+    }
+
+    const url = originalRequest.url ?? '';
+    const isRefreshCall = url.includes(API_CONFIG.ENDPOINTS.REFRESH_TOKEN);
+
+    // Public endpoints or already-retried requests: do not refresh again.
+    if (!originalRequest.requiresAuth || isRefreshCall || originalRequest._retry) {
+      if (originalRequest.requiresAuth || isRefreshCall) {
+        notifyUnauthorized();
+      }
+      return Promise.reject(error);
+    }
+
+    if (isRefreshing) {
+      return new Promise<string | null>((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      }).then((token) => {
+        if (!token) {
+          return Promise.reject(error);
+        }
+        originalRequest.headers.Authorization = `Bearer ${token}`;
+        return axiosInstance(originalRequest);
+      });
+    }
+
+    originalRequest._retry = true;
+    isRefreshing = true;
+
+    try {
+      const newToken = await refreshAccessToken();
+
+      if (!newToken) {
+        processQueue(error, null);
+        notifyUnauthorized();
+        return Promise.reject(error);
+      }
+
+      processQueue(null, newToken);
+      originalRequest.headers.Authorization = `Bearer ${newToken}`;
+      return axiosInstance(originalRequest);
+    } catch (refreshError) {
+      processQueue(refreshError, null);
+      notifyUnauthorized();
+      return Promise.reject(refreshError);
+    } finally {
+      isRefreshing = false;
+    }
+  },
+);
+
+export function setTokens(accessToken: string, refreshToken: string): void {
+  tokenService.setTokens(accessToken, refreshToken);
+}
+
+export function clearTokens(): void {
+  tokenService.clearTokens();
+}
+
+export function getAccessToken(): string | null {
+  return tokenService.getAccessToken();
+}
+
+export function getRefreshToken(): string | null {
+  return tokenService.getRefreshToken();
+}
+
+/** Expose refresh for auth bootstrap (outside interceptor). */
+export async function refreshTokens(): Promise<string | null> {
+  return refreshAccessToken();
 }
 
 export async function apiRequest<T = unknown>(
@@ -82,53 +198,31 @@ export async function apiRequest<T = unknown>(
 ): Promise<T> {
   const { method = 'GET', body, headers = {}, requiresAuth = false } = options;
 
-  const requestHeaders: Record<string, string> = {
-    'Content-Type': 'application/json',
-    ...headers,
-  };
-
-  if (requiresAuth) {
-    const { accessToken } = getStoredTokens();
-    if (accessToken) {
-      requestHeaders['Authorization'] = `Bearer ${accessToken}`;
-    }
-  }
-
-  const fetchOptions: RequestInit = {
+  const config: AxiosRequestConfig & { requiresAuth?: boolean } = {
+    url: endpoint,
     method,
-    headers: requestHeaders,
+    headers,
+    requiresAuth,
   };
 
-  if (body && method !== 'GET') {
-    fetchOptions.body = JSON.stringify(body);
+  if (body !== undefined && method !== 'GET') {
+    config.data = body;
   }
 
-  let response = await fetch(`${API_CONFIG.BASE_URL}${endpoint}`, fetchOptions);
+  try {
+    const response = await axiosInstance.request<T>(config);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const data = error.response?.data as Record<string, unknown> | undefined;
+      const message =
+        (typeof data?.message === 'string' && data.message) ||
+        (typeof data?.error === 'string' && data.error) ||
+        error.message ||
+        `Request failed with status ${error.response?.status ?? 'unknown'}`;
 
-  // If 401 and we have a refresh token, try to refresh
-  if (response.status === 401 && requiresAuth) {
-    const newToken = await refreshAccessToken();
-    if (newToken) {
-      requestHeaders['Authorization'] = `Bearer ${newToken}`;
-      fetchOptions.headers = requestHeaders;
-      response = await fetch(`${API_CONFIG.BASE_URL}${endpoint}`, fetchOptions);
+      throw new ApiError(message, error.response?.status ?? 0, data);
     }
+    throw error;
   }
-
-  if (!response.ok) {
-    let errorData: unknown;
-    try {
-      errorData = await response.json();
-    } catch {
-      errorData = { message: response.statusText };
-    }
-    const message =
-      (errorData as Record<string, unknown>)?.message as string ||
-      (errorData as Record<string, unknown>)?.error as string ||
-      `Request failed with status ${response.status}`;
-    throw new ApiError(message, response.status, errorData);
-  }
-
-  const data = await response.json();
-  return data as T;
 }

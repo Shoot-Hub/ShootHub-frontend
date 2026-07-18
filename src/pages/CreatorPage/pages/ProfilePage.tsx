@@ -2,13 +2,134 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth, setAuth } from '@/store';
 import {
-  MapPin, Mail, Phone, Globe, Link as LinkIcon, Award, CheckCircle, XCircle,
-  Camera, Save, Edit3, X, Loader2, Sparkles, Tag, Star, BookOpen, Languages,
-  Shield, BadgeCheck, Clock, Package,
+  Mail,
+  Phone,
+  Camera,
+  Save,
+  Edit3,
+  X,
+  Loader2,
+  Sparkles,
+  Tag,
+  BookOpen,
+  Languages,
+  Shield,
+  BadgeCheck,
+  Clock,
+  Package,
+  ChevronRight,
+  Crown,
+  Globe,
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { creatorService } from '@/services/creator';
+
+function IconInstagram({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-3.2-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9C2.4 3.9 4 2.4 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.2 0-3.5 0-4.8.1-2.2.1-3.3 1.2-3.4 3.4-.1 1.2-.1 1.6-.1 4.8s0 3.5.1 4.8c.1 2.2 1.2 3.3 3.4 3.4 1.2.1 1.6.1 4.8.1s3.5 0 4.8-.1c2.2-.1 3.3-1.2 3.4-3.4.1-1.2.1-1.6.1-4.8s0-3.5-.1-4.8c-.1-2.2-1.2-3.3-3.4-3.4-1.3-.1-1.6-.1-4.8-.1zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8zm0 8.1a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4zm6.3-8.4a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0z" />
+    </svg>
+  );
+}
+
+function IconFacebook({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z" />
+    </svg>
+  );
+}
+
+function IconYoutube({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.8 15.5v-7l6.3 3.5-6.3 3.5z" />
+    </svg>
+  );
+}
+
+function IconLinkedin({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M6.3 9H3.2v12h3.1V9zM4.7 3.3a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6zM20.8 9c-1.7 0-2.8.9-3.3 1.7h-.1V9h-3.1c0 1.4 0 12 0 12h3.1v-6.7c0-.4 0-.7.1-1 .3-.7.9-1.4 2-1.4 1.4 0 2 1.1 2 2.7V21h3.1v-7.2C24.7 10.5 22.9 9 20.8 9z" />
+    </svg>
+  );
+}
+
+function IconBehance({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M8.2 10.4c.9-.4 1.4-1 1.4-2 0-2-1.6-2.9-4-2.9H1v11h4.8c2.6 0 4.4-1.3 4.4-3.5 0-1.5-.8-2.5-2-2.6zM4.2 7.2h1.5c1 0 1.6.4 1.6 1.2s-.6 1.2-1.6 1.2H4.2V7.2zm1.8 7.7H4.2v-2.8h1.8c1.2 0 1.9.5 1.9 1.4s-.7 1.4-1.9 1.4zM15.7 7.8h4.5V6.5h-4.5v1.3zm5.7 3.3c-.5-2.4-2.4-3.7-5.1-3.7-3.2 0-5.4 2.2-5.4 5.4s2.2 5.4 5.5 5.4c2.7 0 4.6-1.3 5.2-3.6h-2.6c-.3.9-1.2 1.4-2.5 1.4-1.7 0-2.8-1.1-2.9-2.8h8c0-.2.1-.7.1-1 .1-.4 0-.7-.3-1.1zm-7.9.4c.3-1.5 1.3-2.4 2.8-2.4 1.5 0 2.4.9 2.6 2.4h-5.4z" />
+    </svg>
+  );
+}
+
+const SPECIALIZATION_OPTIONS = [
+  'wedding',
+  'pre_wedding',
+  'portrait',
+  'maternity',
+  'newborn',
+  'baby',
+  'birthday',
+  'corporate',
+  'product',
+  'fashion',
+  'food',
+  'real_estate',
+  'wildlife',
+  'nature',
+  'travel',
+  'sports',
+  'event',
+  'boudoir',
+  'fine_art',
+  'aerial_drone',
+  'videography',
+  'cinematography',
+  'other',
+];
+
+function formatLabel(value: string) {
+  return value.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function TagChip({ label }: { label: string }) {
+  return (
+    <span className="rounded-full bg-[#F3EEFF] px-3 py-1.5 text-xs font-semibold text-[#6B46FE]">
+      {formatLabel(label)}
+    </span>
+  );
+}
+
+function CardShell({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`rounded-2xl border border-[#EEF0F4] bg-white p-5 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] sm:p-6 ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+function EditBtn({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-[#6B46FE] transition-colors hover:bg-[#F3EEFF]"
+    >
+      <Edit3 className="h-3.5 w-3.5" />
+      Edit
+    </button>
+  );
+}
 
 export function ProfilePage() {
   const { user } = useAuth();
@@ -49,19 +170,62 @@ export function ProfilePage() {
     }
   }, [user]);
 
-  const socialLinks = [
-    { icon: Globe, label: 'Website', value: user?.socialLinks?.website },
-    { icon: LinkIcon, label: 'Instagram', value: user?.socialLinks?.instagram },
-    { icon: LinkIcon, label: 'Facebook', value: user?.socialLinks?.facebook },
-    { icon: LinkIcon, label: 'YouTube', value: user?.socialLinks?.youtube },
-    { icon: LinkIcon, label: 'Twitter', value: user?.socialLinks?.twitter },
-    { icon: LinkIcon, label: 'LinkedIn', value: user?.socialLinks?.linkedin },
-  ];
-
-  const displayName = user?.fullName || `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || 'Creator';
-  const initials = displayName.split(' ').map((n) => n.charAt(0)).join('').toUpperCase().slice(0, 2);
+  const displayName =
+    user?.fullName || `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || 'Creator';
+  const initials = displayName
+    .split(' ')
+    .map((n) => n.charAt(0))
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
   const userAvatar = user?.avatar?.url;
   const userCover = user?.coverPhoto?.url;
+  const plan = user?.currentSubscription?.plan || 'Free';
+  const planActive = (user?.currentSubscription?.status || 'active') === 'active';
+  const maxImages = user?.currentSubscription?.features?.maxPortfolioImages ?? 10;
+
+  const socialPlatforms = [
+    {
+      key: 'instagram',
+      label: 'Instagram',
+      icon: IconInstagram,
+      value: user?.socialLinks?.instagram,
+      color: 'text-[#E1306C]',
+      bg: 'bg-[#FCE8F0]',
+    },
+    {
+      key: 'behance',
+      label: 'Behance',
+      icon: IconBehance,
+      value: user?.socialLinks?.behance,
+      color: 'text-[#1769FF]',
+      bg: 'bg-[#E8F0FF]',
+    },
+    {
+      key: 'facebook',
+      label: 'Facebook',
+      icon: IconFacebook,
+      value: user?.socialLinks?.facebook,
+      color: 'text-[#1877F2]',
+      bg: 'bg-[#E8F1FD]',
+    },
+    {
+      key: 'linkedin',
+      label: 'LinkedIn',
+      icon: IconLinkedin,
+      value: user?.socialLinks?.linkedin,
+      color: 'text-[#0A66C2]',
+      bg: 'bg-[#E7F0F8]',
+    },
+    {
+      key: 'youtube',
+      label: 'YouTube',
+      icon: IconYoutube,
+      value: user?.socialLinks?.youtube,
+      color: 'text-[#FF0000]',
+      bg: 'bg-[#FFE8E8]',
+    },
+  ];
 
   const handleSave = async () => {
     setSaving(true);
@@ -70,21 +234,29 @@ export function ProfilePage() {
         displayName: form.displayName || undefined,
         about: form.about || undefined,
         experienceYears: form.experienceYears,
-        specializations: form.specializations.split(',').map((s) => s.trim()).filter(Boolean),
-        skills: form.skills.split(',').map((s) => s.trim()).filter(Boolean),
-        editingStyles: form.editingStyles.split(',').map((s) => s.trim()).filter(Boolean),
+        specializations: form.specializations
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+        skills: form.skills
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+        editingStyles: form.editingStyles
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
         isNegotiable: form.isNegotiable,
         willingToTravel: form.willingToTravel,
         travelRadiusKm: form.travelRadiusKm,
         travelChargePerKm: form.travelChargePerKm,
       });
-      toast.success('Profile updated successfully! 🎉');
+      toast.success('Profile updated successfully!');
       setEditing(false);
       const res = await creatorService.getMyProfile();
       if (res.data) setAuth(res.data as typeof user);
     } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : 'Failed to update profile';
-      toast.error(msg);
+      toast.error(error instanceof Error ? error.message : 'Failed to update profile');
     } finally {
       setSaving(false);
     }
@@ -96,7 +268,7 @@ export function ProfilePage() {
     setUploadingAvatar(true);
     try {
       await creatorService.updateAvatar(file);
-      toast.success('Profile photo updated! 📸');
+      toast.success('Profile photo updated!');
       const res = await creatorService.getMyProfile();
       if (res.data) setAuth(res.data as typeof user);
     } catch (err) {
@@ -113,7 +285,7 @@ export function ProfilePage() {
     setUploadingCover(true);
     try {
       await creatorService.updateCover(file, form.displayName || undefined);
-      toast.success('Cover photo updated! 🖼️');
+      toast.success('Cover photo updated!');
       const res = await creatorService.getMyProfile();
       if (res.data) setAuth(res.data as typeof user);
     } catch (err) {
@@ -124,434 +296,542 @@ export function ProfilePage() {
     }
   };
 
+  const defaultAbout =
+    "Passionate photographer capturing life's most precious moments. Specializing in weddings, portraits, and events with a cinematic storytelling approach.";
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
-      {/* Cover & Avatar */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="rounded-3xl border border-slate-100 bg-white shadow-sm overflow-hidden">
-        {/* Cover Photo */}
-        <div className="relative h-48 sm:h-56 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700">
-          {userCover && <img src={userCover} alt="" className="h-full w-full object-cover" />}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-          {/* Hidden cover input */}
-          <input ref={coverInputRef} type="file" accept="image/*" className="hidden" onChange={handleCoverChange} />
+    <div className="mx-auto max-w-6xl space-y-5">
+      {/* Profile banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="overflow-hidden rounded-2xl border border-[#EEF0F4] bg-white shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)]"
+      >
+        <div className="relative h-44 overflow-hidden sm:h-52">
+          {userCover ? (
+            <img src={userCover} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#8A60FF_0%,_#4C1D95_45%,_#1E0A3C_100%)]">
+              <div className="absolute -right-10 top-0 h-64 w-64 rounded-full bg-[#6B46FE]/30 blur-3xl" />
+              <div className="absolute bottom-0 left-1/3 h-40 w-80 rounded-full bg-[#A78BFA]/20 blur-2xl" />
+              <svg
+                className="absolute inset-0 h-full w-full opacity-40"
+                viewBox="0 0 800 200"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M0,120 C150,40 300,180 450,80 C600,0 700,140 800,60 L800,200 L0,200 Z"
+                  fill="url(#coverGrad)"
+                />
+                <defs>
+                  <linearGradient id="coverGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#A78BFA" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#6B46FE" stopOpacity="0.1" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          )}
+
+          <input
+            ref={coverInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleCoverChange}
+          />
+
+          <button
+            onClick={() => setEditing(true)}
+            className="absolute left-3 top-3 flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/15 px-2.5 py-2 text-xs font-semibold text-white backdrop-blur-md transition-all hover:bg-white/25 sm:left-4 sm:top-4 sm:gap-2 sm:px-3.5 sm:text-sm"
+          >
+            <Edit3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <span className="hidden xs:inline sm:inline">Edit Profile</span>
+            <span className="sm:hidden">Edit</span>
+          </button>
+
           <button
             onClick={() => coverInputRef.current?.click()}
             disabled={uploadingCover}
-            className="absolute right-4 top-4 flex items-center gap-2 rounded-xl bg-white/20 backdrop-blur-md px-3 py-2 text-sm font-medium text-white hover:bg-white/30 transition-all border border-white/10 disabled:opacity-70"
+            className="absolute right-3 top-3 flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/15 px-2.5 py-2 text-xs font-semibold text-white backdrop-blur-md transition-all hover:bg-white/25 disabled:opacity-70 sm:right-4 sm:top-4 sm:gap-2 sm:px-3.5 sm:text-sm"
           >
-            {uploadingCover ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
-            {uploadingCover ? 'Uploading...' : 'Change Cover'}
+            {uploadingCover ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin sm:h-4 sm:w-4" />
+            ) : (
+              <Camera className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            )}
+            <span className="hidden sm:inline">
+              {uploadingCover ? 'Uploading...' : 'Change Cover'}
+            </span>
+            <span className="sm:hidden">{uploadingCover ? '...' : 'Cover'}</span>
           </button>
-          {!editing && (
-            <button
-              onClick={() => setEditing(true)}
-              className="absolute left-4 top-4 flex items-center gap-2 rounded-xl bg-white/20 backdrop-blur-md px-3 py-2 text-sm font-medium text-white hover:bg-white/30 transition-all border border-white/10"
-            >
-              <Edit3 className="h-4 w-4" />
-              Edit Profile
-            </button>
-          )}
         </div>
 
-        {/* Avatar & Info */}
-        <div className="relative px-5 sm:px-8 pb-6">
-          <div className="flex flex-col sm:flex-row sm:items-end gap-5 -mt-16">
-            {/* Circular Avatar */}
-            <div className="relative flex-shrink-0">
-              <div className="group relative flex h-28 w-28 sm:h-32 sm:w-32 items-center justify-center rounded-full border-4 border-white bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-3xl sm:text-4xl font-bold text-white shadow-xl overflow-hidden">
+        <div className="relative px-5 pb-6 sm:px-7">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-5">
+            <div className="relative -mt-14 shrink-0 sm:-mt-16">
+              <div className="flex h-[104px] w-[104px] items-center justify-center overflow-hidden rounded-full border-[4px] border-white bg-gradient-to-br from-[#6B46FE] to-[#8A60FF] text-3xl font-bold text-white shadow-lg sm:h-28 sm:w-28 sm:text-4xl">
                 {userAvatar ? (
                   <img src={userAvatar} alt="" className="h-full w-full object-cover" />
                 ) : (
                   initials
                 )}
-                {/* Hover overlay */}
-                <button
-                  onClick={() => avatarInputRef.current?.click()}
-                  disabled={uploadingAvatar}
-                  className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"
-                >
-                  {uploadingAvatar ? (
-                    <Loader2 className="h-6 w-6 text-white animate-spin" />
-                  ) : (
-                    <Camera className="h-6 w-6 text-white" />
-                  )}
-                </button>
               </div>
-              {/* Hidden avatar input */}
-              <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
-              {/* Small camera badge */}
+              <input
+                ref={avatarInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleAvatarChange}
+              />
               <button
                 onClick={() => avatarInputRef.current?.click()}
                 disabled={uploadingAvatar}
-                className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full bg-white border-2 border-slate-100 text-blue-600 shadow-md hover:bg-blue-50 transition-all disabled:opacity-70"
+                className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-[#6B46FE] text-white shadow-md transition-all hover:bg-[#5A3AE8] disabled:opacity-70"
               >
-                {uploadingAvatar ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Camera className="h-3.5 w-3.5" />}
+                {uploadingAvatar ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Camera className="h-3.5 w-3.5" />
+                )}
               </button>
             </div>
-            <div className="flex-1 pt-2 sm:pt-0">
-              <div className="flex items-center gap-3 flex-wrap">
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-800">{displayName}</h2>
-                {user?.isKycVerified && <BadgeCheck className="h-6 w-6 text-blue-600" />}
-                {user?.isFeatured && (
-                  <span className="flex items-center gap-1 rounded-full bg-amber-50 px-3 py-0.5 text-xs font-semibold text-amber-600 border border-amber-100">
-                    <Star className="h-3 w-3" /> Featured
-                  </span>
+
+            <div className="min-w-0 flex-1 pb-1 pt-1 sm:pt-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-2xl font-bold text-[#2D3436] sm:text-[26px]">{displayName}</h2>
+                {(user?.isVerified || user?.isKycVerified || user?.isEmailVerified) && (
+                  <BadgeCheck className="h-5 w-5 fill-[#3498DB] text-white" />
                 )}
               </div>
-              {user?.displayName && <p className="text-sm text-slate-400">@{user.displayName}</p>}
-              <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-slate-400">
-                {user?.location?.city && (
-                  <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> {user.location.city}{user.location.state ? `, ${user.location.state}` : ''}</span>
+              <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-[#636E72]">
+                <span className="flex items-center gap-1.5">
+                  <Mail className="h-3.5 w-3.5 text-[#A0A4B0]" />
+                  {user?.email || '—'}
+                </span>
+                {user?.phone && (
+                  <span className="flex items-center gap-1.5">
+                    <Phone className="h-3.5 w-3.5 text-[#A0A4B0]" />
+                    {user.phone}
+                  </span>
                 )}
-                <span className="flex items-center gap-1.5"><Mail className="h-3.5 w-3.5" /> {user?.email}</span>
-                {user?.phone && <span className="flex items-center gap-1.5"><Phone className="h-3.5 w-3.5" /> {user.phone}</span>}
-                {user?.experienceYears ? <span className="flex items-center gap-1.5"><Award className="h-3.5 w-3.5" /> {user.experienceYears} yrs exp</span> : null}
               </div>
             </div>
           </div>
         </div>
       </motion.div>
 
-      {/* Edit Mode Toggle */}
-      {editing && (
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100">
-                <Sparkles className="h-5 w-5 text-blue-600" />
+      {/* Edit panel */}
+      <AnimatePresence>
+        {editing && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="rounded-2xl border border-[#EDE5FF] bg-gradient-to-r from-[#F8F5FF] to-[#F3EEFF] p-5 sm:p-6"
+          >
+            <div className="mb-5 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#6B46FE] text-white">
+                  <Sparkles className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-[#2D3436]">Edit Profile</h3>
+                  <p className="text-xs text-[#636E72]">Update your professional information</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setEditing(false)}
+                className="rounded-xl p-2 text-[#636E72] hover:bg-white/60"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-[#2D3436]">
+                  Display Name
+                </label>
+                <input
+                  type="text"
+                  value={form.displayName}
+                  onChange={(e) => setForm((p) => ({ ...p, displayName: e.target.value }))}
+                  placeholder="e.g. Epic Clicks"
+                  className="w-full rounded-xl border border-[#EEF0F4] bg-white px-4 py-2.5 text-sm outline-none focus:border-[#6B46FE]/40 focus:ring-2 focus:ring-[#6B46FE]/15"
+                />
               </div>
               <div>
-                <h3 className="font-semibold text-slate-800">Edit Profile</h3>
-                <p className="text-xs text-slate-400">Update your professional information</p>
+                <label className="mb-1.5 block text-sm font-medium text-[#2D3436]">
+                  Experience (years)
+                </label>
+                <input
+                  type="number"
+                  value={form.experienceYears}
+                  onChange={(e) =>
+                    setForm((p) => ({ ...p, experienceYears: Number(e.target.value) }))
+                  }
+                  className="w-full rounded-xl border border-[#EEF0F4] bg-white px-4 py-2.5 text-sm outline-none focus:border-[#6B46FE]/40 focus:ring-2 focus:ring-[#6B46FE]/15"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="mb-1.5 block text-sm font-medium text-[#2D3436]">About</label>
+                <textarea
+                  value={form.about}
+                  onChange={(e) => setForm((p) => ({ ...p, about: e.target.value }))}
+                  rows={3}
+                  placeholder="Tell clients about your photography style..."
+                  className="w-full resize-none rounded-xl border border-[#EEF0F4] bg-white px-4 py-2.5 text-sm outline-none focus:border-[#6B46FE]/40 focus:ring-2 focus:ring-[#6B46FE]/15"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="mb-2 block text-sm font-medium text-[#2D3436]">
+                  Specializations
+                </label>
+                <div className="mb-2 flex flex-wrap gap-1.5">
+                  {SPECIALIZATION_OPTIONS.map((spec) => {
+                    const selected = form.specializations
+                      .split(',')
+                      .map((s) => s.trim().toLowerCase())
+                      .includes(spec);
+                    return (
+                      <button
+                        key={spec}
+                        type="button"
+                        onClick={() => {
+                          const current = form.specializations
+                            .split(',')
+                            .map((s) => s.trim())
+                            .filter(Boolean);
+                          const idx = current.findIndex((s) => s.toLowerCase() === spec);
+                          if (idx >= 0) current.splice(idx, 1);
+                          else current.push(spec);
+                          setForm((p) => ({ ...p, specializations: current.join(', ') }));
+                        }}
+                        className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+                          selected
+                            ? 'border-[#6B46FE] bg-[#6B46FE] text-white shadow-sm'
+                            : 'border-[#EEF0F4] bg-white text-[#636E72] hover:border-[#6B46FE]/40 hover:text-[#6B46FE]'
+                        }`}
+                      >
+                        {formatLabel(spec)}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-[#2D3436]">
+                  Skills (comma separated)
+                </label>
+                <input
+                  type="text"
+                  value={form.skills}
+                  onChange={(e) => setForm((p) => ({ ...p, skills: e.target.value }))}
+                  placeholder="Photoshop, Lightroom, candid"
+                  className="w-full rounded-xl border border-[#EEF0F4] bg-white px-4 py-2.5 text-sm outline-none focus:border-[#6B46FE]/40 focus:ring-2 focus:ring-[#6B46FE]/15"
+                />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-[#2D3436]">
+                  Editing Styles (comma separated)
+                </label>
+                <input
+                  type="text"
+                  value={form.editingStyles}
+                  onChange={(e) => setForm((p) => ({ ...p, editingStyles: e.target.value }))}
+                  placeholder="Natural, Cinematic, Vintage"
+                  className="w-full rounded-xl border border-[#EEF0F4] bg-white px-4 py-2.5 text-sm outline-none focus:border-[#6B46FE]/40 focus:ring-2 focus:ring-[#6B46FE]/15"
+                />
               </div>
             </div>
-            <button onClick={() => setEditing(false)} className="rounded-xl p-2 text-slate-400 hover:bg-white/50">
-              <X className="h-5 w-5" />
-            </button>
-          </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Display Name</label>
-              <input type="text" value={form.displayName} onChange={(e) => setForm((p) => ({ ...p, displayName: e.target.value }))}
-                placeholder="e.g. Epic Clicks" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+            <div className="mt-5 flex items-center gap-3">
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#6B46FE]/25 transition-all disabled:opacity-50"
+              >
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                {saving ? 'Saving...' : 'Save Changes'}
+              </button>
+              <button
+                onClick={() => setEditing(false)}
+                className="rounded-xl border border-[#EEF0F4] bg-white px-6 py-2.5 text-sm font-semibold text-[#636E72] hover:bg-[#F8F9FB]"
+              >
+                Cancel
+              </button>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Experience (years)</label>
-              <input type="number" value={form.experienceYears} onChange={(e) => setForm((p) => ({ ...p, experienceYears: Number(e.target.value) }))}
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
-            </div>
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">About</label>
-              <textarea value={form.about} onChange={(e) => setForm((p) => ({ ...p, about: e.target.value }))}
-                rows={3} placeholder="Tell clients about your photography style and experience..."
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-none" />
-            </div>
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-slate-700 mb-2">Specializations</label>
-              <div className="flex flex-wrap gap-1.5 mb-2">
-                {["wedding","pre_wedding","portrait","maternity","newborn","baby","birthday","corporate","product","fashion","food","real_estate","wildlife","nature","travel","sports","event","boudoir","fine_art","aerial_drone","videography","cinematography","other"].map((spec) => {
-                  const selected = form.specializations.split(',').map(s => s.trim().toLowerCase()).includes(spec);
-                  return (
-                    <button key={spec} type="button" onClick={() => {
-                      const current = form.specializations.split(',').map(s => s.trim()).filter(Boolean);
-                      const idx = current.findIndex(s => s.toLowerCase() === spec);
-                      if (idx >= 0) current.splice(idx, 1);
-                      else current.push(spec);
-                      setForm((p) => ({ ...p, specializations: current.join(', ') }));
-                    }}
-                    className={`rounded-full px-3 py-1.5 text-xs font-medium border transition-all ${
-                      selected ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:text-blue-600'
-                    }`}>
-                      {spec.replace(/_/g, ' ')}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Skills (comma separated)</label>
-              <input type="text" value={form.skills} onChange={(e) => setForm((p) => ({ ...p, skills: e.target.value }))}
-                placeholder="candid, portrait, aerial" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Editing Styles (comma separated)</label>
-              <input type="text" value={form.editingStyles} onChange={(e) => setForm((p) => ({ ...p, editingStyles: e.target.value }))}
-                placeholder="vintage, cinematic, natural" className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Travel Radius (km)</label>
-              <input type="number" value={form.travelRadiusKm} onChange={(e) => setForm((p) => ({ ...p, travelRadiusKm: Number(e.target.value) }))}
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Travel Charge (per km)</label>
-              <input type="number" value={form.travelChargePerKm} onChange={(e) => setForm((p) => ({ ...p, travelChargePerKm: Number(e.target.value) }))}
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
-            </div>
-            <div className="flex items-center gap-6">
-              <label className="flex items-center gap-2.5 cursor-pointer">
-                <input type="checkbox" checked={form.isNegotiable} onChange={(e) => setForm((p) => ({ ...p, isNegotiable: e.target.checked }))}
-                  className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500/20" />
-                <span className="text-sm text-slate-700">Price Negotiable</span>
-              </label>
-              <label className="flex items-center gap-2.5 cursor-pointer">
-                <input type="checkbox" checked={form.willingToTravel} onChange={(e) => setForm((p) => ({ ...p, willingToTravel: e.target.checked }))}
-                  className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500/20" />
-                <span className="text-sm text-slate-700">Willing to Travel</span>
-              </label>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 mt-6">
-            <button onClick={handleSave} disabled={saving}
-              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md hover:from-blue-700 hover:to-indigo-700 transition-all disabled:opacity-50">
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-              {saving ? 'Saving...' : 'Save Changes'}
-            </button>
-            <button onClick={() => setEditing(false)} className="rounded-xl border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all">
-              Cancel
-            </button>
-          </div>
-        </motion.div>
-      )}
-
-      {/* Main Content */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
-          {/* About */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-3">
-              <BookOpen className="h-5 w-5 text-blue-600" />
-              <h3 className="font-semibold text-slate-800">About</h3>
-            </div>
-            <p className="text-sm leading-relaxed text-slate-500">
-              {user?.about || 'No description added yet. Tell clients about your photography style and experience.'}
-            </p>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Two-column content */}
+      <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
+        {/* Left column */}
+        <div className="space-y-5">
+          {/* About */}
+          <CardShell>
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F3EEFF]">
+                  <BookOpen className="h-4 w-4 text-[#6B46FE]" />
+                </div>
+                <h3 className="text-base font-bold text-[#2D3436]">About</h3>
+              </div>
+              <EditBtn onClick={() => setEditing(true)} />
+            </div>
+            <p className="text-sm leading-relaxed text-[#636E72]">
+              {user?.about || defaultAbout}
+            </p>
+          </CardShell>
 
           {/* Specializations & Skills */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-            className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-4">
-              <Tag className="h-5 w-5 text-blue-600" />
-              <h3 className="font-semibold text-slate-800">Specializations & Skills</h3>
+          <CardShell>
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F3EEFF]">
+                  <Tag className="h-4 w-4 text-[#6B46FE]" />
+                </div>
+                <h3 className="text-base font-bold text-[#2D3436]">Specializations & Skills</h3>
+              </div>
+              <EditBtn onClick={() => setEditing(true)} />
             </div>
+
             <div className="space-y-4">
               <div>
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Specializations</p>
+                <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#A0A4B0]">
+                  Specializations
+                </p>
                 <div className="flex flex-wrap gap-2">
-                  {(user?.specializations?.length ?? 0) > 0 ? user?.specializations?.map((spec, i) => (
-                    <span key={i} className="rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 px-3 py-1.5 text-xs font-medium text-blue-700 border border-blue-100 shadow-sm">
-                      {spec}
-                    </span>
-                  )) : <span className="text-sm text-slate-400 italic">No specializations added</span>}
-                </div>
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Skills</p>
-                <div className="flex flex-wrap gap-2">
-                  {(user?.skills?.length ?? 0) > 0 ? user?.skills?.map((skill, i) => (
-                    <span key={i} className="rounded-full bg-gradient-to-r from-indigo-50 to-purple-50 px-3 py-1.5 text-xs font-medium text-indigo-700 border border-indigo-100 shadow-sm">
-                      {skill}
-                    </span>
-                  )) : <span className="text-sm text-slate-400 italic">No skills added</span>}
-                </div>
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Editing Styles</p>
-                <div className="flex flex-wrap gap-2">
-                  {(user?.editingStyles?.length ?? 0) > 0 ? user?.editingStyles?.map((style, i) => (
-                    <span key={i} className="rounded-full bg-gradient-to-r from-amber-50 to-orange-50 px-3 py-1.5 text-xs font-medium text-amber-700 border border-amber-100 shadow-sm">
-                      {style}
-                    </span>
-                  )) : <span className="text-sm text-slate-400 italic">No editing styles added</span>}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Experience & Pricing */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-            className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-4">
-              <Award className="h-5 w-5 text-blue-600" />
-              <h3 className="font-semibold text-slate-800">Experience & Pricing</h3>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 p-4 border border-blue-100">
-                <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider">Experience</p>
-                <p className="text-2xl font-bold text-slate-800 mt-1">{user?.experienceYears ?? 0}y</p>
-              </div>
-              <div className="rounded-xl bg-gradient-to-br from-indigo-50 to-purple-50 p-4 border border-indigo-100">
-                <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wider">Starting</p>
-                <p className="text-2xl font-bold text-slate-800 mt-1">{user?.currency || '₹'}{user?.startingPrice ?? 0}</p>
-              </div>
-              <div className="rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 p-4 border border-amber-100">
-                <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider">Travel</p>
-                <p className="text-lg font-bold text-slate-800 mt-1">{user?.willingToTravel ? `${user.travelRadiusKm || 0}km` : 'No'}</p>
-              </div>
-              <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 p-4 border border-emerald-100">
-                <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Negotiable</p>
-                <p className="text-lg font-bold text-slate-800 mt-1">{user?.isNegotiable ? 'Yes' : 'Fixed'}</p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Right Column */}
-        <div className="space-y-6">
-          {/* Verification */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
-            className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-4">
-              <Shield className="h-5 w-5 text-blue-600" />
-              <h3 className="font-semibold text-slate-800">Verification</h3>
-            </div>
-            <div className="space-y-3">
-              {[
-                { label: 'Email', done: user?.isEmailVerified },
-                { label: 'Phone', done: user?.isPhoneVerified },
-                { label: 'KYC', done: user?.isKycVerified },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50">
-                  <span className="text-sm text-slate-600">{item.label}</span>
-                  <span className={`flex items-center gap-1 text-xs font-semibold ${item.done ? 'text-emerald-600' : 'text-amber-600'}`}>
-                    {item.done ? <CheckCircle className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
-                    {item.done ? 'Verified' : 'Pending'}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Languages */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-4">
-              <Languages className="h-5 w-5 text-blue-600" />
-              <h3 className="font-semibold text-slate-800">Languages</h3>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {(user?.languages?.length ?? 0) > 0 ? user?.languages?.map((lang, i) => (
-                <span key={i} className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 border border-blue-100">{lang}</span>
-              )) : <span className="text-sm text-slate-400 italic">No languages</span>}
-            </div>
-          </motion.div>
-
-          {/* Social Links */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-            className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-4">
-              <Globe className="h-5 w-5 text-blue-600" />
-              <h3 className="font-semibold text-slate-800">Social Links</h3>
-            </div>
-            <div className="space-y-2">
-              {socialLinks.map((link) => (
-                <div key={link.label} className="flex items-center gap-3 rounded-xl p-2.5 hover:bg-slate-50 transition-colors">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50">
-                    <link.icon className="h-4 w-4 text-blue-600" />
-                  </div>
-                  <span className="text-sm text-slate-500">{link.value || <span className="italic">Add {link.label}</span>}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Subscription */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-            className="rounded-2xl border border-slate-100 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 shadow-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="h-5 w-5 text-blue-600" />
-              <h3 className="font-semibold text-slate-800">Subscription</h3>
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-lg font-bold text-slate-800 capitalize">{user?.currentSubscription?.plan || 'Free'}</p>
-                <p className="text-xs text-slate-400 capitalize">{user?.currentSubscription?.status || 'Active'}</p>
-              </div>
-              <span className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm">
-                {(user?.currentSubscription?.status === 'active') ? 'Active' : 'Inactive'}
-              </span>
-            </div>
-            {(user?.currentSubscription?.features?.maxPortfolioImages ?? 0) > 0 && (
-              <div className="mt-3 pt-3 border-t border-blue-100/50">
-                <p className="text-xs text-slate-400">Up to {user?.currentSubscription?.features?.maxPortfolioImages} portfolio images</p>
-              </div>
-            )}
-          </motion.div>
-        </div>
-
-        {/* Packages Section (from API) */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
-          className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow lg:col-span-3">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Package className="h-5 w-5 text-blue-600" />
-              <h3 className="font-semibold text-slate-800">My Packages</h3>
-            </div>
-            <Link to="/creator/packages" className="text-sm font-semibold text-blue-600 hover:text-blue-700">Manage →</Link>
-          </div>
-          {((user?.packages?.length ?? 0) > 0) ? (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {user?.packages?.map((pkg, i) => (
-                <div key={i} className="rounded-xl border border-slate-100 bg-gradient-to-br from-slate-50 to-blue-50/30 p-4 hover:shadow-md transition-shadow">
-                  <div className="flex items-center justify-between">
-                    <p className="font-semibold text-slate-800">{String(pkg.name || `Package ${i + 1}`)}</p>
-                    <span className="text-sm font-bold text-blue-600">{String(pkg.currency || 'INR')} {String(pkg.price || 0)}</span>
-                  </div>
-                  {pkg.description ? <p className="mt-1 text-xs text-slate-400 line-clamp-2">{String(pkg.description)}</p> : null}
-                  <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
-                    {pkg.durationHours ? <span>{String(pkg.durationHours)}h</span> : null}
-                    {Array.isArray(pkg.deliverables) && (pkg.deliverables as unknown[]).length > 0 && (
-                      <span>{(pkg.deliverables as unknown[]).length} deliverables</span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4">
-              <Package className="h-5 w-5 text-slate-300" />
-              <p className="text-sm text-slate-400">No packages yet. <Link to="/creator/packages" className="text-blue-600 font-medium">Create one</Link></p>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Availability Section (from API) */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-          className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow lg:col-span-3">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-blue-600" />
-              <h3 className="font-semibold text-slate-800">Weekly Availability</h3>
-            </div>
-            <Link to="/creator/settings" className="text-sm font-semibold text-blue-600 hover:text-blue-700">Edit →</Link>
-          </div>
-          {((user?.availability?.length ?? 0) > 0) ? (
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-              {user?.availability?.map((slot, i) => (
-                <div key={i} className={`rounded-xl p-3 text-center border ${
-                  slot.isAvailable ? 'bg-emerald-50 border-emerald-100' : 'bg-slate-50 border-slate-100'
-                }`}>
-                  <p className="text-xs font-semibold text-slate-600 capitalize">{slot.day.slice(0, 3)}</p>
-                  {slot.isAvailable ? (
-                    <p className="text-[10px] text-emerald-600 mt-1 font-medium">{slot.startTime}–{slot.endTime}</p>
+                  {(user?.specializations?.length ?? 0) > 0 ? (
+                    user?.specializations?.map((spec) => <TagChip key={spec} label={spec} />)
                   ) : (
-                    <p className="text-[10px] text-slate-400 mt-1">Off</p>
+                    <>
+                      {['Wedding', 'Portrait', 'Event', 'Fashion', 'Product'].map((t) => (
+                        <TagChip key={t} label={t} />
+                      ))}
+                    </>
                   )}
                 </div>
+              </div>
+              <div>
+                <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#A0A4B0]">
+                  Skills
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {(user?.skills?.length ?? 0) > 0 ? (
+                    user?.skills?.map((skill) => <TagChip key={skill} label={skill} />)
+                  ) : (
+                    <>
+                      {['Photoshop', 'Lightroom', 'Premiere Pro', 'After Effects'].map((t) => (
+                        <TagChip key={t} label={t} />
+                      ))}
+                    </>
+                  )}
+                </div>
+              </div>
+              <div>
+                <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#A0A4B0]">
+                  Editing Styles
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {(user?.editingStyles?.length ?? 0) > 0 ? (
+                    user?.editingStyles?.map((style) => <TagChip key={style} label={style} />)
+                  ) : (
+                    <>
+                      {['Natural', 'Cinematic', 'Vintage', 'High Contrast'].map((t) => (
+                        <TagChip key={t} label={t} />
+                      ))}
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </CardShell>
+
+          {/* Packages + Availability */}
+          <div className="grid gap-5 sm:grid-cols-2">
+            <CardShell className="flex flex-col">
+              <div className="mb-4 flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F3EEFF]">
+                  <Package className="h-4 w-4 text-[#6B46FE]" />
+                </div>
+                <h3 className="text-base font-bold text-[#2D3436]">My Packages</h3>
+              </div>
+
+              {(user?.packages?.length ?? 0) > 0 ? (
+                <div className="space-y-2">
+                  {user?.packages?.slice(0, 2).map((pkg, i) => (
+                    <div
+                      key={i}
+                      className="rounded-xl border border-[#F0F1F5] bg-[#FAFBFC] p-3"
+                    >
+                      <p className="text-sm font-semibold text-[#2D3436]">
+                        {String(pkg.name || `Package ${i + 1}`)}
+                      </p>
+                      <p className="text-xs font-bold text-[#6B46FE]">
+                        {String(pkg.currency || '₹')} {String(pkg.price || 0)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="mb-4 flex-1 text-sm text-[#A0A4B0]">No packages yet.</p>
+              )}
+
+              <Link
+                to="/creator/packages"
+                className="mt-auto inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-[#6B46FE]/20 transition-all hover:shadow-lg"
+              >
+                Create Package
+              </Link>
+            </CardShell>
+
+            <CardShell className="flex flex-col">
+              <div className="mb-4 flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F3EEFF]">
+                  <Clock className="h-4 w-4 text-[#6B46FE]" />
+                </div>
+                <h3 className="text-base font-bold text-[#2D3436]">Weekly Availability</h3>
+              </div>
+
+              {(user?.availability?.length ?? 0) > 0 ? (
+                <div className="mb-4 grid grid-cols-2 gap-1.5">
+                  {user?.availability?.slice(0, 4).map((slot, i) => (
+                    <div
+                      key={i}
+                      className={`rounded-lg p-2 text-center text-[10px] ${
+                        slot.isAvailable
+                          ? 'bg-[#E4F8ED] text-[#28C76F]'
+                          : 'bg-[#F5F6F8] text-[#A0A4B0]'
+                      }`}
+                    >
+                      <p className="font-bold capitalize">{slot.day.slice(0, 3)}</p>
+                      <p>{slot.isAvailable ? `${slot.startTime}–${slot.endTime}` : 'Off'}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="mb-4 flex-1 text-sm text-[#A0A4B0]">No availability set.</p>
+              )}
+
+              <Link
+                to="/creator/settings"
+                className="mt-auto inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-[#6B46FE]/20 transition-all hover:shadow-lg"
+              >
+                Set Your Hours
+              </Link>
+            </CardShell>
+          </div>
+        </div>
+
+        {/* Right column */}
+        <div className="space-y-5">
+          {/* Verification */}
+          <CardShell>
+            <div className="mb-4 flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F3EEFF]">
+                <Shield className="h-4 w-4 text-[#6B46FE]" />
+              </div>
+              <h3 className="text-base font-bold text-[#2D3436]">Verification</h3>
+            </div>
+            <div className="space-y-2">
+              {[
+                { label: 'Email', done: user?.isEmailVerified ?? true },
+                { label: 'Phone', done: user?.isPhoneVerified ?? true },
+                { label: 'KYC', done: user?.isKycVerified ?? false },
+              ].map((item) => (
+                <button
+                  key={item.label}
+                  className="flex w-full items-center justify-between rounded-xl bg-[#FAFBFC] px-3.5 py-3 transition-colors hover:bg-[#F5F6FA]"
+                >
+                  <span className="text-sm font-medium text-[#2D3436]">{item.label}</span>
+                  <span className="flex items-center gap-2">
+                    <span
+                      className={`text-xs font-bold ${item.done ? 'text-[#28C76F]' : 'text-[#FF9F43]'}`}
+                    >
+                      {item.done ? '✓ Verified' : 'Pending'}
+                    </span>
+                    <ChevronRight className="h-3.5 w-3.5 text-[#A0A4B0]" />
+                  </span>
+                </button>
               ))}
             </div>
-          ) : (
-            <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-4">
-              <Clock className="h-5 w-5 text-slate-300" />
-              <p className="text-sm text-slate-400">No availability set. <Link to="/creator/settings" className="text-blue-600 font-medium">Set your hours</Link></p>
+          </CardShell>
+
+          {/* Languages */}
+          <CardShell>
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F3EEFF]">
+                  <Languages className="h-4 w-4 text-[#6B46FE]" />
+                </div>
+                <h3 className="text-base font-bold text-[#2D3436]">Languages</h3>
+              </div>
+              <EditBtn onClick={() => setEditing(true)} />
             </div>
-          )}
-        </motion.div>
+            <p className="text-sm font-medium text-[#636E72]">
+              {(user?.languages?.length ?? 0) > 0
+                ? user?.languages?.join(', ')
+                : 'English, Hindi'}
+            </p>
+          </CardShell>
+
+          {/* Social Links */}
+          <CardShell>
+            <div className="mb-4 flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F3EEFF]">
+                <Globe className="h-4 w-4 text-[#6B46FE]" />
+              </div>
+              <h3 className="text-base font-bold text-[#2D3436]">Social Links</h3>
+            </div>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              {socialPlatforms.map((platform) => (
+                <button
+                  key={platform.key}
+                  className="flex items-center gap-2.5 rounded-xl border border-[#F0F1F5] bg-[#FAFBFC] px-3 py-2.5 text-left transition-colors hover:bg-[#F5F6FA]"
+                >
+                  <div
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${platform.bg}`}
+                  >
+                    <platform.icon className={`h-4 w-4 ${platform.color}`} />
+                  </div>
+                  <span className="min-w-0 flex-1 truncate text-xs font-semibold text-[#636E72]">
+                    {platform.value || `Add ${platform.label}`}
+                  </span>
+                  <ChevronRight className="h-3.5 w-3.5 shrink-0 text-[#A0A4B0]" />
+                </button>
+              ))}
+            </div>
+          </CardShell>
+
+          {/* Subscription */}
+          <CardShell>
+            <div className="mb-4 flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF4E5]">
+                <Crown className="h-4 w-4 text-[#FF9F43]" />
+              </div>
+              <h3 className="text-base font-bold text-[#2D3436]">Subscription</h3>
+            </div>
+            <div className="mb-1 flex items-center justify-between">
+              <p className="text-base font-bold capitalize text-[#2D3436]">{plan} Plan</p>
+              <span
+                className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                  planActive
+                    ? 'bg-[#E4F8ED] text-[#28C76F]'
+                    : 'bg-[#FFF4E5] text-[#FF9F43]'
+                }`}
+              >
+                {planActive ? 'Active' : 'Inactive'}
+              </span>
+            </div>
+            <p className="mb-4 text-xs text-[#A0A4B0]">Up to {maxImages} portfolio images</p>
+            <button className="w-full rounded-xl border-2 border-[#6B46FE] px-4 py-2.5 text-sm font-bold text-[#6B46FE] transition-all hover:bg-[#F3EEFF]">
+              Upgrade Plan
+            </button>
+          </CardShell>
+        </div>
       </div>
     </div>
   );

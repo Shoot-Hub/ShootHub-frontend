@@ -1,9 +1,17 @@
+import { ShootHubLoader } from '@/components/ShootHubLoader';
+import { cn } from '@/lib/utils';
 import type { LoaderProps } from './Loader.types';
 
-export type { LoaderProps } from './Loader.types';
-export type { LoaderStyleKey } from './Loader.styles';
-export { loaderStyles } from './Loader.styles';
+type Props = LoaderProps & {
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  label?: string;
+  fullScreen?: boolean;
+};
 
-export function Loader(_props: LoaderProps) {
-  return null;
+export function Loader({ className, size = 'md', label, fullScreen, ...rest }: Props) {
+  return (
+    <div className={cn('flex items-center justify-center', className)} {...rest}>
+      <ShootHubLoader size={size} label={label} fullScreen={fullScreen} />
+    </div>
+  );
 }

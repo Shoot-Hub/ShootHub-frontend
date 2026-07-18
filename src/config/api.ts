@@ -9,6 +9,7 @@ export const API_CONFIG = {
     LOGOUT: '/auth/logout',
     FORGOT_PASSWORD: '/auth/forgot-password',
     RESET_PASSWORD: '/auth/reset-password',
+    ME: '/users/me',
 
     // Photographer endpoints
     PHOTOGRAPHER_GET_PROFILE: '/photographers/me/profile',
