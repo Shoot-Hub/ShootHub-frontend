@@ -1,0 +1,1 @@
+export { GalleryPasswordPage } from './GalleryPasswordPage';

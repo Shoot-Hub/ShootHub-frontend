@@ -10,6 +10,7 @@ import {
   LayoutGrid,
   Menu,
   MessageCircle,
+  MessageSquareHeart,
   Sun,
   Tag,
   Users,
@@ -27,6 +28,7 @@ const navLinks = [
   { label: 'Reels', to: '/reels', icon: Clapperboard, hasDropdown: false },
   { label: 'Categories', to: '/categories', icon: LayoutGrid, hasDropdown: true },
   { label: 'Pricing', to: '/pricing', icon: Tag, hasDropdown: false },
+  { label: 'Feedback & Reviews', to: '/feedback', icon: MessageSquareHeart, hasDropdown: false },
   { label: 'About', to: '/about', icon: Info, hasDropdown: false },
 ] as const;
 

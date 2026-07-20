@@ -31,6 +31,15 @@
   --shadow-auth-card: 0 4px 24px -4px rgba(37, 99, 235, 0.08), 0 8px 32px -8px rgba(0, 0, 0, 0.06);
   --shadow-auth-shell: 0 8px 40px -8px rgba(37, 99, 235, 0.12), 0 20px 48px -12px rgba(0, 0, 0, 0.08);
   --shadow-auth-glass: 0 8px 32px -8px rgba(37, 99, 235, 0.1), 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+
+  --color-gallery-accent: #6c3bff;
+  --color-gallery-accent-light: #f3eeff;
+  --color-gallery-blue: #e8f4fd;
+  --color-gallery-ink: #111827;
+  --color-gallery-muted: #636e72;
+  --radius-gallery: 24px;
+  --shadow-gallery: 0 8px 40px -12px rgba(108, 59, 255, 0.15), 0 4px 24px -8px rgba(0, 0, 0, 0.08);
+  --shadow-gallery-soft: 0 4px 24px -6px rgba(108, 59, 255, 0.12), 0 2px 12px -4px rgba(0, 0, 0, 0.06);
 }
 
 @layer base {

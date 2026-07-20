@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, Camera, Play, UserRound, X } from 'lucide-react';
+import { ArrowLeft, Camera, ExternalLink, Play, UserRound, X } from 'lucide-react';
 
 type DemoRole = 'creator' | 'client';
 
@@ -179,6 +180,16 @@ export function WatchDemoModal({ open, onClose }: WatchDemoModalProps) {
                     ? 'Creator Studio walkthrough preview'
                     : 'Client landing & booking walkthrough preview'}
                 </p>
+                {role === 'client' ? (
+                  <Link
+                    to="/gallery/demo"
+                    onClick={onClose}
+                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-[#EEF0F4] bg-[#F3EEFF] py-3 text-sm font-semibold text-[#6C3BFF] transition hover:bg-[#EBE4FF]"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Try Client Gallery Demo
+                  </Link>
+                ) : null}
               </div>
             )}
           </motion.div>

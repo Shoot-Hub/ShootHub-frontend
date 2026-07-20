@@ -26,6 +26,9 @@ import {
   Crown,
   ArrowRight,
   CreditCard,
+  Upload,
+  CirclePlay,
+  PanelRight,
 } from 'lucide-react';
 import { useAuth, setAuth } from '@/store';
 import { userService } from '@/services/user';
@@ -38,6 +41,7 @@ const sidebarNav = [
   { icon: CalendarCheck, label: 'Bookings', path: '/creator/bookings' },
   { icon: Images, label: 'Portfolio', path: '/creator/portfolio' },
   { icon: Video, label: 'Reels', path: '/creator/reels' },
+  { icon: Upload, label: 'Uploads', path: '/creator/uploads' },
   { icon: Package, label: 'Packages', path: '/creator/packages' },
   { icon: CreditCard, label: 'Subscriptions', path: '/creator/subscriptions' },
   { icon: Star, label: 'Reviews', path: '/creator/reviews' },
@@ -55,12 +59,21 @@ const mobileNav = [
   { icon: User, label: 'Profile', path: '/creator/profile' },
 ];
 
-function getPageTitle(pathname: string) {
+function getPageTitle(pathname: string, isCreateUpload: boolean) {
+  if (isCreateUpload) return 'Create New Upload';
   if (pathname === '/creator') return 'Dashboard';
   const match = sidebarNav.find(
     (item) => item.path !== '/creator' && pathname.startsWith(item.path),
   );
   return match?.label || 'Dashboard';
+}
+
+function getPageSubtitle(pathname: string, isCreateUpload: boolean) {
+  if (isCreateUpload) return 'Upload photos, add details and share with your client';
+  if (pathname.startsWith('/creator/uploads')) {
+    return 'Create galleries, upload photos and share with your clients.';
+  }
+  return null;
 }
 
 function getSearchPlaceholder(pathname: string) {
@@ -72,6 +85,7 @@ function getSearchPlaceholder(pathname: string) {
   if (pathname.startsWith('/creator/teams')) return 'Search team members...';
   if (pathname.startsWith('/creator/reviews')) return 'Search reviews...';
   if (pathname.startsWith('/creator/portfolio')) return 'Search portfolio...';
+  if (pathname.startsWith('/creator/uploads')) return 'Search uploads, galleries...';
   if (pathname.startsWith('/creator/profile')) return 'Search anything...';
   return 'Search anything...';
 }
@@ -126,7 +140,11 @@ export function CreatorLayout() {
     .join('')
     .toUpperCase()
     .slice(0, 2);
-  const pageTitle = getPageTitle(location.pathname);
+  const isUploadsPage = location.pathname.startsWith('/creator/uploads');
+  const isCreateUpload =
+    isUploadsPage && new URLSearchParams(location.search).get('create') === '1';
+  const pageTitle = getPageTitle(location.pathname, isCreateUpload);
+  const pageSubtitle = getPageSubtitle(location.pathname, isCreateUpload);
   const searchPlaceholder = getSearchPlaceholder(location.pathname);
 
   return (
@@ -307,16 +325,20 @@ export function CreatorLayout() {
 
           <div className="hidden min-w-[140px] shrink-0 lg:block">
             <h1 className="text-base font-bold text-[#2D3436]">{pageTitle}</h1>
-            <p className="text-xs text-[#A0A4B0]">Welcome back, {firstName}! 👋</p>
+            <p className="text-xs text-[#A0A4B0]">
+              {pageSubtitle ?? `Welcome back, ${firstName}! 👋`}
+            </p>
           </div>
 
           {/* Mobile: page title instead of huge logo */}
           <div className="min-w-0 flex-1 lg:hidden">
             <h1 className="truncate text-sm font-bold text-[#2D3436]">{pageTitle}</h1>
-            <p className="truncate text-[11px] text-[#A0A4B0]">Hi, {firstName} 👋</p>
+            <p className="truncate text-[11px] text-[#A0A4B0]">
+              {pageSubtitle ?? `Hi, ${firstName} 👋`}
+            </p>
           </div>
 
-          <div className="mx-auto hidden max-w-lg flex-1 md:block">
+          <div className={`mx-auto hidden max-w-lg flex-1 md:block ${isCreateUpload ? 'lg:hidden' : ''}`}>
             <div className="relative">
               <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A0A4B0]" />
               <input
@@ -331,10 +353,35 @@ export function CreatorLayout() {
           </div>
 
           <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
-            <button className="hidden items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg sm:flex">
-              <Plus className="h-4 w-4" />
-              {location.pathname.startsWith('/creator/teams') ? 'Invite Member' : 'Create New'}
-            </button>
+            {isUploadsPage ? (
+              <>
+                <button className="hidden items-center gap-1.5 rounded-xl border border-[#EEF0F4] bg-white px-3.5 py-2.5 text-sm font-semibold text-[#636E72] shadow-sm transition-all hover:bg-[#F8F9FB] sm:flex">
+                  <CirclePlay className="h-4 w-4 text-[#6B46FE]" />
+                  How it works
+                </button>
+                {isCreateUpload ? (
+                  <Link
+                    to="/creator/uploads"
+                    className="hidden items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg sm:flex"
+                  >
+                    Back to Uploads
+                  </Link>
+                ) : (
+                  <Link
+                    to="/creator/uploads?create=1"
+                    className="hidden items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg sm:flex"
+                  >
+                    <Plus className="h-4 w-4" />
+                    New Upload
+                  </Link>
+                )}
+              </>
+            ) : (
+              <button className="hidden items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg sm:flex">
+                <Plus className="h-4 w-4" />
+                {location.pathname.startsWith('/creator/teams') ? 'Invite Member' : 'Create New'}
+              </button>
+            )}
 
             <button
               className="relative flex h-11 w-11 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB]"
@@ -342,17 +389,26 @@ export function CreatorLayout() {
             >
               <Bell className="h-5 w-5" />
               <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#EA5455] px-1 text-[9px] font-bold text-white ring-2 ring-white">
-                5
+                {isUploadsPage ? 3 : 5}
               </span>
             </button>
 
-            <Link
-              to="/creator/messages"
-              className="relative flex h-11 w-11 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB]"
-              aria-label="Messages"
-            >
-              <MessageSquare className="h-5 w-5" />
-            </Link>
+            {isUploadsPage ? (
+              <button
+                className="relative hidden h-11 w-11 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB] sm:flex"
+                aria-label="Toggle panel"
+              >
+                <PanelRight className="h-5 w-5" />
+              </button>
+            ) : (
+              <Link
+                to="/creator/messages"
+                className="relative flex h-11 w-11 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB]"
+                aria-label="Messages"
+              >
+                <MessageSquare className="h-5 w-5" />
+              </Link>
+            )}
 
             <div className="relative">
               <button
@@ -368,7 +424,7 @@ export function CreatorLayout() {
                   )}
                 </div>
                 <span className="hidden text-sm font-semibold text-[#2D3436] sm:block">
-                  {firstName}
+                  {isUploadsPage ? userName : firstName}
                 </span>
                 <ChevronDown className="hidden h-4 w-4 text-[#A0A4B0] sm:block" />
               </button>

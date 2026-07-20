@@ -13,3 +13,4 @@ export { AnalyticsPage } from './pages/AnalyticsPage';
 export { SettingsPage } from './pages/SettingsPage';
 export { MyReelsPage } from './pages/MyReelsPage';
 export { UploadReelPage } from './pages/UploadReelPage';
+export { UploadsPage } from './pages/UploadsPage';

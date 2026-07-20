@@ -1,0 +1,1 @@
+export { GalleryViewerPage } from './GalleryViewerPage';

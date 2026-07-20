@@ -17,6 +17,7 @@ import {
   SubscriptionsPage,
   CalendarPage,
   AnalyticsPage,
+  UploadsPage,
 } from '@/pages/CreatorPage';
 
 export const creatorRoutes: ReactNode[] = [
@@ -27,6 +28,7 @@ export const creatorRoutes: ReactNode[] = [
       <Route path="portfolio" element={<PortfolioPage />} />
       <Route path="reels" element={<MyReelsPage />} />
       <Route path="reels/upload" element={<UploadReelPage />} />
+      <Route path="uploads" element={<UploadsPage />} />
       <Route path="packages" element={<PackagesPage />} />
       <Route path="subscriptions" element={<SubscriptionsPage />} />
       <Route path="bookings" element={<BookingsPage />} />
