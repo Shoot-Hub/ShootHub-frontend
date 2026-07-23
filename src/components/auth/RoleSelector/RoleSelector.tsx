@@ -9,8 +9,8 @@ type RoleSelectorProps = {
 };
 
 const roleIcons = {
-  client: User,
-  creator: Camera,
+  user: User,
+  photographer: Camera,
 } as const;
 
 export function RoleSelector({ value, onChange, error }: RoleSelectorProps) {

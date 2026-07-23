@@ -36,7 +36,7 @@ export function SignupPage() {
     resolver: zodResolver(signupSchema),
     defaultValues: {
       countryCode: '+91',
-      role: 'client',
+      role: 'user',
       acceptTerms: false,
     },
   });
@@ -52,17 +52,12 @@ export function SignupPage() {
       const firstName = nameParts[0] || '';
       const lastName = nameParts.slice(1).join(' ') || '';
 
-      const roleMap: Record<string, string> = {
-        client: 'client',
-        creator: 'photographer',
-      };
-
       const response = await userService.signup({
         firstName,
         lastName,
         email: data.email,
         password: data.password,
-        role: roleMap[data.role] || data.role,
+        role: data.role,
         phone: `${data.countryCode}${data.mobile}`,
       });
 

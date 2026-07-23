@@ -66,13 +66,13 @@ export const COUNTRY_CODES = [
 
 export const USER_ROLES = [
   {
-    value: 'client',
-    label: "I'm a Client",
+    value: 'user',
+    label: "I'm a User",
     description: 'I want to book photographers',
   },
   {
-    value: 'creator',
-    label: "I'm a Creator",
+    value: 'photographer',
+    label: "I'm a Photographer",
     description: 'I want to showcase my work',
   },
 ] as const;
