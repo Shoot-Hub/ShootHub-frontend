@@ -30,7 +30,7 @@ export const signupSchema = z
       .min(1, 'Mobile number is required')
       .regex(/^\d{6,15}$/, 'Enter a valid mobile number'),
     password: passwordField,
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
+    confirmPassword: z.string().min(1, 'Please confirm your password !!!'),
     role: z.enum(['user', 'photographer'], { message: 'Please select a role' }),
     acceptTerms: z.boolean().refine((value) => value === true, {
       message: 'You must accept the terms and privacy policy',
