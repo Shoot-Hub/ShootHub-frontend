@@ -134,6 +134,9 @@ function ReelSlide({ reel, isActive, onLike, onEdit }: ReelSlideProps) {
         {/* Kebab */}
         <div className="relative">
           <button
+            type="button"
+            aria-label="More actions"
+            aria-expanded={showMenu}
             onClick={(e) => {
               e.stopPropagation();
               setShowMenu((v) => !v);
@@ -173,7 +176,7 @@ function ReelSlide({ reel, isActive, onLike, onEdit }: ReelSlideProps) {
       {/* ── Right action bar ── */}
       <div className="absolute right-4 bottom-28 flex flex-col items-center gap-5 z-10">
         {/* Like */}
-        <button onClick={handleLike} className="flex flex-col items-center gap-1">
+        <button type="button" aria-label="Like reel" onClick={handleLike} className="flex flex-col items-center gap-1">
           <motion.div
             whileTap={{ scale: 1.4 }}
             className={`flex h-12 w-12 items-center justify-center rounded-full ${
@@ -207,6 +210,8 @@ function ReelSlide({ reel, isActive, onLike, onEdit }: ReelSlideProps) {
 
         {/* Mute */}
         <button
+          type="button"
+          aria-label={muted ? 'Unmute' : 'Mute'}
           onClick={toggleMute}
           className="flex h-12 w-12 items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-white"
         >

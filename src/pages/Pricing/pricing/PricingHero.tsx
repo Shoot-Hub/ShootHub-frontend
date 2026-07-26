@@ -34,7 +34,7 @@ export function PricingHero({ period, onPeriodChange }: PricingHeroProps) {
 
           <motion.h1
             variants={fadeInUp}
-            className="mt-5 text-[40px] font-extrabold leading-[1.08] tracking-tight text-ink sm:text-[52px] md:text-[60px]"
+            className="mt-5 min-w-0 break-words text-[28px] font-extrabold leading-[1.08] tracking-tight text-ink sm:text-[40px] md:text-[60px]"
           >
             Simple Transparent{' '}
             <span className="text-primary-500">Pricing</span>
@@ -48,14 +48,19 @@ export function PricingHero({ period, onPeriodChange }: PricingHeroProps) {
           </motion.p>
 
           <motion.div variants={fadeInUp} className="mt-8 flex flex-col items-center gap-3">
-            <div className="inline-flex items-center rounded-full border border-border/60 bg-white p-1 shadow-card">
+            <div
+              className="inline-flex items-center rounded-full border border-border/60 bg-white p-1 shadow-card"
+              role="group"
+              aria-label="Billing period"
+            >
               {(['monthly', 'yearly'] as const).map((option) => (
                 <button
                   key={option}
                   type="button"
+                  aria-pressed={period === option}
                   onClick={() => onPeriodChange(option)}
                   className={cn(
-                    'rounded-full px-6 py-2.5 text-sm font-bold capitalize transition-all',
+                    'rounded-full px-6 py-2.5 text-sm font-bold capitalize transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
                     period === option
                       ? 'bg-primary-500 text-white shadow-button'
                       : 'text-ink-muted hover:text-ink',

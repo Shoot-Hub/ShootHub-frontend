@@ -14,7 +14,7 @@ export function PortfolioPage() {
             Showcase your best work to attract clients.
           </p>
         </div>
-        <button className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-[#6B46FE]/25 sm:w-auto">
+        <button className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-[#6B46FE]/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40 sm:w-auto">
           <Upload className="h-4 w-4" />
           Upload Images
         </button>
@@ -30,7 +30,7 @@ export function PortfolioPage() {
               {img.url ? (
                 <img
                   src={img.url}
-                  alt=""
+                  alt={`Portfolio image ${i + 1}`}
                   className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               ) : (
@@ -39,7 +39,8 @@ export function PortfolioPage() {
                 </div>
               )}
               <button
-                className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-xl bg-white/95 text-[#EA5455] shadow-md backdrop-blur-sm transition-colors hover:bg-red-50 sm:opacity-0 sm:group-hover:opacity-100"
+                type="button"
+                className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-xl bg-white/95 text-[#EA5455] shadow-md backdrop-blur-sm transition-colors hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5455]/40 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100"
                 aria-label="Delete image"
               >
                 <Trash2 className="h-4 w-4" />
@@ -56,7 +57,7 @@ export function PortfolioPage() {
           <p className="mt-1 text-sm text-[#636E72]">
             Upload your best photos to attract more clients.
           </p>
-          <button className="mt-4 rounded-xl bg-[#F3EEFF] px-5 py-2.5 text-sm font-bold text-[#6B46FE] hover:bg-[#EDE5FF]">
+          <button className="mt-4 rounded-xl bg-[#F3EEFF] px-5 py-2.5 text-sm font-bold text-[#6B46FE] hover:bg-[#EDE5FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40">
             Upload Your First Image
           </button>
         </div>

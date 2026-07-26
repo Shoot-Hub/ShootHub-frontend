@@ -44,7 +44,7 @@ export const MOCK_GALLERIES: Record<string, Gallery> = {
     eventDate: 'May 20, 2024',
     location: 'Udaipur, Rajasthan',
     photoCount: 1245,
-    albumCount: 8,
+    albumCount: 16,
     createdDate: 'May 21, 2024',
     storageUsed: '12.5 GB',
     access: 'public',
@@ -62,10 +62,22 @@ export const MOCK_GALLERIES: Record<string, Gallery> = {
       studio: 'Moore Studios',
     },
     albums: [
-      { id: 'a1', name: 'Ceremony', photoCount: 320 },
-      { id: 'a2', name: 'Reception', photoCount: 410 },
-      { id: 'a3', name: 'Portraits', photoCount: 185 },
-      { id: 'a4', name: 'Candid', photoCount: 330 },
+      { id: 'a-getting-ready', name: 'Getting Ready', photoCount: 86 },
+      { id: 'a-bride-makeup', name: 'Bride Makeup', photoCount: 54 },
+      { id: 'a-groom', name: 'Groom Preparation', photoCount: 48 },
+      { id: 'a-haldi', name: 'Haldi', photoCount: 112 },
+      { id: 'a-mehendi', name: 'Mehendi', photoCount: 98 },
+      { id: 'a-sangeet', name: 'Sangeet', photoCount: 140 },
+      { id: 'a-baraat', name: 'Baraat', photoCount: 76 },
+      { id: 'a-ceremony', name: 'Wedding Ceremony', photoCount: 160 },
+      { id: 'a-varmala', name: 'Varmala', photoCount: 42 },
+      { id: 'a-pheras', name: 'Pheras', photoCount: 58 },
+      { id: 'a-sindoor', name: 'Sindoor', photoCount: 28 },
+      { id: 'a-vidaai', name: 'Vidaai', photoCount: 64 },
+      { id: 'a-reception', name: 'Reception', photoCount: 180 },
+      { id: 'a-couple', name: 'Couple Portrait', photoCount: 52 },
+      { id: 'a-family', name: 'Family Portrait', photoCount: 44 },
+      { id: 'a-bts', name: 'Behind The Scenes', photoCount: 63 },
     ],
   },
   'aarav-birthday': {
@@ -154,11 +166,35 @@ const ASPECTS = [
   { w: 900, h: 1600 },
 ];
 
+/** Wedding demo album ids — used only for client-side story timeline mock mapping */
+const WEDDING_ALBUM_IDS = [
+  'a-getting-ready',
+  'a-bride-makeup',
+  'a-groom',
+  'a-haldi',
+  'a-mehendi',
+  'a-sangeet',
+  'a-baraat',
+  'a-ceremony',
+  'a-varmala',
+  'a-pheras',
+  'a-sindoor',
+  'a-vidaai',
+  'a-reception',
+  'a-couple',
+  'a-family',
+  'a-bts',
+] as const;
+
 export function generateMockPhotos(galleryId: string, count: number) {
   return Array.from({ length: count }, (_, i) => {
     const aspect = ASPECTS[i % ASPECTS.length];
     const src = PHOTO_SOURCES[i % PHOTO_SOURCES.length];
     const id = `${galleryId}-photo-${i + 1}`;
+    const albumId =
+      galleryId === 'g1'
+        ? WEDDING_ALBUM_IDS[i % WEDDING_ALBUM_IDS.length]
+        : undefined;
     return {
       id,
       galleryId,
@@ -167,9 +203,9 @@ export function generateMockPhotos(galleryId: string, count: number) {
       width: aspect.w,
       height: aspect.h,
       filename: `IMG_${String(i + 1).padStart(4, '0')}.jpg`,
-      albumId: undefined,
+      albumId,
       isFavorite: i % 11 === 0,
-      createdAt: new Date(2024, 4, 20 - (i % 30)).toISOString(),
+      createdAt: new Date(2024, 4, 20, 8 + (i % 14), (i * 7) % 60).toISOString(),
     };
   });
 }

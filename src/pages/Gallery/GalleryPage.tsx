@@ -46,8 +46,9 @@ export function GalleryPage() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F8F9FB]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#6C3BFF]" />
+      <div className="flex min-h-screen items-center justify-center bg-[#F8F9FB]" role="status">
+        <Loader2 className="h-8 w-8 animate-spin text-[#6C3BFF]" aria-hidden />
+        <span className="sr-only">Loading gallery</span>
       </div>
     );
   }

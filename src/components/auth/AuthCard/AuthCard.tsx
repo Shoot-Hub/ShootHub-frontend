@@ -22,7 +22,7 @@ export function AuthCard({
         {eyebrow && (
           <p className="text-sm font-semibold text-auth-accent">{eyebrow}</p>
         )}
-        <h2
+        <h1
           className={cn(
             'font-bold tracking-tight text-ink',
             compact ? 'text-xl' : 'text-[1.65rem]',
@@ -30,7 +30,7 @@ export function AuthCard({
           )}
         >
           {title}
-        </h2>
+        </h1>
         {description && (
           <p
             className={cn(

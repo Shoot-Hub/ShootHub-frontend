@@ -512,10 +512,13 @@ function UploadsListView({ onNewUpload }: { onNewUpload: () => void }) {
         <div className="min-w-0 space-y-0 overflow-hidden rounded-2xl border border-[#EEF0F4] bg-white shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)]">
           {/* Tabs + controls row */}
           <div className="flex flex-col gap-3 border-b border-[#F5F6F8] px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex gap-5 overflow-x-auto">
+            <div className="flex gap-5 overflow-x-auto" role="tablist">
               {tabs.map((tab) => (
                 <button
                   key={tab}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === tab}
                   onClick={() => setActiveTab(tab)}
                   className={`relative shrink-0 pb-1 text-sm font-semibold transition-colors ${
                     activeTab === tab
@@ -537,6 +540,7 @@ function UploadsListView({ onNewUpload }: { onNewUpload: () => void }) {
                 <input
                   type="text"
                   placeholder="Search uploads..."
+                  aria-label="Search uploads"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="h-9 w-full rounded-lg border border-[#EEF0F4] bg-[#FAFBFC] pl-9 pr-3 text-xs text-[#2D3436] placeholder:text-[#A0A4B0] outline-none focus:border-[#6B46FE]/40 focus:bg-white"
@@ -550,6 +554,7 @@ function UploadsListView({ onNewUpload }: { onNewUpload: () => void }) {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
+                  aria-label="Sort uploads"
                   className="h-9 appearance-none rounded-lg border border-[#EEF0F4] bg-white pl-3 pr-8 text-xs font-semibold text-[#636E72] outline-none hover:bg-[#F8F9FB]"
                 >
                   <option>Newest First</option>
@@ -562,8 +567,86 @@ function UploadsListView({ onNewUpload }: { onNewUpload: () => void }) {
             </div>
           </div>
 
-          {/* Table */}
-          <div className="overflow-x-auto">
+          {/* Mobile gallery cards */}
+          <div className="space-y-3 p-4 md:hidden">
+            {filteredGalleries.length === 0 ? (
+              <div className="flex flex-col items-center gap-2 py-10">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F3EEFF]">
+                  <Upload className="h-6 w-6 text-[#6B46FE]" />
+                </div>
+                <p className="text-sm font-medium text-[#636E72]">No uploads found.</p>
+              </div>
+            ) : (
+              filteredGalleries.map((gallery) => (
+                <div
+                  key={gallery.id}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setSelectedId(gallery.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedId(gallery.id);
+                    }
+                  }}
+                  className={`w-full rounded-2xl border p-3 text-left transition-colors ${
+                    selectedId === gallery.id
+                      ? 'border-[#6B46FE]/30 bg-[#F8F5FF]'
+                      : 'border-[#EEF0F4] bg-white hover:bg-[#FAFBFC]'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <img
+                      src={gallery.thumbnail}
+                      alt=""
+                      className="h-14 w-14 shrink-0 rounded-xl object-cover"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-bold text-[#2D3436]">{gallery.name}</p>
+                          <p className="truncate text-[11px] text-[#A0A4B0]">
+                            {gallery.eventType} · {gallery.location}
+                          </p>
+                        </div>
+                        <StatusBadge status={gallery.status} />
+                      </div>
+                      <p className="mt-2 text-xs text-[#636E72]">{gallery.date}</p>
+                      <p className="mt-0.5 text-xs font-semibold text-[#2D3436]">
+                        {gallery.photoCount.toLocaleString()} photos
+                      </p>
+                      <div className="mt-3 flex gap-1">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            void navigator.clipboard.writeText(getFullGalleryLink(gallery.shareLink));
+                            toast.success('Link copied');
+                          }}
+                          className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#F8F9FB] text-xs font-semibold text-[#636E72]"
+                        >
+                          <Link2 className="h-3.5 w-3.5" /> Copy link
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedId(gallery.id);
+                          }}
+                          className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#F3EEFF] text-xs font-semibold text-[#6B46FE]"
+                        >
+                          <QrCode className="h-3.5 w-3.5" /> Details
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Desktop table */}
+          <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[760px]">
               <thead>
                 <tr className="border-b border-[#F5F6F8]">
@@ -629,6 +712,8 @@ function UploadsListView({ onNewUpload }: { onNewUpload: () => void }) {
                       <td className="px-4 py-3.5">
                         <div className="flex items-center gap-0.5">
                           <button
+                            type="button"
+                            aria-label="Copy share link"
                             onClick={(e) => {
                               e.stopPropagation();
                               void navigator.clipboard.writeText(getFullGalleryLink(gallery.shareLink));
@@ -639,6 +724,8 @@ function UploadsListView({ onNewUpload }: { onNewUpload: () => void }) {
                             <Link2 className="h-4 w-4" />
                           </button>
                           <button
+                            type="button"
+                            aria-label="Show QR code"
                             onClick={(e) => {
                               e.stopPropagation();
                               setSelectedId(gallery.id);
@@ -651,6 +738,8 @@ function UploadsListView({ onNewUpload }: { onNewUpload: () => void }) {
                       </td>
                       <td className="px-4 py-3.5">
                         <button
+                          type="button"
+                          aria-label="More actions"
                           onClick={(e) => e.stopPropagation()}
                           className="rounded-md p-1.5 text-[#A0A4B0] hover:bg-[#F8F9FB] hover:text-[#636E72]"
                         >

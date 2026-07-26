@@ -36,7 +36,7 @@ export function MeetTeam() {
               className={cn(
                 'overflow-hidden rounded-[24px] border bg-white shadow-card',
                 member.founder === true
-                  ? 'border-primary-200 ring-2 ring-primary-500/20 sm:col-span-2 lg:col-span-1'
+                  ? 'border-primary-200 ring-2 ring-primary-500/20 lg:col-span-1'
                   : 'border-border/50',
               )}
             >

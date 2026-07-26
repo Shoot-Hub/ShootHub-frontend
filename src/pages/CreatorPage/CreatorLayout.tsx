@@ -29,6 +29,9 @@ import {
   Upload,
   CirclePlay,
   PanelRight,
+  BookImage,
+  GitCommitHorizontal,
+  ReceiptIndianRupee,
 } from 'lucide-react';
 import { useAuth, setAuth } from '@/store';
 import { userService } from '@/services/user';
@@ -42,12 +45,15 @@ const sidebarNav = [
   { icon: Images, label: 'Portfolio', path: '/creator/portfolio' },
   { icon: Video, label: 'Reels', path: '/creator/reels' },
   { icon: Upload, label: 'Uploads', path: '/creator/uploads' },
+  { icon: BookImage, label: 'Album Designer', path: '/creator/album-designer', badge: 'New' },
+  { icon: GitCommitHorizontal, label: 'Event Timeline', path: '/creator/event-timeline', badge: 'New' },
   { icon: Package, label: 'Packages', path: '/creator/packages' },
   { icon: CreditCard, label: 'Subscriptions', path: '/creator/subscriptions' },
-  { icon: Star, label: 'Reviews', path: '/creator/reviews' },
-  { icon: MessageSquare, label: 'Messages', path: '/creator/messages', badge: 3 },
   { icon: Calendar, label: 'Calendar', path: '/creator/calendar' },
   { icon: BarChart3, label: 'Analytics', path: '/creator/analytics' },
+  { icon: ReceiptIndianRupee, label: 'Invoice & Payments', path: '/creator/payments', badge: 'New' },
+  { icon: Star, label: 'Reviews', path: '/creator/reviews' },
+  { icon: MessageSquare, label: 'Messages', path: '/creator/messages', badge: 3 },
   { icon: Users, label: 'Teams', path: '/creator/teams' },
   { icon: Settings, label: 'Settings', path: '/creator/settings' },
 ];
@@ -73,6 +79,15 @@ function getPageSubtitle(pathname: string, isCreateUpload: boolean) {
   if (pathname.startsWith('/creator/uploads')) {
     return 'Create galleries, upload photos and share with your clients.';
   }
+  if (pathname.startsWith('/creator/album-designer')) {
+    return 'Design professional photo albums for your clients.';
+  }
+  if (pathname.startsWith('/creator/event-timeline')) {
+    return 'Track every moment of the big day.';
+  }
+  if (pathname.startsWith('/creator/payments')) {
+    return 'Manage invoices, advances, and client payments.';
+  }
   return null;
 }
 
@@ -86,6 +101,9 @@ function getSearchPlaceholder(pathname: string) {
   if (pathname.startsWith('/creator/reviews')) return 'Search reviews...';
   if (pathname.startsWith('/creator/portfolio')) return 'Search portfolio...';
   if (pathname.startsWith('/creator/uploads')) return 'Search uploads, galleries...';
+  if (pathname.startsWith('/creator/album-designer')) return 'Search albums, clients, templates...';
+  if (pathname.startsWith('/creator/event-timeline')) return 'Search events, team, venues...';
+  if (pathname.startsWith('/creator/payments')) return 'Search invoices, clients, bookings...';
   if (pathname.startsWith('/creator/profile')) return 'Search anything...';
   return 'Search anything...';
 }
@@ -102,6 +120,19 @@ export function CreatorLayout() {
   useEffect(() => {
     setSidebarOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSidebarOpen(false);
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [sidebarOpen]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -141,6 +172,9 @@ export function CreatorLayout() {
     .toUpperCase()
     .slice(0, 2);
   const isUploadsPage = location.pathname.startsWith('/creator/uploads');
+  const isAlbumEditor =
+    location.pathname.startsWith('/creator/album-designer/') &&
+    location.pathname.endsWith('/edit');
   const isCreateUpload =
     isUploadsPage && new URLSearchParams(location.search).get('create') === '1';
   const pageTitle = getPageTitle(location.pathname, isCreateUpload);
@@ -148,12 +182,13 @@ export function CreatorLayout() {
   const searchPlaceholder = getSearchPlaceholder(location.pathname);
 
   return (
-    <div className="min-h-screen bg-[#F8F9FB]">
+    <div className={`min-h-screen bg-[#F8F9FB] ${isAlbumEditor ? 'overflow-hidden' : ''}`}>
       {/* Sidebar */}
       <aside
+        id="creator-sidebar"
         className={`fixed inset-y-0 left-0 z-50 flex w-[272px] flex-col bg-white shadow-[4px_0_24px_-4px_rgba(107,70,254,0.08)] transition-transform duration-300 lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        } ${isAlbumEditor ? 'hidden' : ''}`}
       >
         {/* Logo — cropped ShootHub wordmark */}
         <div className="flex h-[84px] shrink-0 items-center justify-between gap-2 px-4 pt-1">
@@ -168,8 +203,10 @@ export function CreatorLayout() {
             </span>
           </Link>
           <button
+            type="button"
+            aria-label="Close sidebar"
             onClick={() => setSidebarOpen(false)}
-            className="rounded-lg p-1.5 text-[#636E72] hover:bg-[#F8F9FB] lg:hidden"
+            className="rounded-lg p-1.5 text-[#636E72] hover:bg-[#F8F9FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40 lg:hidden"
           >
             <X className="h-5 w-5" />
           </button>
@@ -202,7 +239,11 @@ export function CreatorLayout() {
                 </span>
                 <span className="flex-1">{item.label}</span>
                 {item.badge ? (
-                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#6B46FE] px-1.5 text-[10px] font-bold text-white">
+                  <span
+                    className={`flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[10px] font-bold text-white ${
+                      typeof item.badge === 'string' ? 'bg-[#6B46FE]' : 'bg-[#6B46FE]'
+                    }`}
+                  >
                     {item.badge}
                   </span>
                 ) : null}
@@ -225,7 +266,10 @@ export function CreatorLayout() {
               <p className="mt-0.5 text-[10px] leading-snug text-white/75">
                 Unlock advanced analytics, priority listings & more.
               </p>
-              <button className="mt-2 flex w-full items-center justify-center gap-1 rounded-lg bg-white px-2.5 py-1.5 text-[11px] font-bold text-[#6B46FE] transition-colors hover:bg-white/95">
+              <button
+                type="button"
+                className="mt-2 flex w-full items-center justify-center gap-1 rounded-lg bg-white px-2.5 py-1.5 text-[11px] font-bold text-[#6B46FE] transition-colors hover:bg-white/95"
+              >
                 Upgrade Now
                 <ArrowRight className="h-3 w-3" />
               </button>
@@ -236,6 +280,7 @@ export function CreatorLayout() {
         {/* User card + Logout */}
         <div className="relative shrink-0 space-y-2 border-t border-[#EEF0F4] p-3">
           <button
+            type="button"
             onClick={() => setSidebarUserOpen((v) => !v)}
             className="flex w-full items-center gap-3 rounded-xl border border-[#EEF0F4] bg-[#FAFBFC] px-2.5 py-2.5 text-left transition-colors hover:bg-[#F5F6FA]"
           >
@@ -289,6 +334,7 @@ export function CreatorLayout() {
           </AnimatePresence>
 
           <button
+            type="button"
             onClick={handleLogout}
             className="flex w-full items-center gap-3 rounded-xl px-2.5 py-2.5 text-sm font-semibold text-[#EA5455] transition-colors hover:bg-red-50"
           >
@@ -313,12 +359,19 @@ export function CreatorLayout() {
       </AnimatePresence>
 
       {/* Main */}
-      <div className="lg:pl-[272px]">
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-[#EEF0F4] bg-white/95 px-3 backdrop-blur-xl sm:h-[72px] sm:gap-3 sm:px-6">
+      <div className={isAlbumEditor ? '' : 'lg:pl-[272px]'}>
+        <header
+          className={`sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-[#EEF0F4] bg-white/95 px-3 backdrop-blur-xl sm:h-[72px] sm:gap-3 sm:px-6 ${
+            isAlbumEditor ? 'hidden' : ''
+          }`}
+        >
           <button
+            type="button"
             onClick={() => setSidebarOpen(true)}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-[#636E72] hover:bg-[#F8F9FB] lg:hidden"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-[#636E72] hover:bg-[#F8F9FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40 lg:hidden"
             aria-label="Open menu"
+            aria-expanded={sidebarOpen}
+            aria-controls="creator-sidebar"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -338,12 +391,13 @@ export function CreatorLayout() {
             </p>
           </div>
 
-          <div className={`mx-auto hidden max-w-lg flex-1 md:block ${isCreateUpload ? 'lg:hidden' : ''}`}>
+          <div className={`mx-auto hidden max-w-lg flex-1 md:block ${isCreateUpload || isAlbumEditor ? 'lg:hidden' : ''}`}>
             <div className="relative">
               <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A0A4B0]" />
               <input
                 type="text"
                 placeholder={searchPlaceholder}
+                aria-label={searchPlaceholder}
                 className="h-11 w-full rounded-full border border-[#EEF0F4] bg-[#F8F9FB] py-2.5 pl-11 pr-14 text-sm text-[#2D3436] outline-none transition-all placeholder:text-[#A0A4B0] focus:border-[#6B46FE]/40 focus:bg-white focus:ring-2 focus:ring-[#6B46FE]/15"
               />
               <kbd className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md border border-[#E8EAED] bg-white px-1.5 py-0.5 text-[10px] font-semibold text-[#A0A4B0]">
@@ -355,7 +409,10 @@ export function CreatorLayout() {
           <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
             {isUploadsPage ? (
               <>
-                <button className="hidden items-center gap-1.5 rounded-xl border border-[#EEF0F4] bg-white px-3.5 py-2.5 text-sm font-semibold text-[#636E72] shadow-sm transition-all hover:bg-[#F8F9FB] sm:flex">
+                <button
+                  type="button"
+                  className="hidden items-center gap-1.5 rounded-xl border border-[#EEF0F4] bg-white px-3.5 py-2.5 text-sm font-semibold text-[#636E72] shadow-sm transition-all hover:bg-[#F8F9FB] sm:flex"
+                >
                   <CirclePlay className="h-4 w-4 text-[#6B46FE]" />
                   How it works
                 </button>
@@ -376,15 +433,27 @@ export function CreatorLayout() {
                   </Link>
                 )}
               </>
+            ) : location.pathname.startsWith('/creator/album-designer') ? (
+              <Link
+                to="/creator/album-designer/new"
+                className="hidden items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg sm:flex"
+              >
+                <Plus className="h-4 w-4" />
+                Create Album
+              </Link>
             ) : (
-              <button className="hidden items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg sm:flex">
+              <button
+                type="button"
+                className="hidden items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg sm:flex"
+              >
                 <Plus className="h-4 w-4" />
                 {location.pathname.startsWith('/creator/teams') ? 'Invite Member' : 'Create New'}
               </button>
             )}
 
             <button
-              className="relative flex h-11 w-11 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB]"
+              type="button"
+              className="relative flex h-11 w-11 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40"
               aria-label="Notifications"
             >
               <Bell className="h-5 w-5" />
@@ -395,7 +464,8 @@ export function CreatorLayout() {
 
             {isUploadsPage ? (
               <button
-                className="relative hidden h-11 w-11 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB] sm:flex"
+                type="button"
+                className="relative hidden h-11 w-11 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40 sm:flex"
                 aria-label="Toggle panel"
               >
                 <PanelRight className="h-5 w-5" />
@@ -412,8 +482,9 @@ export function CreatorLayout() {
 
             <div className="relative">
               <button
+                type="button"
                 onClick={() => setHeaderMenuOpen((v) => !v)}
-                className="flex items-center gap-2 rounded-xl p-0.5 transition-colors hover:bg-[#F8F9FB] sm:pr-2"
+                className="flex items-center gap-2 rounded-xl p-0.5 transition-colors hover:bg-[#F8F9FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40 sm:pr-2"
                 aria-label="Account menu"
               >
                 <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#6B46FE] to-[#8A60FF] text-xs font-bold text-white">
@@ -462,6 +533,7 @@ export function CreatorLayout() {
                       </Link>
                       <div className="mt-1 border-t border-[#F5F6F8] pt-1">
                         <button
+                          type="button"
                           onClick={() => {
                             setHeaderMenuOpen(false);
                             handleLogout();
@@ -480,7 +552,13 @@ export function CreatorLayout() {
           </div>
         </header>
 
-        <main className="min-h-[calc(100dvh-3.5rem)] px-3 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-4 sm:min-h-[calc(100vh-72px)] sm:px-6 sm:pt-6 lg:px-8 lg:pb-8">
+        <main
+          className={
+            isAlbumEditor
+              ? 'h-dvh overflow-hidden p-0'
+              : 'min-h-[calc(100dvh-3.5rem)] px-3 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-4 sm:min-h-[calc(100vh-72px)] sm:px-6 sm:pt-6 lg:px-8 lg:pb-8'
+          }
+        >
           {loadingProfile ? (
             <div className="flex h-64 items-center justify-center">
               <ShootHubLoader size="lg" label="Loading your studio…" />
@@ -492,7 +570,11 @@ export function CreatorLayout() {
       </div>
 
       {/* Mobile bottom nav */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 pb-[env(safe-area-inset-bottom)] lg:hidden">
+      <nav
+        className={`fixed bottom-0 left-0 right-0 z-40 pb-[env(safe-area-inset-bottom)] lg:hidden ${
+          isAlbumEditor ? 'hidden' : ''
+        }`}
+      >
         <div className="border-t border-[#EEF0F4] bg-white/95 shadow-[0_-8px_30px_-4px_rgba(107,70,254,0.08)] backdrop-blur-2xl">
           <div className="flex items-end justify-around px-1 pb-1.5 pt-1.5">
             {mobileNav.slice(0, 2).map((item) => {
@@ -501,6 +583,7 @@ export function CreatorLayout() {
                 <Link
                   key={item.path}
                   to={item.path}
+                  aria-current={active ? 'page' : undefined}
                   className="flex min-h-[52px] flex-1 flex-col items-center justify-center gap-0.5 py-1"
                 >
                   <div
@@ -540,6 +623,7 @@ export function CreatorLayout() {
                 <Link
                   key={item.path}
                   to={item.path}
+                  aria-current={active ? 'page' : undefined}
                   className="flex min-h-[52px] flex-1 flex-col items-center justify-center gap-0.5 py-1"
                 >
                   <div

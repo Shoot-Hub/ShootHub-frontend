@@ -208,10 +208,13 @@ export function SubscriptionsPage() {
 
       {/* Tabs */}
       <div className="-mx-1 overflow-x-auto px-1">
-        <div className="flex min-w-max gap-1 border-b border-[#EEF0F4]">
+        <div role="tablist" className="flex min-w-max gap-1 border-b border-[#EEF0F4]">
           {(['Overview', 'Plans', 'Transactions', 'Invoices'] as Tab[]).map((t) => (
             <button
               key={t}
+              type="button"
+              role="tab"
+              aria-selected={tab === t}
               onClick={() => setTab(t)}
               className={`relative shrink-0 px-3 py-2.5 text-sm font-semibold transition-colors sm:px-4 ${
                 tab === t ? 'text-[#6B46FE]' : 'text-[#636E72] hover:text-[#2D3436]'

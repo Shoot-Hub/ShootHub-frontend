@@ -79,7 +79,7 @@ export function FeaturedCreators() {
 
           <motion.h2
             variants={fadeInUp}
-            className="mt-4 text-[32px] font-extrabold leading-tight tracking-tight text-ink sm:text-[44px] md:text-[58px]"
+            className="mt-4 min-w-0 break-words text-[28px] font-extrabold leading-tight tracking-tight text-ink sm:text-[44px] md:text-[58px]"
           >
             Featured{' '}
             <span className="text-primary-500">Creators</span>

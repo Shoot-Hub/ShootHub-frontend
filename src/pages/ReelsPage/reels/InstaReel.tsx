@@ -66,6 +66,7 @@ export function InstaReel({ reel, isActive, globalMuted, onToggleMute }: InstaRe
         playsInline
         muted={globalMuted}
         preload="metadata"
+        aria-label={`${reel.caption} by ${reel.creator.name}`}
         className="absolute inset-0 h-full w-full object-cover"
         onClick={handleDoubleTapLike}
       />

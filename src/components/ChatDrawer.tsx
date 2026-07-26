@@ -342,6 +342,7 @@ export function ChatDrawer({ open, onClose }: ChatDrawerProps) {
                         if (e.key === 'Enter') sendMessage();
                       }}
                       placeholder="Type a message..."
+                      aria-label="Message"
                       className="h-11 flex-1 rounded-xl border-0 bg-[#F3F4F6] px-3.5 text-sm outline-none focus:ring-2 focus:ring-[#6B46FE]/20"
                     />
                     <button

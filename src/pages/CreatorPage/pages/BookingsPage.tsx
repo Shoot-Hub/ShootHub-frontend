@@ -85,10 +85,18 @@ function MiniCalendar() {
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-bold text-[#2D3436]">{monthLabel}</h3>
         <div className="flex items-center gap-0.5">
-          <button className="rounded-lg p-1 text-[#A0A4B0] hover:bg-[#F8F9FB] hover:text-[#636E72]">
+          <button
+            type="button"
+            aria-label="Previous month"
+            className="rounded-lg p-1 text-[#A0A4B0] hover:bg-[#F8F9FB] hover:text-[#636E72]"
+          >
             <ChevronLeft className="h-4 w-4" />
           </button>
-          <button className="rounded-lg p-1 text-[#A0A4B0] hover:bg-[#F8F9FB] hover:text-[#636E72]">
+          <button
+            type="button"
+            aria-label="Next month"
+            className="rounded-lg p-1 text-[#A0A4B0] hover:bg-[#F8F9FB] hover:text-[#636E72]"
+          >
             <ChevronRight className="h-4 w-4" />
           </button>
         </div>
@@ -170,8 +178,6 @@ const quickActions = [
   { label: 'Calendar Sync', icon: RefreshCw, color: 'bg-[#FFE8E8] text-[#EA5455]' },
 ];
 
-const tableHeaders = ['CLIENT', 'EVENT', 'DATE & TIME', 'LOCATION', 'STATUS', 'AMOUNT', 'ACTIONS'];
-
 export function BookingsPage() {
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>('All');
 
@@ -212,10 +218,13 @@ export function BookingsPage() {
 
         {/* Filters */}
         <div className="-mx-1 overflow-x-auto px-1">
-          <div className="flex min-w-max items-center gap-2 pb-1 lg:min-w-0 lg:flex-wrap">
+          <div className="flex min-w-max items-center gap-2 pb-1 lg:min-w-0 lg:flex-wrap" role="tablist">
             {tabs.map((tab) => (
               <button
                 key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeTab === tab}
                 onClick={() => setActiveTab(tab)}
                 className={`shrink-0 rounded-full px-3.5 py-2 text-xs font-semibold transition-all ${
                   activeTab === tab
@@ -262,41 +271,19 @@ export function BookingsPage() {
           </div>
         </motion.div>
 
-        {/* Recent Bookings table */}
+        {/* Recent Bookings — empty-friendly, no forced horizontal scroll */}
         <div className="overflow-hidden rounded-2xl border border-[#EEF0F4] bg-white shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)]">
           <div className="flex items-center justify-between border-b border-[#F5F6F8] px-5 py-4">
             <h3 className="text-base font-bold text-[#2D3436]">Recent Bookings</h3>
-            <button className="text-xs font-semibold text-[#6B46FE] hover:underline">
+            <button type="button" className="text-xs font-semibold text-[#6B46FE] hover:underline">
               View All
             </button>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[700px]">
-              <thead>
-                <tr className="border-b border-[#F5F6F8] bg-[#FAFBFC]">
-                  {tableHeaders.map((h) => (
-                    <th
-                      key={h}
-                      className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-[#A0A4B0]"
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colSpan={7} className="px-4 py-14 text-center">
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F3EEFF]">
-                        <Calendar className="h-6 w-6 text-[#6B46FE]" />
-                      </div>
-                      <p className="text-sm font-medium text-[#636E72]">No bookings found.</p>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="flex flex-col items-center gap-2 px-4 py-14 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F3EEFF]">
+              <Calendar className="h-6 w-6 text-[#6B46FE]" />
+            </div>
+            <p className="text-sm font-medium text-[#636E72]">No bookings found.</p>
           </div>
         </div>
       </div>

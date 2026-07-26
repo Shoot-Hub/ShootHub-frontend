@@ -1,7 +1,9 @@
 import { cn } from '@/lib/utils';
+import shoothubLogo from '@/assets/landing/shoothub-loader-logo.png';
 
 type ShootHubLoaderProps = {
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Optional visible label. Prefer leaving empty for branding-only loaders. */
   label?: string;
   className?: string;
   /** Full-screen centered overlay */
@@ -9,10 +11,10 @@ type ShootHubLoaderProps = {
 };
 
 const sizeMap = {
-  sm: { wrap: 'h-10 w-10', icon: 'h-6 w-6', ring: 'h-10 w-10', glow: 'h-12 w-12' },
-  md: { wrap: 'h-14 w-14', icon: 'h-8 w-8', ring: 'h-14 w-14', glow: 'h-16 w-16' },
-  lg: { wrap: 'h-[4.5rem] w-[4.5rem]', icon: 'h-11 w-11', ring: 'h-[4.5rem] w-[4.5rem]', glow: 'h-20 w-20' },
-  xl: { wrap: 'h-24 w-24', icon: 'h-14 w-14', ring: 'h-24 w-24', glow: 'h-28 w-28' },
+  sm: { wrap: 'h-12 w-12', icon: 'h-7 w-7', ring: 'h-12 w-12', glow: 'h-14 w-14' },
+  md: { wrap: 'h-16 w-16', icon: 'h-10 w-10', ring: 'h-16 w-16', glow: 'h-[4.5rem] w-[4.5rem]' },
+  lg: { wrap: 'h-20 w-20', icon: 'h-12 w-12', ring: 'h-20 w-20', glow: 'h-24 w-24' },
+  xl: { wrap: 'h-28 w-28', icon: 'h-[4.5rem] w-[4.5rem]', ring: 'h-28 w-28', glow: 'h-32 w-32' },
 };
 
 export function ShootHubLoader({
@@ -30,24 +32,21 @@ export function ShootHubLoader({
       aria-live="polite"
       aria-label={label || 'Loading'}
     >
-      <div className={cn('relative flex items-center justify-center', s.wrap)}>
-        {/* Soft glow pulse */}
+      <div className={cn('relative flex items-center justify-center overflow-visible', s.wrap)}>
         <div
           className={cn(
-            'absolute rounded-full bg-[#6B46FE]/30 blur-xl animate-shoothub-pulse',
+            'absolute rounded-full bg-[#6B46FE]/25 blur-xl animate-shoothub-pulse',
             s.glow,
           )}
         />
 
-        {/* Outer dashed orbit (slow reverse) */}
         <div
           className={cn(
-            'absolute rounded-full border-2 border-dashed border-[#6B46FE]/40 animate-shoothub-spin-slow',
+            'absolute rounded-full border-2 border-dashed border-[#6B46FE]/35 animate-shoothub-spin-slow',
             s.ring,
           )}
         />
 
-        {/* Accent arc */}
         <div
           className={cn(
             'absolute rounded-full border-[2.5px] border-transparent border-t-[#8A60FF] border-r-[#47bfff]/55 animate-shoothub-spin',
@@ -55,26 +54,27 @@ export function ShootHubLoader({
           )}
         />
 
-        {/* Spinning ShootHub brand icon */}
+        {/* Brand S mark — spins with the loader */}
         <div
           className={cn(
-            'relative z-10 animate-shoothub-spin drop-shadow-[0_8px_24px_rgba(107,70,254,0.45)]',
+            'relative z-10 flex items-center justify-center overflow-visible animate-shoothub-spin drop-shadow-[0_8px_24px_rgba(107,70,254,0.45)]',
             s.icon,
           )}
         >
           <img
-            src="/favicon.svg"
-            alt=""
+            src={shoothubLogo}
+            alt="ShootHub"
             draggable={false}
-            className="h-full w-full select-none object-contain"
-            style={{ height: '100%', maxWidth: 'none' }}
+            className="h-full w-full max-w-none select-none object-contain p-0.5"
           />
         </div>
       </div>
 
       {label ? (
-        <p className="text-sm font-medium tracking-wide text-[#636E72] animate-pulse">{label}</p>
+        <p className="animate-pulse text-sm font-medium tracking-wide text-[#636E72]">{label}</p>
       ) : null}
+
+      {!label ? <span className="sr-only">Loading</span> : null}
     </div>
   );
 

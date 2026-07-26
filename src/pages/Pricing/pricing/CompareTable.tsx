@@ -48,7 +48,7 @@ export function CompareTable() {
           <table className="min-w-[720px] w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-border/60 bg-primary-50/50">
-                <th className="px-5 py-4 text-sm font-extrabold text-ink">Feature</th>
+                <th className="sticky left-0 z-10 bg-primary-50/50 px-5 py-4 text-sm font-extrabold text-ink">Feature</th>
                 {plans.map((plan) => (
                   <th
                     key={plan.id}
@@ -71,7 +71,12 @@ export function CompareTable() {
                     rowIndex % 2 === 1 && 'bg-gray-50/40',
                   )}
                 >
-                  <td className="px-5 py-3.5 text-sm font-medium text-ink-muted">
+                  <td
+                    className={cn(
+                      'sticky left-0 z-10 px-5 py-3.5 text-sm font-medium text-ink-muted',
+                      rowIndex % 2 === 1 ? 'bg-gray-50' : 'bg-white',
+                    )}
+                  >
                     {featureLabels[key]}
                   </td>
                   {plans.map((plan) => (

@@ -14,7 +14,12 @@ export function FeedbackSuccess({ submitted, onClose }: Props) {
       animate={{ opacity: 1, scale: 1 }}
       className="relative rounded-[24px] border border-[#EEF0F4] bg-white p-8 text-center shadow-[0_8px_40px_-12px_rgba(108,59,255,0.15)]"
     >
-      <button type="button" onClick={onClose} className="absolute right-4 top-4 text-[#A0A4B0]">
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Close"
+        className="absolute right-4 top-4 rounded-lg p-1 text-[#A0A4B0] hover:bg-[#F8F9FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6C3BFF]/40"
+      >
         <X className="h-4 w-4" />
       </button>
       <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#E8F9EF]">

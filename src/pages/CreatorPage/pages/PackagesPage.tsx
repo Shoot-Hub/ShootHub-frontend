@@ -485,6 +485,8 @@ export function PackagesPage() {
               </span>
               <div className="absolute right-2 top-2">
                 <button
+                  type="button"
+                  aria-label="More actions"
                   onClick={() => setMenuOpenId(menuOpenId === pkg.id ? null : pkg.id)}
                   className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/90 text-[#636E72] shadow-sm backdrop-blur-sm hover:bg-white"
                 >
@@ -585,13 +587,21 @@ export function PackagesPage() {
           Showing 1 to {filtered.length} of {filtered.length} packages
         </p>
         <div className="flex items-center gap-1.5">
-          <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#EEF0F4] text-[#A0A4B0] hover:bg-[#F8F9FB]">
+          <button
+            type="button"
+            aria-label="Previous page"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#EEF0F4] text-[#A0A4B0] hover:bg-[#F8F9FB]"
+          >
             <ChevronLeft className="h-4 w-4" />
           </button>
           <button className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#6B46FE] text-xs font-bold text-white shadow-sm shadow-[#6B46FE]/25">
             1
           </button>
-          <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#EEF0F4] text-[#A0A4B0] hover:bg-[#F8F9FB]">
+          <button
+            type="button"
+            aria-label="Next page"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#EEF0F4] text-[#A0A4B0] hover:bg-[#F8F9FB]"
+          >
             <ChevronRight className="h-4 w-4" />
           </button>
         </div>

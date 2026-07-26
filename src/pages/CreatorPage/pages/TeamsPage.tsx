@@ -334,10 +334,13 @@ export function TeamsPage() {
 
         {/* Tabs */}
         <div className="-mx-1 overflow-x-auto px-1">
-          <div className="flex min-w-max gap-1 border-b border-[#EEF0F4]">
+          <div role="tablist" className="flex min-w-max gap-1 border-b border-[#EEF0F4]">
             {(['All Members', 'Roles & Permissions', 'Pending Invites'] as Tab[]).map((t) => (
               <button
                 key={t}
+                type="button"
+                role="tab"
+                aria-selected={tab === t}
                 onClick={() => setTab(t)}
                 className={`relative shrink-0 px-3 py-2.5 text-sm font-semibold transition-colors sm:px-4 ${
                   tab === t ? 'text-[#6B46FE]' : 'text-[#636E72] hover:text-[#2D3436]'
@@ -408,6 +411,7 @@ export function TeamsPage() {
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value)}
+                  aria-label="Filter by role"
                   className="h-10 appearance-none rounded-xl border border-[#EEF0F4] bg-white py-2 pl-3 pr-8 text-xs font-semibold text-[#636E72] outline-none hover:bg-[#F8F9FB]"
                 >
                   <option>All Roles</option>
@@ -462,13 +466,25 @@ export function TeamsPage() {
                       <p className="mt-2 truncate text-xs text-[#636E72]">{m.email}</p>
                       <p className="mt-0.5 text-[11px] text-[#A0A4B0]">Joined {m.joined}</p>
                       <div className="mt-3 flex gap-1">
-                        <button className="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#F8F9FB] text-xs font-semibold text-[#636E72]">
+                        <button
+                          type="button"
+                          aria-label="Chat"
+                          className="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#F8F9FB] text-xs font-semibold text-[#636E72]"
+                        >
                           <MessageSquare className="h-4 w-4" /> Chat
                         </button>
-                        <button className="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#F3EEFF] text-xs font-semibold text-[#6B46FE]">
+                        <button
+                          type="button"
+                          aria-label="Edit"
+                          className="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#F3EEFF] text-xs font-semibold text-[#6B46FE]"
+                        >
                           <Pencil className="h-4 w-4" /> Edit
                         </button>
-                        <button className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8F9FB] text-[#A0A4B0]">
+                        <button
+                          type="button"
+                          aria-label="More actions"
+                          className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8F9FB] text-[#A0A4B0]"
+                        >
                           <MoreHorizontal className="h-4 w-4" />
                         </button>
                       </div>
@@ -550,13 +566,25 @@ export function TeamsPage() {
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-0.5">
-                            <button className="flex h-8 w-8 items-center justify-center rounded-lg text-[#A0A4B0] hover:bg-[#F3EEFF] hover:text-[#6B46FE]">
+                            <button
+                              type="button"
+                              aria-label="Chat"
+                              className="flex h-8 w-8 items-center justify-center rounded-lg text-[#A0A4B0] hover:bg-[#F3EEFF] hover:text-[#6B46FE]"
+                            >
                               <MessageSquare className="h-4 w-4" />
                             </button>
-                            <button className="flex h-8 w-8 items-center justify-center rounded-lg text-[#A0A4B0] hover:bg-[#F3EEFF] hover:text-[#6B46FE]">
+                            <button
+                              type="button"
+                              aria-label="Edit"
+                              className="flex h-8 w-8 items-center justify-center rounded-lg text-[#A0A4B0] hover:bg-[#F3EEFF] hover:text-[#6B46FE]"
+                            >
                               <Pencil className="h-4 w-4" />
                             </button>
-                            <button className="flex h-8 w-8 items-center justify-center rounded-lg text-[#A0A4B0] hover:bg-[#F8F9FB] hover:text-[#636E72]">
+                            <button
+                              type="button"
+                              aria-label="More actions"
+                              className="flex h-8 w-8 items-center justify-center rounded-lg text-[#A0A4B0] hover:bg-[#F8F9FB] hover:text-[#636E72]"
+                            >
                               <MoreHorizontal className="h-4 w-4" />
                             </button>
                           </div>
@@ -579,13 +607,21 @@ export function TeamsPage() {
                   Showing 1 to {filtered.length} of {filtered.length} members
                 </p>
                 <div className="flex items-center gap-1.5">
-                  <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#EEF0F4] text-[#A0A4B0] hover:bg-[#F8F9FB]">
+                  <button
+                    type="button"
+                    aria-label="Previous page"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#EEF0F4] text-[#A0A4B0] hover:bg-[#F8F9FB]"
+                  >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
                   <button className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#6B46FE] text-xs font-bold text-white shadow-sm shadow-[#6B46FE]/25">
                     1
                   </button>
-                  <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#EEF0F4] text-[#A0A4B0] hover:bg-[#F8F9FB]">
+                  <button
+                    type="button"
+                    aria-label="Next page"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#EEF0F4] text-[#A0A4B0] hover:bg-[#F8F9FB]"
+                  >
                     <ChevronRight className="h-4 w-4" />
                   </button>
                 </div>

@@ -7,6 +7,7 @@ import { FeedbackPage } from '@/pages/Feedback';
 import { CreatorsPage, CreatorProfilePage } from '@/pages/Creators';
 import { ReelsPage } from '@/pages/ReelsPage';
 import { GalleryPage, GalleryDemoPage } from '@/pages/Gallery';
+import { ClientPaymentPage } from '@/features/payments';
 
 export const publicRoutes = [
   <Route key="home" path="/" element={<LandingPage />} />,
@@ -19,4 +20,5 @@ export const publicRoutes = [
   <Route key="about" path="/about" element={<AboutPage />} />,
   <Route key="gallery-demo" path="/gallery/demo" element={<GalleryDemoPage />} />,
   <Route key="gallery" path="/gallery/:slug" element={<GalleryPage />} />,
+  <Route key="pay" path="/pay/:invoiceNumber" element={<ClientPaymentPage />} />,
 ];

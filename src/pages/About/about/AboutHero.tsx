@@ -38,7 +38,7 @@ export function AboutHero() {
 
             <motion.h1
               variants={fadeInUp}
-              className="mt-5 text-[40px] font-extrabold leading-[1.08] tracking-tight text-ink sm:text-[52px] md:text-[58px]"
+            className="mt-5 min-w-0 break-words text-[28px] font-extrabold leading-[1.08] tracking-tight text-ink sm:text-[40px] md:text-[58px]"
             >
               Building the Future of{' '}
               <span className="text-primary-500">Photography</span>

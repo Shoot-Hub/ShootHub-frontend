@@ -33,7 +33,7 @@ export function CategoriesHero({ search, onSearchChange }: CategoriesHeroProps) 
 
           <motion.h1
             variants={fadeInUp}
-            className="mt-5 text-[40px] font-extrabold leading-[1.08] tracking-tight text-ink sm:text-[52px] md:text-[60px]"
+            className="mt-5 min-w-0 break-words text-[28px] font-extrabold leading-[1.08] tracking-tight text-ink sm:text-[40px] md:text-[60px]"
           >
             Explore Photography{' '}
             <span className="text-primary-500">Categories</span>

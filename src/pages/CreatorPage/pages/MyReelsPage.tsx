@@ -201,7 +201,7 @@ export function MyReelsPage() {
             <EmptyState onUpload={() => navigate('/creator/reels/upload')} mode={tab} />
           </div>
         ) : (
-          <div className="fixed bg-black" style={{ top: '3.5rem', bottom: 'calc(5.5rem + env(safe-area-inset-bottom))', left: 0, right: 0 }}>
+          <div className="fixed inset-x-0 top-14 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] bg-black sm:top-[72px]">
             {/* Top controls overlay */}
             <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-3 pt-2.5 pb-2 bg-gradient-to-b from-black/60 to-transparent">
               {/* Tab switcher */}
@@ -211,6 +211,9 @@ export function MyReelsPage() {
               <div className="flex items-center gap-1.5">
                 <div className="flex items-center gap-0.5 rounded-full bg-black/30 backdrop-blur-md border border-white/10 p-0.5">
                   <button
+                    type="button"
+                    aria-label="Feed view"
+                    aria-pressed={viewMode === 'feed'}
                     onClick={() => setViewMode('feed')}
                     className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors ${
                       viewMode === 'feed' ? 'bg-white text-black' : 'text-white'
@@ -219,6 +222,9 @@ export function MyReelsPage() {
                     <Play className="h-3.5 w-3.5" />
                   </button>
                   <button
+                    type="button"
+                    aria-label="Grid view"
+                    aria-pressed={viewMode === 'grid'}
                     onClick={() => setViewMode('grid')}
                     className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors ${
                       viewMode === 'grid' ? 'bg-white text-black' : 'text-white'
@@ -229,6 +235,8 @@ export function MyReelsPage() {
                 </div>
                 {/* Camera icon */}
                 <button
+                  type="button"
+                  aria-label="Upload reel"
                   onClick={() => navigate('/creator/reels/upload')}
                   className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white"
                 >
@@ -259,7 +267,7 @@ export function MyReelsPage() {
       </div>
 
       {/* ════════ DESKTOP VIEW ════════ */}
-      <div className="hidden lg:block p-4 sm:p-6 lg:p-8">
+      <div className="hidden lg:block">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>

@@ -41,7 +41,7 @@ export type Gallery = {
 };
 
 export type GallerySort = 'newest' | 'oldest' | 'name' | 'favorite';
-export type GalleryView = 'grid' | 'list';
+export type GalleryView = 'grid' | 'list' | 'story';
 export type GalleryFilter = 'all' | 'favorites' | 'selected';
 
 export type FaceSearchResult = {

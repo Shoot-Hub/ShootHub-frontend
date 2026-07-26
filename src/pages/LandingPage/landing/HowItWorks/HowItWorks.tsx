@@ -52,7 +52,7 @@ export function HowItWorks() {
 
           <motion.h2
             variants={fadeInUp}
-            className="mt-4 text-[44px] font-extrabold leading-tight tracking-tight text-ink sm:text-[52px] md:text-[58px]"
+            className="mt-4 min-w-0 break-words text-[28px] font-extrabold leading-tight tracking-tight text-ink sm:text-[44px] md:text-[58px]"
           >
             How It <span className="text-primary-500">Works</span>
           </motion.h2>

@@ -36,9 +36,9 @@ export function GalleryCard({
           <p className="text-xs text-[#636E72]">{photo.width} × {photo.height}</p>
         </div>
         <div className="flex items-center gap-1">
-          <ActionBtn onClick={onFavorite} active={photo.isFavorite}><Heart className="h-4 w-4" /></ActionBtn>
-          <ActionBtn onClick={onDownload}><Download className="h-4 w-4" /></ActionBtn>
-          <ActionBtn onClick={onSelect} active={isSelected}><Check className="h-4 w-4" /></ActionBtn>
+          <ActionBtn label="Favorite" onClick={onFavorite} active={photo.isFavorite}><Heart className="h-4 w-4" /></ActionBtn>
+          <ActionBtn label="Download" onClick={onDownload}><Download className="h-4 w-4" /></ActionBtn>
+          <ActionBtn label="Select" onClick={onSelect} active={isSelected}><Check className="h-4 w-4" /></ActionBtn>
         </div>
       </motion.div>
     );
@@ -65,10 +65,10 @@ export function GalleryCard({
         </div>
       </button>
 
-      <div className="absolute right-2 top-2 flex flex-col gap-1.5 opacity-0 transition group-hover:opacity-100">
-        <ActionBtn onClick={onSelect} active={isSelected}><Check className="h-3.5 w-3.5" /></ActionBtn>
-        <ActionBtn onClick={onFavorite} active={photo.isFavorite}><Heart className="h-3.5 w-3.5" /></ActionBtn>
-        <ActionBtn onClick={onDownload}><Download className="h-3.5 w-3.5" /></ActionBtn>
+      <div className="absolute right-2 top-2 flex flex-col gap-1.5 opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+        <ActionBtn label="Select" onClick={onSelect} active={isSelected}><Check className="h-3.5 w-3.5" /></ActionBtn>
+        <ActionBtn label="Favorite" onClick={onFavorite} active={photo.isFavorite}><Heart className="h-3.5 w-3.5" /></ActionBtn>
+        <ActionBtn label="Download" onClick={onDownload}><Download className="h-3.5 w-3.5" /></ActionBtn>
       </div>
 
       {isSelected && (
@@ -83,13 +83,14 @@ export function GalleryCard({
   );
 }
 
-function ActionBtn({ children, onClick, active }: { children: ReactNode; onClick: () => void; active?: boolean }) {
+function ActionBtn({ children, onClick, active, label }: { children: ReactNode; onClick: () => void; active?: boolean; label: string }) {
   return (
     <button
       type="button"
+      aria-label={label}
       onClick={(e) => { e.stopPropagation(); onClick(); }}
       className={cn(
-        'flex h-8 w-8 items-center justify-center rounded-full backdrop-blur-md transition',
+        'flex h-8 w-8 items-center justify-center rounded-full backdrop-blur-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white',
         active ? 'bg-[#6C3BFF] text-white' : 'bg-white/90 text-[#636E72] hover:bg-white',
       )}
     >

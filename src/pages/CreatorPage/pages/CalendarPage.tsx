@@ -169,6 +169,7 @@ function MiniMonth({
         <div className="flex items-center gap-0.5">
           <button
             type="button"
+            aria-label="Previous month"
             onClick={onPrev}
             className="rounded-lg p-1 text-[#A0A4B0] hover:bg-[#F8F9FB]"
           >
@@ -176,6 +177,7 @@ function MiniMonth({
           </button>
           <button
             type="button"
+            aria-label="Next month"
             onClick={onNext}
             className="rounded-lg p-1 text-[#A0A4B0] hover:bg-[#F8F9FB]"
           >
@@ -272,7 +274,11 @@ function renderEventContent(arg: EventContentArg) {
 
 export function CalendarPage() {
   const calendarRef = useRef<FullCalendar>(null);
-  const [view, setView] = useState<ViewId>('timeGridWeek');
+  const [view, setView] = useState<ViewId>(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
+      ? 'timeGridDay'
+      : 'timeGridWeek',
+  );
   const [cursorDate, setCursorDate] = useState(() => new Date(2024, 4, 14));
   const [rangeLabel, setRangeLabel] = useState('May 12 – 18, 2024');
 
@@ -387,6 +393,7 @@ export function CalendarPage() {
             <div className="flex items-center gap-2">
               <button
                 type="button"
+                aria-label="Previous"
                 onClick={() => shiftMain('prev')}
                 className="rounded-lg p-1.5 text-[#A0A4B0] hover:bg-[#F8F9FB]"
               >
@@ -395,6 +402,7 @@ export function CalendarPage() {
               <h3 className="text-sm font-bold text-[#2D3436]">{rangeLabel}</h3>
               <button
                 type="button"
+                aria-label="Next"
                 onClick={() => shiftMain('next')}
                 className="rounded-lg p-1.5 text-[#A0A4B0] hover:bg-[#F8F9FB]"
               >
@@ -402,6 +410,7 @@ export function CalendarPage() {
               </button>
               <button
                 type="button"
+                aria-label="Today"
                 onClick={() => shiftMain('today')}
                 className="ml-1 rounded-lg border border-[#EEF0F4] px-2.5 py-1 text-[11px] font-semibold text-[#636E72] hover:bg-[#F8F9FB]"
               >
@@ -419,6 +428,7 @@ export function CalendarPage() {
                 <button
                   key={v.id}
                   type="button"
+                  aria-pressed={view === v.id}
                   onClick={() => changeView(v.id)}
                   className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
                     view === v.id
@@ -432,11 +442,11 @@ export function CalendarPage() {
             </div>
           </div>
 
-          <div className="shoothub-calendar p-2 sm:p-3">
+          <div className="shoothub-calendar overflow-x-auto p-2 sm:p-3">
             <FullCalendar
               ref={calendarRef}
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              initialView="timeGridWeek"
+              initialView={view}
               initialDate="2024-05-14"
               headerToolbar={false}
               height="auto"

@@ -64,15 +64,15 @@ export function CTASection({
 
           <motion.div
             variants={fadeInUp}
-            className="relative mt-8 flex flex-wrap items-center justify-center gap-3"
+            className="relative mt-8 flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
           >
-            <Link to={primaryTo}>
-              <Button size="lg" pill rightIcon={<ArrowRight className="h-4 w-4" strokeWidth={2.5} />}>
+            <Link to={primaryTo} className="w-full sm:w-auto">
+              <Button size="lg" pill className="w-full sm:w-auto" rightIcon={<ArrowRight className="h-4 w-4" strokeWidth={2.5} />}>
                 {primaryLabel}
               </Button>
             </Link>
-            <Link to={secondaryTo}>
-              <Button size="lg" variant="secondary" pill>
+            <Link to={secondaryTo} className="w-full sm:w-auto">
+              <Button size="lg" variant="secondary" pill className="w-full sm:w-auto">
                 {secondaryLabel}
               </Button>
             </Link>

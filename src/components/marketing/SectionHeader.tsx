@@ -43,7 +43,7 @@ export function SectionHeader({
       <motion.h2
         variants={fadeInUp}
         className={cn(
-          'text-[36px] font-extrabold leading-tight tracking-tight text-ink sm:text-[44px] md:text-[52px]',
+          'min-w-0 break-words text-[28px] font-extrabold leading-tight tracking-tight text-ink sm:text-[36px] md:text-[44px] lg:text-[52px]',
           eyebrow && 'mt-4',
         )}
       >

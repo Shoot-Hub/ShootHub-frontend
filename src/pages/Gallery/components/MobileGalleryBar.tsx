@@ -8,7 +8,7 @@ type Props = {
 
 export function MobileGalleryBar({ selectedCount, onDownload, onUploadSelfie }: Props) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#EEF0F4] bg-white/95 p-3 backdrop-blur-xl lg:hidden">
+    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#EEF0F4] bg-white/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl lg:hidden">
       <div className="flex gap-2">
         <button
           type="button"

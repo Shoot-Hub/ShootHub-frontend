@@ -38,6 +38,15 @@ export function EditModal({ open, onClose, onSuccess, reel }: Props) {
     }
   }, [open, reel]);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [open, onClose]);
+
   const handleSubmit = async () => {
     if (!title.trim()) { setError('Title is required'); return; }
     setUpdating(true);
@@ -75,6 +84,9 @@ export function EditModal({ open, onClose, onSuccess, reel }: Props) {
             onClick={onClose}
           />
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Edit Reel"
             initial={{ opacity: 0, scale: 0.94, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 24 }}
@@ -93,6 +105,8 @@ export function EditModal({ open, onClose, onSuccess, reel }: Props) {
                 </div>
               </div>
               <button
+                type="button"
+                aria-label="Close"
                 onClick={onClose}
                 className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 transition-colors"
               >

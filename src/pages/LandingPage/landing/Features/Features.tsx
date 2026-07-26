@@ -84,7 +84,7 @@ export function Features() {
 
           <motion.h2
             variants={fadeInUp}
-            className="mt-4 text-[44px] font-extrabold leading-tight tracking-tight text-ink sm:text-[52px] md:text-[58px]"
+            className="mt-4 min-w-0 break-words text-[28px] font-extrabold leading-tight tracking-tight text-ink sm:text-[44px] md:text-[58px]"
           >
             Why <span className="text-primary-500">ShootHub</span>
           </motion.h2>

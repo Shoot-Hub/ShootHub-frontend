@@ -1,8 +1,8 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Calendar,
   Camera,
-  ChevronDown,
   MapPin,
   Search,
   Wallet,
@@ -52,33 +52,30 @@ export function HeroSearch() {
           <div className="flex flex-col gap-2 lg:flex-row lg:items-stretch">
             <div className="grid flex-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
               {searchFields.map((field) => (
-                <button
+                <div
                   key={field.id}
-                  type="button"
-                  className="group relative flex items-center gap-3 rounded-xl px-4 py-3.5 text-left transition-colors hover:bg-gray-50 lg:border-r lg:border-border lg:px-5 lg:py-4 last:lg:border-r-0"
-                  aria-label={`${field.label}: ${field.value}`}
+                  className="relative flex cursor-default items-center gap-3 rounded-xl px-4 py-3.5 text-left lg:border-r lg:border-border lg:px-5 lg:py-4 last:lg:border-r-0"
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary-100 bg-primary-50">
                     <field.icon className="h-[18px] w-[18px] text-primary-500" strokeWidth={2} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-[11px] font-medium text-ink-light">{field.label}</p>
-                    <div className="flex items-center gap-1">
-                      <p className="truncate text-sm font-semibold text-ink">{field.value}</p>
-                      <ChevronDown className="h-3.5 w-3.5 shrink-0 text-ink-light" />
-                    </div>
+                    <p className="truncate text-sm font-semibold text-ink">{field.value}</p>
                   </div>
-                </button>
+                </div>
               ))}
             </div>
 
-            <Button
-              size="lg"
-              className="w-full shrink-0 rounded-xl lg:w-auto lg:min-w-[200px]"
-              leftIcon={<Search className="h-5 w-5" strokeWidth={2.5} />}
-            >
-              Search Creators
-            </Button>
+            <Link to="/creators" className="w-full shrink-0 lg:w-auto">
+              <Button
+                size="lg"
+                className="w-full rounded-xl lg:min-w-[200px]"
+                leftIcon={<Search className="h-5 w-5" strokeWidth={2.5} />}
+              >
+                Search Creators
+              </Button>
+            </Link>
           </div>
         </div>
       </Container>

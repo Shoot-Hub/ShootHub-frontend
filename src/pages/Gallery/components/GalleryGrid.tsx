@@ -5,7 +5,7 @@ import type { GalleryView } from '../types';
 
 type Props = {
   photos: Photo[];
-  view: GalleryView;
+  view: Exclude<GalleryView, 'story'>;
   selected: Set<string>;
   onSelect: (id: string) => void;
   onFavorite: (id: string) => void;

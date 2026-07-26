@@ -11,7 +11,7 @@ export function AuthLoadingScreen() {
       aria-live="polite"
       aria-label="Loading authentication"
     >
-      <ShootHubLoader size="xl" label="Restoring your session…" />
+      <ShootHubLoader size="xl" />
     </div>
   );
 }

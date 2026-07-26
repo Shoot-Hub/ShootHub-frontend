@@ -187,10 +187,13 @@ function SubmittedExperience({
           <section className="rounded-[20px] border border-[#EDEEF5] bg-white p-5">
             <h4 className="text-2xl font-bold text-[#111827]">Need Help?</h4>
             <p className="mt-2 text-sm text-[#636E72]">If you have any urgent concerns, feel free to contact our support team.</p>
-            <button type="button" className="mt-4 inline-flex items-center gap-2 rounded-xl border border-[#E5E7EB] px-4 py-2.5 text-sm font-semibold text-[#6C3BFF] hover:bg-[#F8F6FF]">
+            <a
+              href="mailto:support@shoothub.com"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl border border-[#E5E7EB] px-4 py-2.5 text-sm font-semibold text-[#6C3BFF] hover:bg-[#F8F6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6C3BFF]/40"
+            >
               <Headphones className="h-4 w-4" />
               Contact Support
-            </button>
+            </a>
           </section>
         </aside>
       </div>

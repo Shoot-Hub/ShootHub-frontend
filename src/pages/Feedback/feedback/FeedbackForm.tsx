@@ -27,17 +27,35 @@ export function FeedbackForm({ onSuccess, className }: Props) {
   const [agreed, setAgreed] = useState(false);
   const [screenshot, setScreenshot] = useState<File | null>(null);
   const [isDragActive, setIsDragActive] = useState(false);
+  const [fileError, setFileError] = useState('');
+  const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const pickFile = useCallback((file: File | null) => {
-    if (!file?.type.startsWith('image/')) return;
-    if (file.size > 5 * 1024 * 1024) return;
+    setFileError('');
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setFileError('Please upload an image file (PNG, JPG, or WebP).');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setFileError('Image must be 5 MB or smaller.');
+      return;
+    }
     setScreenshot(file);
   }, []);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!agreed || rating === 0) return;
+    if (rating === 0) {
+      setFormError('Please select a star rating.');
+      return;
+    }
+    if (!agreed) {
+      setFormError('Please agree to the terms before submitting.');
+      return;
+    }
+    setFormError('');
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 900));
     setSubmitting(false);
@@ -132,7 +150,12 @@ export function FeedbackForm({ onSuccess, className }: Props) {
           role="button"
           tabIndex={0}
           onClick={() => inputRef.current?.click()}
-          onKeyDown={(e) => { if (e.key === 'Enter') inputRef.current?.click(); }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              inputRef.current?.click();
+            }
+          }}
           onDragEnter={(e) => { e.preventDefault(); setIsDragActive(true); }}
           onDragOver={(e) => { e.preventDefault(); setIsDragActive(true); }}
           onDragLeave={(e) => { e.preventDefault(); setIsDragActive(false); }}
@@ -162,6 +185,11 @@ export function FeedbackForm({ onSuccess, className }: Props) {
             </>
           )}
         </div>
+        {fileError ? (
+          <p className="mt-2 text-sm text-red-500" role="alert">
+            {fileError}
+          </p>
+        ) : null}
       </div>
 
       <label className="mt-5 flex cursor-pointer items-start gap-2 text-xs text-[#636E72]">
@@ -169,9 +197,15 @@ export function FeedbackForm({ onSuccess, className }: Props) {
         <span>I agree to the Privacy Policy and consent to ShootHub using my feedback to improve the platform.</span>
       </label>
 
+      {formError ? (
+        <p className="mt-3 text-sm text-red-500" role="alert">
+          {formError}
+        </p>
+      ) : null}
+
       <button
         type="submit"
-        disabled={!agreed || rating === 0 || submitting}
+        disabled={submitting}
         className="mt-6 ml-auto flex w-full items-center justify-center gap-2 rounded-xl bg-[#6C3BFF] py-3 text-sm font-semibold text-white shadow-[0_4px_16px_-2px_rgba(108,59,255,0.45)] transition hover:bg-[#5A2FE0] disabled:cursor-not-allowed disabled:opacity-50 sm:w-48"
       >
         <Send className="h-4 w-4" />

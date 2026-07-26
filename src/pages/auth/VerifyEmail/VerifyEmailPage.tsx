@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useSearchParams } from 'react-router-dom';
 import { MailCheck, RefreshCw } from 'lucide-react';
@@ -10,8 +11,10 @@ import { userService } from '@/services/user';
 export function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email') ?? 'your email';
+  const [resending, setResending] = useState(false);
 
   const handleResend = async () => {
+    setResending(true);
     try {
       await userService.forgotPassword(email);
       toast.success('Verification email resent!');
@@ -19,6 +22,8 @@ export function VerifyEmailPage() {
       const message =
         error instanceof Error ? error.message : 'Failed to resend verification email.';
       toast.error(message);
+    } finally {
+      setResending(false);
     }
   };
 
@@ -44,8 +49,9 @@ export function VerifyEmailPage() {
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-auth-primary/10">
             <MailCheck className="h-8 w-8 text-auth-primary" strokeWidth={1.75} />
           </div>
+          <p className="break-all text-sm font-medium text-ink">{email}</p>
           <p className="text-sm leading-relaxed text-ink-muted">
-            Didn't receive the email? Check your spam folder or request a new verification
+            Didn&apos;t receive the email? Check your spam folder or request a new verification
             link below.
           </p>
           <motion.div whileTap={{ scale: 0.98 }} className="w-full">
@@ -54,10 +60,12 @@ export function VerifyEmailPage() {
               variant="secondary"
               size="lg"
               fullWidth
-              leftIcon={<RefreshCw className="h-4 w-4" />}
+              disabled={resending}
+              aria-busy={resending}
+              leftIcon={<RefreshCw className={`h-4 w-4 ${resending ? 'animate-spin' : ''}`} />}
               onClick={handleResend}
             >
-              Resend verification email
+              {resending ? 'Sending...' : 'Resend verification email'}
             </Button>
           </motion.div>
         </div>

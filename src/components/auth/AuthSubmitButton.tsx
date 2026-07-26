@@ -23,6 +23,7 @@ export function AuthSubmitButton({
       <button
         type="submit"
         disabled={disabled || loading}
+        aria-busy={loading}
         className={cn(
           'flex h-12 w-full items-center justify-between rounded-xl bg-auth-accent px-5 text-[15px] font-semibold text-white',
           'shadow-[0_4px_16px_-2px_rgba(79,70,229,0.45)] transition-colors hover:bg-indigo-700',

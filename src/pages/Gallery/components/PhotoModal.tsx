@@ -48,6 +48,15 @@ export function PhotoModal({
 
   useEffect(() => { setZoom(1); setRotation(0); }, [currentId]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [isOpen]);
+
   if (!photo) return null;
 
   const share = () => {
@@ -59,44 +68,47 @@ export function PhotoModal({
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label={photo.filename}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex flex-col bg-black/95"
         >
-          <div className="flex items-center justify-between px-4 py-3 text-white">
-            <span className="text-sm">{currentIndex + 1} / {photos.length}</span>
-            <div className="flex items-center gap-1">
-              <ToolBtn onClick={() => setZoom((z) => Math.min(z + 0.25, 3))}><ZoomIn className="h-5 w-5" /></ToolBtn>
-              <ToolBtn onClick={() => setZoom((z) => Math.max(z - 0.25, 0.5))}><ZoomOut className="h-5 w-5" /></ToolBtn>
-              <ToolBtn onClick={() => setRotation((r) => r + 90)}><RotateCw className="h-5 w-5" /></ToolBtn>
-              <ToolBtn onClick={() => onFavorite(photo.id)}><Heart className={`h-5 w-5 ${photo.isFavorite ? 'fill-red-400 text-red-400' : ''}`} /></ToolBtn>
-              <ToolBtn onClick={() => onDownload(photo.id)}><Download className="h-5 w-5" /></ToolBtn>
-              <ToolBtn onClick={share}><Share2 className="h-5 w-5" /></ToolBtn>
-              <ToolBtn onClick={() => document.documentElement.requestFullscreen?.()}><Maximize className="h-5 w-5" /></ToolBtn>
-              <ToolBtn onClick={onClose}><X className="h-5 w-5" /></ToolBtn>
+          <div className="flex items-center justify-between gap-2 px-3 py-3 text-white sm:px-4">
+            <span className="shrink-0 text-sm">{currentIndex + 1} / {photos.length}</span>
+            <div className="flex flex-wrap items-center justify-end gap-0.5 sm:gap-1">
+              <ToolBtn label="Zoom in" onClick={() => setZoom((z) => Math.min(z + 0.25, 3))}><ZoomIn className="h-5 w-5" /></ToolBtn>
+              <ToolBtn label="Zoom out" onClick={() => setZoom((z) => Math.max(z - 0.25, 0.5))}><ZoomOut className="h-5 w-5" /></ToolBtn>
+              <ToolBtn label="Rotate" onClick={() => setRotation((r) => r + 90)}><RotateCw className="h-5 w-5" /></ToolBtn>
+              <ToolBtn label={photo.isFavorite ? 'Unfavorite' : 'Favorite'} onClick={() => onFavorite(photo.id)}><Heart className={`h-5 w-5 ${photo.isFavorite ? 'fill-red-400 text-red-400' : ''}`} /></ToolBtn>
+              <ToolBtn label="Download" onClick={() => onDownload(photo.id)}><Download className="h-5 w-5" /></ToolBtn>
+              <ToolBtn label="Share" onClick={share}><Share2 className="h-5 w-5" /></ToolBtn>
+              <ToolBtn label="Fullscreen" onClick={() => document.documentElement.requestFullscreen?.()}><Maximize className="h-5 w-5" /></ToolBtn>
+              <ToolBtn label="Close" onClick={onClose}><X className="h-5 w-5" /></ToolBtn>
             </div>
           </div>
 
-          <div className="relative flex flex-1 items-center justify-center overflow-hidden px-12">
-            <button type="button" onClick={goPrev} disabled={currentIndex === 0} className="nav-btn left-4">
+          <div className="relative flex flex-1 items-center justify-center overflow-hidden px-2 sm:px-12">
+            <button type="button" aria-label="Previous photo" onClick={goPrev} disabled={currentIndex === 0} className="nav-btn left-1 sm:left-4">
               <ChevronLeft className="h-8 w-8" />
             </button>
             <motion.img
               key={photo.id}
               src={photo.url}
               alt={photo.filename}
-              className="max-h-[80vh] max-w-full object-contain"
+              className="max-h-[70vh] max-w-full object-contain sm:max-h-[80vh]"
               style={{ transform: `scale(${zoom}) rotate(${rotation}deg)` }}
               drag
               dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
             />
-            <button type="button" onClick={goNext} disabled={currentIndex === photos.length - 1} className="nav-btn right-4">
+            <button type="button" aria-label="Next photo" onClick={goNext} disabled={currentIndex === photos.length - 1} className="nav-btn right-1 sm:right-4">
               <ChevronRight className="h-8 w-8" />
             </button>
           </div>
 
-          <p className="pb-4 text-center text-sm text-white/70">{photo.filename}</p>
+          <p className="truncate px-4 pb-4 text-center text-sm text-white/70">{photo.filename}</p>
 
           <style>{`
             .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); padding: 0.5rem; color: white; opacity: 0.7; transition: opacity 0.2s; }
@@ -109,9 +121,14 @@ export function PhotoModal({
   );
 }
 
-function ToolBtn({ children, onClick }: { children: ReactNode; onClick: () => void }) {
+function ToolBtn({ children, onClick, label }: { children: ReactNode; onClick: () => void; label: string }) {
   return (
-    <button type="button" onClick={onClick} className="rounded-xl p-2 transition hover:bg-white/10">
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      className="rounded-xl p-2 transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+    >
       {children}
     </button>
   );

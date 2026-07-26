@@ -348,10 +348,18 @@ export function MessagesPage() {
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-bold text-[#2D3436]">Messages</h2>
           <div className="flex items-center gap-1">
-            <button className="flex h-8 w-8 items-center justify-center rounded-lg text-[#A0A4B0] transition-colors hover:bg-[#F8F9FB] hover:text-[#EA5455]">
+            <button
+              type="button"
+              aria-label="Trash"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[#A0A4B0] transition-colors hover:bg-[#F8F9FB] hover:text-[#EA5455]"
+            >
               <Trash2 className="h-4 w-4" />
             </button>
-            <button className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#6B46FE] text-white shadow-sm shadow-[#6B46FE]/25 transition-colors hover:bg-[#5A3AE8]">
+            <button
+              type="button"
+              aria-label="New conversation"
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#6B46FE] text-white shadow-sm shadow-[#6B46FE]/25 transition-colors hover:bg-[#5A3AE8]"
+            >
               <Plus className="h-4 w-4" />
             </button>
           </div>
@@ -372,7 +380,9 @@ export function MessagesPage() {
         {(['All', 'Unread', 'Starred'] as FilterTab[]).map((f) => (
           <button
             key={f}
+            type="button"
             onClick={() => setFilter(f)}
+            aria-pressed={filter === f}
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${
               filter === f
                 ? 'bg-[#6B46FE] text-white shadow-sm shadow-[#6B46FE]/25'
@@ -405,7 +415,9 @@ export function MessagesPage() {
             return (
               <button
                 key={conv.id}
+                type="button"
                 onClick={() => handleSelectConv(conv.id)}
+                aria-current={active ? 'true' : undefined}
                 className={`flex w-full items-center gap-3 border-l-[3px] px-4 py-3.5 text-left transition-all ${
                   active
                     ? 'border-[#6B46FE] bg-[#F3EEFF]'
@@ -463,6 +475,8 @@ export function MessagesPage() {
           {/* Chat header */}
           <div className="flex shrink-0 items-center gap-3 border-b border-[#EEF0F4] bg-white px-4 py-3 shadow-sm">
             <button
+              type="button"
+              aria-label="Back"
               onClick={() => setShowMobileChat(false)}
               className="flex h-9 w-9 items-center justify-center rounded-xl text-[#636E72] hover:bg-[#F8F9FB] lg:hidden"
             >
@@ -480,13 +494,25 @@ export function MessagesPage() {
               </p>
             </div>
             <div className="flex items-center gap-0.5">
-              <button className="flex h-9 w-9 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB]">
+              <button
+                type="button"
+                aria-label="Phone"
+                className="flex h-9 w-9 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB]"
+              >
                 <Phone className="h-4 w-4" />
               </button>
-              <button className="flex h-9 w-9 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB]">
+              <button
+                type="button"
+                aria-label="Video"
+                className="flex h-9 w-9 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB]"
+              >
                 <Video className="h-4 w-4" />
               </button>
-              <button className="flex h-9 w-9 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB]">
+              <button
+                type="button"
+                aria-label="More"
+                className="flex h-9 w-9 items-center justify-center rounded-xl text-[#636E72] transition-colors hover:bg-[#F8F9FB]"
+              >
                 <MoreVertical className="h-4 w-4" />
               </button>
             </div>
@@ -523,10 +549,18 @@ export function MessagesPage() {
           {/* Input */}
           <div className="shrink-0 border-t border-[#EEF0F4] bg-white px-4 py-3">
             <div className="flex items-center gap-2 rounded-2xl border border-[#EEF0F4] bg-[#F8F9FB] px-3 py-2">
-              <button className="shrink-0 text-[#A0A4B0] transition-colors hover:text-[#6B46FE]">
+              <button
+                type="button"
+                aria-label="Paperclip"
+                className="shrink-0 text-[#A0A4B0] transition-colors hover:text-[#6B46FE]"
+              >
                 <Paperclip className="h-5 w-5" />
               </button>
-              <button className="shrink-0 text-[#A0A4B0] transition-colors hover:text-[#6B46FE]">
+              <button
+                type="button"
+                aria-label="Image"
+                className="shrink-0 text-[#A0A4B0] transition-colors hover:text-[#6B46FE]"
+              >
                 <ImageIcon className="h-5 w-5" />
               </button>
               <input
@@ -534,15 +568,22 @@ export function MessagesPage() {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="Type a message..."
+                aria-label="Message"
                 className="min-w-0 flex-1 bg-transparent text-sm text-[#2D3436] outline-none placeholder:text-[#A0A4B0]"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleSend();
                 }}
               />
-              <button className="shrink-0 text-[#A0A4B0] transition-colors hover:text-[#6B46FE]">
+              <button
+                type="button"
+                aria-label="Smile"
+                className="shrink-0 text-[#A0A4B0] transition-colors hover:text-[#6B46FE]"
+              >
                 <Smile className="h-5 w-5" />
               </button>
               <button
+                type="button"
+                aria-label="Send"
                 onClick={handleSend}
                 disabled={!inputText.trim()}
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#6B46FE] to-[#8A60FF] text-white shadow-md shadow-[#6B46FE]/25 transition-opacity disabled:opacity-40"

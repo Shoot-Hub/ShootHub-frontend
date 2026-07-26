@@ -226,7 +226,7 @@ export function Hero() {
               animate="visible"
               variants={floatingCard}
               transition={{ delay: 0.4 }}
-              className="absolute -left-4 top-[0%] z-40 sm:-left-3"
+              className="absolute left-0 top-[0%] z-40 sm:-left-3"
             >
               <StatsCard
                 title="500+ Creators"
@@ -242,7 +242,7 @@ export function Hero() {
               animate="visible"
               variants={floatingCard}
               transition={{ delay: 0.55 }}
-              className="absolute -left-5 top-[36%] z-40 sm:-left-4"
+              className="absolute left-0 top-[36%] z-40 sm:-left-4"
             >
               <StatsCard
                 icon={Calendar}
@@ -258,7 +258,7 @@ export function Hero() {
               animate="visible"
               variants={floatingCard}
               transition={{ delay: 0.7 }}
-              className="absolute bottom-[20%] -right-3 z-40 sm:right-0"
+              className="absolute bottom-[20%] right-0 z-40"
             >
               <ReviewCard rating={4.8} reviewCount="2.5K+ reviews" floatDelay={1.8} />
             </motion.div>

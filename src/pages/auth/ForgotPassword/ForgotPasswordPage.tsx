@@ -63,6 +63,7 @@ export function ForgotPasswordPage() {
               size="lg"
               fullWidth
               disabled={isSubmitting}
+              aria-busy={isSubmitting}
               className="bg-auth-primary shadow-[0_4px_16px_-2px_rgba(37,99,235,0.45)] hover:bg-blue-700"
             >
               {isSubmitting ? 'Sending...' : 'Send reset link'}

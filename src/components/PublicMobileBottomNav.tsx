@@ -32,6 +32,7 @@ function NavItem({
   return (
     <Link
       to={path}
+      aria-current={active ? 'page' : undefined}
       className="flex min-h-[52px] flex-1 flex-col items-center justify-center gap-0.5 py-1"
     >
       <div
@@ -78,7 +79,11 @@ export function PublicMobileBottomNav() {
           ))}
 
           <div className="-mt-4 flex min-h-[52px] flex-1 flex-col items-center justify-center">
-            <Link to="/creators" aria-label="Find creators">
+            <Link
+              to="/categories"
+              aria-label="Find by category"
+              aria-current={pathname.startsWith('/categories') ? 'page' : undefined}
+            >
               <motion.div
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.93 }}
@@ -104,3 +109,5 @@ export function PublicMobileBottomNav() {
     </nav>
   );
 }
+
+export default PublicMobileBottomNav;

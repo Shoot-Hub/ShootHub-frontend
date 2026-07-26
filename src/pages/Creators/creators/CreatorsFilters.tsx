@@ -38,7 +38,7 @@ function FilterSelect({
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="h-11 w-full appearance-none rounded-xl border border-border/60 bg-white pl-10 pr-9 text-sm font-semibold text-ink outline-none focus:border-primary-300"
+          className="h-11 w-full appearance-none rounded-xl border border-border/60 bg-white pl-10 pr-9 text-sm font-semibold text-ink outline-none focus:border-primary-300 focus-visible:ring-2 focus-visible:ring-primary-500/30"
         >
           {children}
         </select>

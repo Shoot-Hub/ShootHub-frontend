@@ -26,7 +26,7 @@ import { ChatDrawer } from '@/components/ChatDrawer';
 const navLinks = [
   { label: 'Creators', to: '/creators', icon: Users, hasDropdown: false },
   { label: 'Reels', to: '/reels', icon: Clapperboard, hasDropdown: false },
-  { label: 'Categories', to: '/categories', icon: LayoutGrid, hasDropdown: true },
+  { label: 'Categories', to: '/categories', icon: LayoutGrid, hasDropdown: false },
   { label: 'Pricing', to: '/pricing', icon: Tag, hasDropdown: false },
   { label: 'Feedback & Reviews', to: '/feedback', icon: MessageSquareHeart, hasDropdown: false },
   { label: 'About', to: '/about', icon: Info, hasDropdown: false },
@@ -127,8 +127,11 @@ export function Navbar() {
           <div className="ml-auto hidden items-center gap-1.5 lg:flex xl:gap-2">
             <button
               type="button"
-              className="flex h-9 w-9 items-center justify-center rounded-full text-[#6B7280] transition-colors hover:bg-[#F3F4F6] hover:text-[#111827]"
-              aria-label="Toggle theme"
+              disabled
+              title="Coming soon"
+              aria-disabled="true"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-[#6B7280] opacity-50"
+              aria-label="Toggle theme (coming soon)"
             >
               <Sun className="h-[18px] w-[18px]" strokeWidth={2} />
             </button>
@@ -147,8 +150,11 @@ export function Navbar() {
 
             <button
               type="button"
-              className="inline-flex items-center gap-1 rounded-full px-2 py-1.5 text-[13px] font-medium text-[#4B5563] transition-colors hover:bg-[#F3F4F6] hover:text-[#111827]"
-              aria-label="Change language"
+              disabled
+              title="Coming soon"
+              aria-disabled="true"
+              className="inline-flex items-center gap-1 rounded-full px-2 py-1.5 text-[13px] font-medium text-[#4B5563] opacity-50"
+              aria-label="Change language (coming soon)"
             >
               <Globe className="h-4 w-4" strokeWidth={2} />
               EN

@@ -82,7 +82,14 @@ export function CreatorsPage() {
         category={activeCategory}
       />
       <CreatorsFilters filters={filters} onChange={handleFiltersChange} />
-      <CreatorsGrid items={filtered} category={activeCategory} />
+      <CreatorsGrid
+        items={filtered}
+        category={activeCategory}
+        onClearFilters={() => {
+          setSearch('');
+          handleFiltersChange({ ...initialFilters });
+        }}
+      />
       <FAQSection items={creatorsFAQ} />
       <CTASection
         title="Are you a creator?"

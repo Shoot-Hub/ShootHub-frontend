@@ -38,9 +38,11 @@ function FAQAccordion({ items }: { items: readonly FAQItem[] }) {
           >
             <button
               type="button"
-              className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+              id={`faq-trigger-${index}`}
+              className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40"
               onClick={() => setOpenIndex(isOpen ? null : index)}
               aria-expanded={isOpen}
+              aria-controls={`faq-panel-${index}`}
             >
               <span className="text-[15px] font-bold text-ink">{item.question}</span>
               <ChevronDown
@@ -53,6 +55,9 @@ function FAQAccordion({ items }: { items: readonly FAQItem[] }) {
             <AnimatePresence initial={false}>
               {isOpen && (
                 <motion.div
+                  id={`faq-panel-${index}`}
+                  role="region"
+                  aria-labelledby={`faq-trigger-${index}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}

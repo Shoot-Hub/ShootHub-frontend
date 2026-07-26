@@ -18,7 +18,7 @@ export function PricingCards({ period }: PricingCardsProps) {
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={staggerContainer}
-          className="grid gap-6 sm:grid-cols-2 xl:grid-cols-5"
+          className="grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
         >
           {plans.map((plan) => (
             <motion.div key={plan.id} variants={fadeInUp} className="h-full">

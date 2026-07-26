@@ -8,13 +8,15 @@ type Props = {
 
 export function StarPicker({ value, onChange }: Props) {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1" role="radiogroup" aria-label="Overall rating">
       {[1, 2, 3, 4, 5].map((star) => (
         <button
           key={star}
           type="button"
+          role="radio"
+          aria-checked={star === value}
           onClick={() => onChange(star)}
-          className="rounded-lg p-0.5 transition hover:scale-110"
+          className="rounded-lg p-0.5 transition hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6C3BFF]/40"
           aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
         >
           <Star

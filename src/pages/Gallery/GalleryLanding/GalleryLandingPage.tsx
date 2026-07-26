@@ -16,13 +16,15 @@ export function GalleryLandingPage({ gallery, onEnter }: Props) {
   return (
     <div className="relative min-h-screen">
       <div className="absolute inset-0">
-        <img src={gallery.coverImage} alt="" className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/70" />
+        <img src={gallery.coverImage} alt={gallery.name} className="h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/75" />
       </div>
 
       <div className="relative z-10 flex min-h-screen flex-col">
         <header className="px-4 py-5 sm:px-8">
-          <Logo className="brightness-0 invert" />
+          <Link to="/" aria-label="ShootHub home">
+            <Logo className="brightness-0 invert" />
+          </Link>
         </header>
 
         <main className="flex flex-1 items-center justify-center px-4 pb-16 pt-8">

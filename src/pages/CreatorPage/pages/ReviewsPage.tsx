@@ -68,7 +68,11 @@ export function ReviewsPage() {
           <p className="mt-2 text-5xl font-bold tracking-tight text-[#2D3436]">
             {average > 0 ? average.toFixed(1) : '0.0'}
           </p>
-          <div className="mt-3 flex items-center gap-1">
+          <div
+            className="mt-3 flex items-center gap-1"
+            role="img"
+            aria-label={`${average > 0 ? average.toFixed(1) : '0.0'} out of 5 stars`}
+          >
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
                 key={star}
@@ -120,6 +124,7 @@ export function ReviewsPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search reviews..."
+                aria-label="Search reviews"
                 className="h-11 w-full rounded-xl border border-[#EEF0F4] bg-[#F8F9FB] py-2 pl-10 pr-3 text-sm outline-none placeholder:text-[#A0A4B0] focus:border-[#6B46FE]/40 focus:bg-white focus:ring-2 focus:ring-[#6B46FE]/15"
               />
             </div>

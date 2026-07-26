@@ -1,6 +1,13 @@
 import type { ReactNode } from 'react';
 import { Route } from 'react-router-dom';
 import { ProtectedRoute } from '@/features/auth';
+import {
+  AlbumDashboardPage,
+  AlbumWizardPage,
+  AlbumEditorPage,
+} from '@/features/album-designer';
+import { EventTimelinePage } from '@/features/event-timeline';
+import { PaymentsDashboardPage } from '@/features/payments';
 import { CreatorLayout } from '@/pages/CreatorPage';
 import { DashboardPage } from '@/pages/CreatorPage';
 import { ProfilePage } from '@/pages/CreatorPage';
@@ -29,11 +36,16 @@ export const creatorRoutes: ReactNode[] = [
       <Route path="reels" element={<MyReelsPage />} />
       <Route path="reels/upload" element={<UploadReelPage />} />
       <Route path="uploads" element={<UploadsPage />} />
+      <Route path="album-designer" element={<AlbumDashboardPage />} />
+      <Route path="album-designer/new" element={<AlbumWizardPage />} />
+      <Route path="album-designer/:albumId/edit" element={<AlbumEditorPage />} />
       <Route path="packages" element={<PackagesPage />} />
       <Route path="subscriptions" element={<SubscriptionsPage />} />
       <Route path="bookings" element={<BookingsPage />} />
       <Route path="calendar" element={<CalendarPage />} />
+      <Route path="event-timeline" element={<EventTimelinePage />} />
       <Route path="analytics" element={<AnalyticsPage />} />
+      <Route path="payments" element={<PaymentsDashboardPage />} />
       <Route path="reviews" element={<ReviewsPage />} />
       <Route path="messages" element={<MessagesPage />} />
       <Route path="teams" element={<TeamsPage />} />

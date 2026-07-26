@@ -100,7 +100,7 @@ export function SettingsPage() {
                 </span>
               </div>
               {slot.isAvailable ? (
-                <div className="flex flex-1 items-center gap-2 pl-13 sm:pl-0">
+                <div className="flex flex-1 items-center gap-2 pl-12 sm:pl-0">
                   <input
                     type="time"
                     value={slot.startTime}
@@ -116,7 +116,7 @@ export function SettingsPage() {
                   />
                 </div>
               ) : (
-                <span className="pl-13 text-sm italic text-slate-400 sm:pl-0">Unavailable</span>
+                <span className="pl-12 text-sm italic text-slate-400 sm:pl-0">Unavailable</span>
               )}
             </div>
           ))}

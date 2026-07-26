@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 export type FeatureCardProps = {
@@ -31,13 +32,13 @@ export function FeatureCard({
       <h3 className="mt-5 text-lg font-extrabold text-ink">{title}</h3>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">{description}</p>
 
-      <button
-        type="button"
-        className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary-500 transition-colors hover:text-primary-600"
+      <Link
+        to="/about"
+        className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary-500 transition-colors hover:text-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40"
       >
         Learn more
         <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
-      </button>
+      </Link>
     </article>
   );
 }

@@ -38,6 +38,15 @@ export function ReelPlayerModal({ open, onClose, reel, onLike }: Props) {
     }
   }, [open, reel._id]);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [open, onClose]);
+
   const togglePlay = useCallback(() => {
     if (!videoRef.current) return;
     if (videoRef.current.paused) {
@@ -89,6 +98,9 @@ export function ReelPlayerModal({ open, onClose, reel, onLike }: Props) {
 
           {/* Panel */}
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Playing ${reel.title}`}
             initial={{ opacity: 0, scale: 0.88 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.88 }}
@@ -159,6 +171,8 @@ export function ReelPlayerModal({ open, onClose, reel, onLike }: Props) {
 
               {/* Close button */}
               <button
+                type="button"
+                aria-label="Close"
                 onClick={onClose}
                 className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white hover:bg-black/70 transition-colors border border-white/10"
               >

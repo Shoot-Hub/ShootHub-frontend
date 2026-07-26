@@ -124,7 +124,7 @@ export function AnalyticsPage() {
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {stats.map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -160,7 +160,7 @@ export function AnalyticsPage() {
             <h3 className="text-base font-bold text-[#2D3436]">Views Over Time</h3>
             <span className="text-xs font-medium text-[#A0A4B0]">Monthly</span>
           </div>
-          <div className="h-[260px] w-full">
+          <div className="h-[260px] w-full" role="img" aria-label="Views over time chart">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={viewsData} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
                 <defs>
@@ -211,7 +211,7 @@ export function AnalyticsPage() {
             <h3 className="text-base font-bold text-[#2D3436]">Bookings Over Time</h3>
             <span className="text-xs font-medium text-[#A0A4B0]">Monthly</span>
           </div>
-          <div className="h-[260px] w-full">
+          <div className="h-[260px] w-full" role="img" aria-label="Bookings over time chart">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={bookingsData} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#EEF0F4" vertical={false} />
@@ -249,7 +249,11 @@ export function AnalyticsPage() {
       >
         <h3 className="mb-4 text-base font-bold text-[#2D3436]">Top Performing Services</h3>
         <div className="grid items-center gap-6 md:grid-cols-[240px_1fr]">
-          <div className="relative mx-auto h-[220px] w-[220px]">
+          <div
+            className="relative mx-auto h-[220px] w-[220px]"
+            role="img"
+            aria-label="Top performing services chart"
+          >
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie

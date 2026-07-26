@@ -275,7 +275,7 @@ export function DashboardPage() {
     {
       title: 'Add Team Member',
       desc: 'Invite assistants & editors',
-      path: '/creator/settings',
+      path: '/creator/teams',
       icon: UserPlus,
       bg: 'bg-gradient-to-br from-[#28C76F] to-[#48D68A]',
     },
@@ -320,7 +320,7 @@ export function DashboardPage() {
               </p>
               <Link
                 to="/creator/profile"
-                className="mt-2.5 inline-flex items-center gap-1 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-[#6B46FE] transition-all hover:bg-white/95"
+                className="mt-2.5 inline-flex items-center gap-1 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-[#6B46FE] transition-all hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
               >
                 Complete Profile
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -358,7 +358,7 @@ export function DashboardPage() {
       {/* Quick Actions */}
       <motion.div variants={item}>
         <h2 className="mb-3 text-base font-bold text-[#2D3436]">Quick Actions</h2>
-        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-3 xl:grid-cols-5">
           {quickActions.map((action) => (
             <Link
               key={action.title}
@@ -400,7 +400,7 @@ export function DashboardPage() {
                 </span>
               </div>
             </div>
-            <button className="flex items-center gap-1.5 rounded-xl border border-[#EEF0F4] bg-[#F8F9FB] px-3 py-2 text-xs font-semibold text-[#636E72] hover:bg-[#F0F1F5]">
+            <button className="flex items-center gap-1.5 rounded-xl border border-[#EEF0F4] bg-[#F8F9FB] px-3 py-2 text-xs font-semibold text-[#636E72] hover:bg-[#F0F1F5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40">
               This Month
               <ChevronDown className="h-3.5 w-3.5" />
             </button>
@@ -506,7 +506,17 @@ export function DashboardPage() {
                           {b.client} · {b.time}
                         </p>
                       </div>
-                      <button className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#636E72] shadow-sm">
+                      <button
+                        type="button"
+                        aria-label={
+                          b.status === 'video'
+                            ? 'Video call'
+                            : b.status === 'call'
+                              ? 'Phone call'
+                              : 'More actions'
+                        }
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#636E72] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40"
+                      >
                         {b.status === 'video' && <Video className="h-3.5 w-3.5" />}
                         {b.status === 'call' && <Phone className="h-3.5 w-3.5" />}
                         {b.status === 'more' && <MoreHorizontal className="h-3.5 w-3.5" />}
@@ -585,7 +595,7 @@ export function DashboardPage() {
               >
                 <img
                   src={src as string}
-                  alt=""
+                  alt={`Portfolio photo ${i + 1}`}
                   className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
@@ -616,7 +626,7 @@ export function DashboardPage() {
             </div>
           ))}
         </div>
-        <button className="w-full shrink-0 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg sm:w-auto">
+        <button className="w-full shrink-0 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40 sm:w-auto">
           View All Suggestions →
         </button>
       </motion.div>

@@ -27,6 +27,7 @@ export function RoleCard({
       whileTap={{ scale: 0.99 }}
       className={cn(
         'relative flex cursor-pointer flex-col rounded-2xl border p-3.5 transition-all duration-200',
+        'focus-within:ring-2 focus-within:ring-auth-accent/30 focus-within:ring-offset-2',
         selected
           ? 'border-auth-accent bg-auth-accent/[0.04] shadow-sm'
           : 'border-border bg-white hover:border-gray-300',

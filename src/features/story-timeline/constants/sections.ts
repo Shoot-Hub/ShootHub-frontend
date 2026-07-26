@@ -1,0 +1,156 @@
+import type { TimelineSectionMeta } from '../types';
+
+export const STORY_QUOTE =
+  'Every moment with you is my favorite story.';
+
+export const TIMELINE_SECTIONS: TimelineSectionMeta[] = [
+  {
+    id: 'getting-ready',
+    title: 'Getting Ready',
+    description: 'Quiet mornings, soft light, and the first spark of anticipation.',
+    defaultTime: '9:00 AM',
+    icon: 'sparkles',
+    matchKeywords: ['getting ready', 'getting-ready', 'prep', 'preparation'],
+  },
+  {
+    id: 'bride-makeup',
+    title: 'Bride Makeup',
+    description: 'Brushstrokes of glam — the bride becomes the story.',
+    defaultTime: '9:45 AM',
+    icon: 'lipstick',
+    matchKeywords: ['bride', 'makeup', 'bridal'],
+  },
+  {
+    id: 'groom-preparation',
+    title: 'Groom Preparation',
+    description: 'Ties, laughs, and last looks before the big walk.',
+    defaultTime: '10:15 AM',
+    icon: 'shirt',
+    matchKeywords: ['groom'],
+  },
+  {
+    id: 'haldi',
+    title: 'Haldi',
+    description: 'Turmeric, laughter, and golden blessings for the couple.',
+    defaultTime: '11:30 AM',
+    icon: 'sun',
+    matchKeywords: ['haldi'],
+  },
+  {
+    id: 'mehendi',
+    title: 'Mehendi',
+    description: 'Intricate henna patterns and joyful conversations.',
+    defaultTime: '1:30 PM',
+    icon: 'hand',
+    matchKeywords: ['mehendi', 'mehndi', 'henna'],
+  },
+  {
+    id: 'sangeet',
+    title: 'Sangeet',
+    description: 'Music, dance, and a night that refuses to end.',
+    defaultTime: '7:00 PM',
+    icon: 'music',
+    matchKeywords: ['sangeet', 'dance', 'music'],
+  },
+  {
+    id: 'baraat',
+    title: 'Baraat',
+    description: 'The groom’s procession — drums, energy, and celebration.',
+    defaultTime: '4:00 PM',
+    icon: 'horse',
+    matchKeywords: ['baraat', 'baraat procession'],
+  },
+  {
+    id: 'wedding-ceremony',
+    title: 'Wedding Ceremony',
+    description: 'Sacred vows under a canopy of flowers and family.',
+    defaultTime: '5:30 PM',
+    icon: 'heart',
+    matchKeywords: ['ceremony', 'wedding', 'mandap'],
+  },
+  {
+    id: 'varmala',
+    title: 'Varmala',
+    description: 'Garlands exchanged — two hearts becoming one.',
+    defaultTime: '5:50 PM',
+    icon: 'flower',
+    matchKeywords: ['varmala', 'jaimala', 'garland'],
+  },
+  {
+    id: 'pheras',
+    title: 'Pheras',
+    description: 'Seven circles, seven promises, forever ahead.',
+    defaultTime: '6:15 PM',
+    icon: 'circle',
+    matchKeywords: ['pheras', 'saat phere', 'phere'],
+  },
+  {
+    id: 'sindoor',
+    title: 'Sindoor',
+    description: 'A quiet, sacred moment of belonging.',
+    defaultTime: '6:40 PM',
+    icon: 'droplet',
+    matchKeywords: ['sindoor'],
+  },
+  {
+    id: 'vidaai',
+    title: 'Vidaai',
+    description: 'Tears, blessings, and a new chapter beginning.',
+    defaultTime: '8:00 PM',
+    icon: 'door',
+    matchKeywords: ['vidaai', 'vidai', 'farewell'],
+  },
+  {
+    id: 'reception',
+    title: 'Reception',
+    description: 'An evening of toasts, twirls, and endless smiles.',
+    defaultTime: '9:00 PM',
+    icon: 'party',
+    matchKeywords: ['reception', 'party'],
+  },
+  {
+    id: 'couple-portrait',
+    title: 'Couple Portrait',
+    description: 'Just the two of them — framed in timeless light.',
+    defaultTime: 'Next Day',
+    icon: 'camera',
+    matchKeywords: ['couple', 'portrait', 'portraits'],
+  },
+  {
+    id: 'family-portrait',
+    title: 'Family Portrait',
+    description: 'Generations gathered in one beautiful frame.',
+    defaultTime: 'Next Day',
+    icon: 'users',
+    matchKeywords: ['family'],
+  },
+  {
+    id: 'behind-the-scenes',
+    title: 'Behind The Scenes',
+    description: 'Candid chaos, crew magic, and unscripted joy.',
+    defaultTime: 'All Day',
+    icon: 'clapper',
+    matchKeywords: ['behind', 'bts', 'candid', 'backstage'],
+  },
+];
+
+/** Primary nav chips — compact set for mobile / sidebar highlight groups */
+export const TIMELINE_NAV_PRIORITY: TimelineSectionMeta['id'][] = [
+  'getting-ready',
+  'haldi',
+  'mehendi',
+  'sangeet',
+  'baraat',
+  'wedding-ceremony',
+  'reception',
+  'couple-portrait',
+];
+
+export const FUTURE_CAPABILITIES = {
+  aiStoryEnabled: false,
+  voiceNarrationEnabled: false,
+  autoAlbumEnabled: false,
+  autoReelEnabled: false,
+  clientCommentsEnabled: false,
+  timelineSharingEnabled: true,
+} as const;

@@ -54,6 +54,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
+    overflow-x: clip;
   }
 
   body {
@@ -61,7 +62,7 @@
     font-family: var(--font-sans);
     color: var(--color-ink);
     background-color: var(--color-surface);
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   img,

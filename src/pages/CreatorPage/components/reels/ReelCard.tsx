@@ -23,10 +23,7 @@ export function ReelCard({ reel, onPlay, onEdit, onLike }: Props) {
       className="group relative rounded-2xl overflow-hidden bg-white border border-slate-100/80 shadow-sm hover:shadow-2xl hover:shadow-slate-200/60 hover:-translate-y-1.5 transition-all duration-350 cursor-pointer"
     >
       {/* ── Thumbnail ──────────────────────────────── */}
-      <div
-        className="relative aspect-[9/16] overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800"
-        onClick={onPlay}
-      >
+      <div className="relative aspect-[9/16] overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800">
         {reel.thumbnail?.url ? (
           <img
             src={reel.thumbnail.url}
@@ -44,7 +41,12 @@ export function ReelCard({ reel, onPlay, onEdit, onLike }: Props) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/40" />
 
         {/* Hover play button */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <button
+          type="button"
+          aria-label={`Play ${reel.title}`}
+          onClick={onPlay}
+          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 focus-visible:opacity-100 focus-visible:outline-none"
+        >
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -52,7 +54,7 @@ export function ReelCard({ reel, onPlay, onEdit, onLike }: Props) {
           >
             <Play className="h-6 w-6 ml-0.5" />
           </motion.div>
-        </div>
+        </button>
 
         {/* ── Top bar ── */}
         <div className="absolute top-2.5 left-2.5 right-2.5 flex items-start justify-between">
@@ -83,6 +85,9 @@ export function ReelCard({ reel, onPlay, onEdit, onLike }: Props) {
             {/* Kebab menu */}
             <div className="relative">
               <button
+                type="button"
+                aria-label="More actions"
+                aria-expanded={menuOpen}
                 onClick={(e) => {
                   e.stopPropagation();
                   setMenuOpen(!menuOpen);
@@ -155,6 +160,8 @@ export function ReelCard({ reel, onPlay, onEdit, onLike }: Props) {
       <div className="flex items-center justify-between px-3.5 py-2.5 bg-white">
         <div className="flex items-center gap-3">
           <button
+            type="button"
+            aria-label="Like reel"
             onClick={(e) => {
               e.stopPropagation();
               onLike();

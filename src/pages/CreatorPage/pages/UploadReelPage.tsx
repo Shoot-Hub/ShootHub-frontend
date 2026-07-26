@@ -105,7 +105,7 @@ export function UploadReelPage() {
   // ── Success screen ──
   if (success) {
     return (
-      <div className="min-h-screen bg-[#F8FAFF] flex items-center justify-center p-6">
+      <div className="flex min-h-[50vh] items-center justify-center bg-[#F8FAFF] p-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -130,13 +130,15 @@ export function UploadReelPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFF]">
+    <div className="min-h-0 bg-[#F8FAFF] pb-[calc(5.5rem+env(safe-area-inset-bottom))] lg:pb-0">
       {/* ── Top Header ── */}
-      <div className="sticky top-0 z-20 bg-white/90 backdrop-blur-xl border-b border-slate-100 shadow-sm">
-        <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-4">
+      <div className="sticky top-0 z-20 border-b border-slate-100 bg-white/90 shadow-sm backdrop-blur-xl">
+        <div className="mx-auto flex h-14 max-w-2xl items-center gap-4 px-4">
           <button
+            type="button"
+            aria-label="Back to reels"
             onClick={() => navigate('/creator/reels')}
-            className="flex items-center justify-center h-9 w-9 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>

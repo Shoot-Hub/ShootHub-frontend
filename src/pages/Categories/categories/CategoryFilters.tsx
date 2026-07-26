@@ -40,7 +40,7 @@ function FilterSelect({
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="h-11 w-full appearance-none rounded-xl border border-border/60 bg-white pl-10 pr-9 text-sm font-semibold text-ink outline-none transition-colors focus:border-primary-300"
+          className="h-11 w-full appearance-none rounded-xl border border-border/60 bg-white pl-10 pr-9 text-sm font-semibold text-ink outline-none transition-colors focus:border-primary-300 focus-visible:ring-2 focus-visible:ring-primary-500/30"
         >
           {children}
         </select>
@@ -68,18 +68,28 @@ export function CategoryFilters({ filters, onChange }: CategoryFiltersProps) {
             ))}
           </FilterSelect>
 
-          <FilterSelect
-            label="City"
-            icon={MapPin}
-            value={filters.city}
-            onChange={(v) => onChange({ ...filters, city: v })}
-          >
-            {cities.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </FilterSelect>
+          <label className="flex min-w-0 flex-1 flex-col gap-1.5">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-light">
+              City
+            </span>
+            <div className="relative">
+              <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-primary-500" />
+              <select
+                disabled
+                title="Coming soon"
+                aria-label="City (coming soon)"
+                value={filters.city}
+                className="h-11 w-full cursor-not-allowed appearance-none rounded-xl border border-border/60 bg-gray-50 pl-10 pr-9 text-sm font-semibold text-ink-muted opacity-70 outline-none"
+              >
+                {cities.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-light" />
+            </div>
+          </label>
 
           <FilterSelect
             label="Rating"
@@ -94,18 +104,28 @@ export function CategoryFilters({ filters, onChange }: CategoryFiltersProps) {
             ))}
           </FilterSelect>
 
-          <FilterSelect
-            label="Availability"
-            icon={CalendarCheck}
-            value={filters.availability}
-            onChange={(v) => onChange({ ...filters, availability: v })}
-          >
-            {availabilityOptions.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            ))}
-          </FilterSelect>
+          <label className="flex min-w-0 flex-1 flex-col gap-1.5">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-light">
+              Availability
+            </span>
+            <div className="relative">
+              <CalendarCheck className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-primary-500" />
+              <select
+                disabled
+                title="Coming soon"
+                aria-label="Availability (coming soon)"
+                value={filters.availability}
+                className="h-11 w-full cursor-not-allowed appearance-none rounded-xl border border-border/60 bg-gray-50 pl-10 pr-9 text-sm font-semibold text-ink-muted opacity-70 outline-none"
+              >
+                {availabilityOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-light" />
+            </div>
+          </label>
         </div>
       </div>
     </Container>

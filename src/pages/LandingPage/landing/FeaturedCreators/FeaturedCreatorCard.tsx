@@ -107,7 +107,7 @@ export function FeaturedCreatorCard({
         </span>
         <div
           className={cn(
-            'absolute -bottom-6 left-4 flex h-13 w-13 items-center justify-center rounded-2xl border-[3px] border-white shadow-md',
+            'absolute -bottom-6 left-4 flex h-12 w-12 items-center justify-center rounded-2xl border-[3px] border-white shadow-md',
             styles.iconBg,
           )}
         >

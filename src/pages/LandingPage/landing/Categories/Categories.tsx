@@ -127,7 +127,7 @@ export function Categories() {
               className="absolute -left-8 top-1/2 hidden h-5 w-5 -translate-y-1/2 fill-primary-300 text-primary-300 sm:block"
               aria-hidden="true"
             />
-            <h2 className="text-[44px] font-extrabold leading-tight tracking-tight text-ink sm:text-[52px] md:text-[58px]">
+            <h2 className="min-w-0 break-words text-[28px] font-extrabold leading-tight tracking-tight text-ink sm:text-[44px] md:text-[58px]">
               Shoot by{' '}
               <span className="text-primary-500">Category</span>
             </h2>

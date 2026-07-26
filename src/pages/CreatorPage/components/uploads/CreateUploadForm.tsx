@@ -134,7 +134,7 @@ function Stepper({ step }: { step: Step }) {
                 {done ? <Check className="h-4 w-4" /> : s.num}
               </div>
               <span
-                className={`whitespace-nowrap text-[11px] font-semibold ${
+                className={`hidden whitespace-nowrap text-[11px] font-semibold sm:inline ${
                   active ? 'text-[#6B46FE]' : done ? 'text-[#28C76F]' : 'text-[#A0A4B0]'
                 }`}
               >

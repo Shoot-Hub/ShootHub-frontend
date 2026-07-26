@@ -40,7 +40,7 @@ export function AuthBanner({ variant }: AuthBannerProps) {
       <BlurOrbs />
 
       <motion.div variants={fadeIn} className="relative z-10 -mb-1 shrink-0 leading-none">
-        <Logo className="block h-32 w-auto sm:h-36 lg:h-40" />
+        <Logo className="block h-16 w-auto lg:h-20" />
       </motion.div>
 
       <div className="relative z-10 flex min-h-0 flex-1 flex-col">

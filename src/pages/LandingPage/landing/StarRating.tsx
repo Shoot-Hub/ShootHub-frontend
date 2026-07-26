@@ -22,8 +22,11 @@ export function StarRating({ rating, max = 5, size = 'md', className }: StarRati
       {Array.from({ length: max }, (_, i) => (
         <Star
           key={i}
-          className={cn(sizeMap[size], 'fill-star text-star')}
-          strokeWidth={0}
+          className={cn(
+            sizeMap[size],
+            i < Math.round(rating) ? 'fill-star text-star' : 'fill-transparent text-ink-light',
+          )}
+          strokeWidth={i < Math.round(rating) ? 0 : 1.5}
         />
       ))}
     </div>

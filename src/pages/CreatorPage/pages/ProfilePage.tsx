@@ -372,7 +372,7 @@ export function ProfilePage() {
             <div className="relative -mt-14 shrink-0 sm:-mt-16">
               <div className="flex h-[104px] w-[104px] items-center justify-center overflow-hidden rounded-full border-[4px] border-white bg-gradient-to-br from-[#6B46FE] to-[#8A60FF] text-3xl font-bold text-white shadow-lg sm:h-28 sm:w-28 sm:text-4xl">
                 {userAvatar ? (
-                  <img src={userAvatar} alt="" className="h-full w-full object-cover" />
+                  <img src={userAvatar} alt={displayName} className="h-full w-full object-cover" />
                 ) : (
                   initials
                 )}
@@ -385,6 +385,8 @@ export function ProfilePage() {
                 onChange={handleAvatarChange}
               />
               <button
+                type="button"
+                aria-label="Change avatar"
                 onClick={() => avatarInputRef.current?.click()}
                 disabled={uploadingAvatar}
                 className="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-[#6B46FE] text-white shadow-md transition-all hover:bg-[#5A3AE8] disabled:opacity-70"
@@ -498,6 +500,7 @@ export function ProfilePage() {
                       <button
                         key={spec}
                         type="button"
+                        aria-pressed={selected}
                         onClick={() => {
                           const current = form.specializations
                             .split(',')

@@ -16,12 +16,16 @@ type ReelActionsProps = {
 
 function ActionButton({
   label,
+  displayLabel,
   active,
+  disabled,
   onClick,
   children,
 }: {
   label: string;
+  displayLabel?: string;
   active?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
   children: ReactNode;
 }) {
@@ -29,7 +33,9 @@ function ActionButton({
     <button
       type="button"
       onClick={onClick}
-      className="flex flex-col items-center gap-1 text-white"
+      disabled={disabled}
+      aria-disabled={disabled}
+      className="flex flex-col items-center gap-1 text-white disabled:opacity-60"
       aria-label={label}
     >
       <span
@@ -40,7 +46,7 @@ function ActionButton({
       >
         {children}
       </span>
-      <span className="text-[11px] font-semibold drop-shadow-md">{label}</span>
+      <span className="text-[11px] font-semibold drop-shadow-md">{displayLabel ?? label}</span>
     </button>
   );
 }
@@ -58,16 +64,16 @@ export function ReelActions({
 }: ReelActionsProps) {
   return (
     <div className="absolute bottom-28 right-3 z-20 flex flex-col items-center gap-4 sm:right-4">
-      <ActionButton label={likes} active={liked} onClick={onLike}>
+      <ActionButton label={`Like, ${likes}`} displayLabel={likes} active={liked} onClick={onLike}>
         <Heart
           className={cn('h-6 w-6', liked ? 'fill-rose-500 text-rose-500' : 'text-white')}
           strokeWidth={liked ? 0 : 2}
         />
       </ActionButton>
-      <ActionButton label={comments}>
+      <ActionButton label={`Comments, ${comments}`} displayLabel={comments} disabled>
         <MessageCircle className="h-6 w-6 text-white" strokeWidth={2} />
       </ActionButton>
-      <ActionButton label={shares}>
+      <ActionButton label={`Shares, ${shares}`} displayLabel={shares} disabled>
         <Send className="h-5 w-5 text-white" strokeWidth={2} />
       </ActionButton>
       <ActionButton label={saved ? 'Saved' : 'Save'} active={saved} onClick={onSave}>
