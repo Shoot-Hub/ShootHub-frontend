@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { BadgeCheck, Camera, MessageSquareQuote, ShieldCheck, User, Zap } from 'lucide-react';
+import { BadgeCheck, Camera, Images, ShieldCheck, User, Zap } from 'lucide-react';
 
 export const AUTH_ROUTES = {
   LOGIN: '/login',
@@ -23,17 +23,17 @@ export const LOGIN_FEATURES: AuthFeature[] = [
   {
     icon: ShieldCheck,
     title: 'Secure Gallery',
-    description: 'Your data is always protected...',
+    description: 'Your data and memories are always protected.',
   },
   {
     icon: BadgeCheck,
     title: 'Verified Creators',
-    description: 'Quality creators, trusted by clients...',
+    description: 'Connect with trusted and verified creators.',
   },
   {
     icon: Zap,
     title: 'Fast Delivery',
-    description: 'Quick sharing, beautiful results...',
+    description: 'Quick sharing and beautiful results.',
   },
 ];
 
@@ -41,7 +41,7 @@ export const SIGNUP_BENEFITS: AuthFeature[] = [
   {
     icon: User,
     title: 'For Clients',
-    description: 'Find verified photographers and book with confidence.',
+    description: 'Find perfect photographers and book with ease.',
   },
   {
     icon: Camera,
@@ -49,9 +49,9 @@ export const SIGNUP_BENEFITS: AuthFeature[] = [
     description: 'Showcase your work and grow your business.',
   },
   {
-    icon: MessageSquareQuote,
+    icon: Images,
     title: 'Everything in One Place',
-    description: 'Chat, book, shoot and deliver—all in one hub.',
+    description: 'One hub for all your photography needs.',
   },
 ];
 

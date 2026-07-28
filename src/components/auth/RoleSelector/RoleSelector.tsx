@@ -16,7 +16,9 @@ const roleIcons = {
 export function RoleSelector({ value, onChange, error }: RoleSelectorProps) {
   return (
     <fieldset className="flex w-full min-w-0 flex-col gap-3">
-      <legend className="mb-1 text-sm font-medium text-ink">Choose how you&apos;ll use ShootHub</legend>
+      <legend className="mb-1 text-sm font-semibold text-ink">
+        Choose how you&apos;ll use ShootHub
+      </legend>
       <div className="grid grid-cols-2 gap-2.5">
         {USER_ROLES.map((role) => (
           <RoleCard

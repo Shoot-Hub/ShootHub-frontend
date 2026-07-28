@@ -13,6 +13,8 @@ import {
   Captcha,
   TermsCheckbox,
   AuthSubmitButton,
+  SocialLogin,
+  Divider,
 } from '@/components/auth';
 import { MobileInput } from '@/components/auth/MobileInput';
 import { signupSchema, type SignupFormData } from '@/schemas/auth';
@@ -65,11 +67,10 @@ export function SignupPage() {
         const user = response.data.user;
         setAuth(user);
 
-        // Redirect based on role
         if (user.role === 'photographer') {
           navigate('/creator');
         } else {
-          navigate('/');
+          navigate('/user');
         }
         toast.success(`Account created for ${data.fullName}!`);
       } else {
@@ -94,7 +95,7 @@ export function SignupPage() {
             Already have an account?{' '}
             <Link
               to={AUTH_ROUTES.LOGIN}
-              className="font-semibold text-auth-accent transition-colors hover:text-indigo-700"
+              className="font-semibold text-auth-primary transition-colors hover:text-auth-accent"
             >
               Log in
             </Link>
@@ -185,8 +186,16 @@ export function SignupPage() {
             loadingText="Creating account..."
             disabled={!captchaVerified}
           >
-            Create account
+            Create Account
           </AuthSubmitButton>
+
+          <Divider label="or continue with" />
+
+          <SocialLogin
+            onSocialLogin={(provider) => {
+              toast(`${provider} signup coming soon`);
+            }}
+          />
         </form>
       </AuthCard>
     </AuthLayout>

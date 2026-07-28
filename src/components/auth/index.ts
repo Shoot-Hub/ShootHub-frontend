@@ -14,3 +14,6 @@ export { Divider } from './Divider';
 export { FeatureCard } from './FeatureCard';
 export { AuthSubmitButton } from './AuthSubmitButton';
 export { MobileInput } from './MobileInput';
+export { AuthBrandMark } from './AuthBrandMark';
+export { AuthFooterBanner } from './AuthFooterBanner';
+export { LanguageSelector } from './LanguageSelector';

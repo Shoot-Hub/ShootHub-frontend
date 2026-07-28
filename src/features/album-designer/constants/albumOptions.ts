@@ -87,12 +87,18 @@ export const MIN_PAGE_COUNT = 4;
 export const MAX_PAGE_COUNT = 80;
 
 export const FONT_FAMILIES = [
+  'Inter',
+  'Poppins',
+  'Montserrat',
+  'Playfair Display',
+  'Cormorant',
+  'Cinzel',
+  'Great Vibes',
+  'Lora',
+  'DM Sans',
   'Plus Jakarta Sans',
   'Georgia',
-  'Playfair Display',
   'Cormorant Garamond',
-  'Montserrat',
-  'Lora',
   'Caveat',
 ];
 

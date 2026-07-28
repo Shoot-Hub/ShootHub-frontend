@@ -8,7 +8,11 @@ import {
   deepClone,
   duplicateElement,
   clamp,
+  buildAiSmartAlbum,
+  buildAiAutoLayoutPage,
+  getPagePhotoCapacity,
 } from '../utils';
+import { getAlbumPhotoCatalog } from '../services';
 
 const MAX_HISTORY = 50;
 
@@ -35,6 +39,8 @@ type EditorStore = {
   replacePhoto: (elementId: string, photo: { id: string; url: string }) => void;
   deleteSelected: () => void;
   duplicateSelected: () => void;
+  copySelected: () => void;
+  pasteClipboard: () => void;
   addHeading: () => void;
   addParagraph: () => void;
   addPhotoToPage: (photo: { id: string; url: string }) => void;
@@ -43,6 +49,8 @@ type EditorStore = {
   duplicatePage: (index: number) => void;
   movePage: (from: number, to: number) => void;
   reorderPages: (orderedIds: string[]) => void;
+  applyAiSmartAlbum: () => void;
+  applyAiAutoLayout: () => void;
   save: (status?: Album['status']) => Album | null;
   getCurrentPage: () => AlbumPage | null;
   getSelectedElements: () => AlbumElement[];
@@ -196,6 +204,25 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     set({ selectedIds: clones.map((c) => c.id) });
   },
 
+  copySelected: () => {
+    const el = get().getSelectedElements()[0];
+    if (!el) return;
+    set({ clipboard: deepClone(el) });
+  },
+
+  pasteClipboard: () => {
+    const { clipboard } = get();
+    if (!clipboard) return;
+    const clone = duplicateElement(clipboard);
+    withHistory(get, set, (album) => {
+      const page = album.pages[get().currentPageIndex];
+      if (!page) return album;
+      page.elements = [...page.elements, clone];
+      return album;
+    });
+    set({ selectedIds: [clone.id] });
+  },
+
   addHeading: () => {
     const text = createDefaultText({ content: 'Heading', fontSize: 32, fontWeight: 700 });
     withHistory(get, set, (album) => {
@@ -225,11 +252,17 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   },
 
   addPhotoToPage: (photo) => {
+    const page = get().getCurrentPage();
+    if (page) {
+      const cap = getPagePhotoCapacity(page);
+      if (cap.full) return;
+    }
     const el = createPhotoElement(photo, { x: 20, y: 20, width: 35, height: 45 });
     withHistory(get, set, (album) => {
-      const page = album.pages[get().currentPageIndex];
-      if (!page) return album;
-      page.elements.push(el);
+      const p = album.pages[get().currentPageIndex];
+      if (!p) return album;
+      if (getPagePhotoCapacity(p).full) return album;
+      p.elements.push(el);
       if (!album.selectedPhotoIds.includes(photo.id)) {
         album.selectedPhotoIds = [...album.selectedPhotoIds, photo.id];
       }
@@ -305,6 +338,38 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
         .filter(Boolean)
         .map((p, i) => ({ ...p!, order: i }));
       return album;
+    });
+  },
+
+  applyAiSmartAlbum: () => {
+    const { album } = get();
+    if (!album) return;
+    const catalog = getAlbumPhotoCatalog(36);
+    const selected = catalog.filter((p) => album.selectedPhotoIds.includes(p.id));
+    const photos = (selected.length ? selected : catalog).map((p) => ({ id: p.id, url: p.url }));
+    const snapshot = deepClone(album);
+    const next = buildAiSmartAlbum(album, photos, { pageCount: Math.max(album.info.pageCount, 12) });
+    set({
+      album: next,
+      past: [...get().past.slice(-(MAX_HISTORY - 1)), snapshot],
+      future: [],
+      currentPageIndex: 0,
+      selectedIds: [],
+    });
+  },
+
+  applyAiAutoLayout: () => {
+    const { album, currentPageIndex } = get();
+    if (!album) return;
+    const catalog = getAlbumPhotoCatalog(24);
+    const photos = catalog.map((p) => ({ id: p.id, url: p.url }));
+    const snapshot = deepClone(album);
+    const next = buildAiAutoLayoutPage(album, currentPageIndex, photos);
+    set({
+      album: next,
+      past: [...get().past.slice(-(MAX_HISTORY - 1)), snapshot],
+      future: [],
+      selectedIds: [],
     });
   },
 

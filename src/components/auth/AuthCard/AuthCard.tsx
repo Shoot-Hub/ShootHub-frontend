@@ -20,13 +20,13 @@ export function AuthCard({
     >
       <div className="shrink-0">
         {eyebrow && (
-          <p className="text-sm font-semibold text-auth-accent">{eyebrow}</p>
+          <p className="text-sm font-semibold text-auth-primary">{eyebrow}</p>
         )}
         <h1
           className={cn(
             'font-bold tracking-tight text-ink',
-            compact ? 'text-xl' : 'text-[1.65rem]',
-            eyebrow && 'mt-0.5',
+            compact ? 'text-xl' : 'text-[1.75rem]',
+            eyebrow && 'mt-1',
           )}
         >
           {title}

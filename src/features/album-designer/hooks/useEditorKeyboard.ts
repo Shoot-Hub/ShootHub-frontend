@@ -1,30 +1,42 @@
 import { useEffect } from 'react';
-import { useEditorStore } from '../store';
+import { useEditorStore, useEditorUiStore } from '../store';
 
 export function useEditorKeyboard() {
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
+    const onKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
       if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
         return;
       }
 
       const store = useEditorStore.getState();
+      const ui = useEditorUiStore.getState();
       const meta = e.metaKey || e.ctrlKey;
+
+      if (e.code === 'Space' && !meta) {
+        e.preventDefault();
+        ui.setSpacePanning(true);
+        return;
+      }
 
       if (meta && e.key.toLowerCase() === 'z' && !e.shiftKey) {
         e.preventDefault();
         store.undo();
         return;
       }
-      if (meta && e.key.toLowerCase() === 'z' && e.shiftKey) {
+      if (meta && ((e.key.toLowerCase() === 'z' && e.shiftKey) || e.key.toLowerCase() === 'y')) {
         e.preventDefault();
         store.redo();
         return;
       }
-      if (meta && e.key.toLowerCase() === 'y') {
+      if (meta && e.key.toLowerCase() === 'c') {
         e.preventDefault();
-        store.redo();
+        store.copySelected();
+        return;
+      }
+      if (meta && e.key.toLowerCase() === 'v') {
+        e.preventDefault();
+        store.pasteClipboard();
         return;
       }
       if (meta && e.key.toLowerCase() === 'd') {
@@ -36,6 +48,16 @@ export function useEditorKeyboard() {
         e.preventDefault();
         const page = store.getCurrentPage();
         if (page) store.select(page.elements.map((el) => el.id));
+        return;
+      }
+      if (meta && (e.key === '=' || e.key === '+')) {
+        e.preventDefault();
+        ui.zoomIn();
+        return;
+      }
+      if (meta && e.key === '-') {
+        e.preventDefault();
+        ui.zoomOut();
         return;
       }
       if (e.key === 'Escape') {
@@ -67,7 +89,27 @@ export function useEditorKeyboard() {
       }
     };
 
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    const onKeyUp = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        useEditorUiStore.getState().setSpacePanning(false);
+      }
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      e.preventDefault();
+      const ui = useEditorUiStore.getState();
+      if (e.deltaY < 0) ui.zoomIn();
+      else ui.zoomOut();
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
+    window.addEventListener('wheel', onWheel, { passive: false });
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
+      window.removeEventListener('wheel', onWheel);
+    };
   }, []);
 }

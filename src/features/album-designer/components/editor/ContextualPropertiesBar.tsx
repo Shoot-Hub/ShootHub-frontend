@@ -44,8 +44,8 @@ export function ContextualPropertiesBar() {
 
   if (selected.type === 'text') {
     return (
-      <div className="absolute bottom-[100px] left-1/2 z-30 flex w-[min(920px,calc(100%-2rem))] -translate-x-1/2 items-center gap-2 overflow-x-auto rounded-2xl border border-[#E8EAEF] bg-white px-3 py-2 shadow-[0_12px_40px_-12px_rgba(45,52,54,0.35)]">
-        <span className="shrink-0 rounded-lg bg-[#F3EEFF] px-2.5 py-1.5 text-[11px] font-bold text-[#6B46FE]">
+      <div className="absolute bottom-[118px] left-1/2 z-30 flex w-[min(920px,calc(100%-2rem))] -translate-x-1/2 items-center gap-2 overflow-x-auto rounded-[20px] border border-[var(--ad-border)] bg-white/95 px-3 py-2 shadow-[var(--ad-shadow-float)] backdrop-blur-xl xl:hidden">
+        <span className="shrink-0 rounded-[12px] bg-[var(--ad-primary-soft)] px-2.5 py-1.5 text-[11px] font-bold text-[var(--ad-primary)]">
           Text
         </span>
         <select
@@ -138,8 +138,8 @@ export function ContextualPropertiesBar() {
   const photo = selected as PhotoElement;
 
   return (
-    <div className="absolute bottom-[100px] left-1/2 z-30 flex w-[min(980px,calc(100%-2rem))] -translate-x-1/2 items-center gap-1 overflow-x-auto rounded-2xl border border-[#E8EAEF] bg-white px-2 py-2 shadow-[0_12px_40px_-12px_rgba(45,52,54,0.35)] sm:gap-2 sm:px-3">
-      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-[#F3EEFF] px-2.5 py-1.5 text-[11px] font-bold text-[#6B46FE]">
+    <div className="absolute bottom-[118px] left-1/2 z-30 flex w-[min(980px,calc(100%-2rem))] -translate-x-1/2 items-center gap-1 overflow-x-auto rounded-[20px] border border-[var(--ad-border)] bg-white/95 px-2 py-2 shadow-[var(--ad-shadow-float)] backdrop-blur-xl sm:gap-2 sm:px-3 xl:hidden">
+      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[12px] bg-[var(--ad-primary-soft)] px-2.5 py-1.5 text-[11px] font-bold text-[var(--ad-primary)]">
         <ImageIcon className="h-3.5 w-3.5" />
         Image
       </span>

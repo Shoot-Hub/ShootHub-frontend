@@ -19,7 +19,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
         <Input
           ref={ref}
           type={visible ? 'text' : 'password'}
-          leftIcon={<Lock className="h-[18px] w-[18px]" strokeWidth={2} />}
+          leftIcon={<Lock className="h-[18px] w-[18px] !text-auth-primary" strokeWidth={2} />}
           rightElement={
             <button
               type="button"

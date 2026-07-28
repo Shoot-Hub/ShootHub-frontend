@@ -1,0 +1,69 @@
+/* Album Designer — premium editor theme tokens */
+.album-editor-root {
+  --ad-bg: #ffffff;
+  --ad-canvas: #f4f5f8;
+  --ad-ink: #0a0a0b;
+  --ad-ink-soft: #5b6472;
+  --ad-ink-muted: #8b93a1;
+  --ad-border: #ebecef;
+  --ad-border-soft: #f0f1f4;
+  --ad-primary: #6b46fe;
+  --ad-primary-hover: #5a38f0;
+  --ad-primary-soft: #f3eeff;
+  --ad-primary-mid: #ebe4ff;
+  --ad-primary-glow: rgba(107, 70, 254, 0.22);
+  --ad-success: #22c55e;
+  --ad-danger: #ef4444;
+  --ad-radius: 20px;
+  --ad-radius-sm: 12px;
+  --ad-radius-xs: 8px;
+  --ad-shadow-soft: 0 4px 24px -6px rgba(10, 10, 11, 0.08), 0 2px 8px -2px rgba(10, 10, 11, 0.04);
+  --ad-shadow-panel: 0 8px 40px -12px rgba(107, 70, 254, 0.12), 0 4px 16px -4px rgba(10, 10, 11, 0.06);
+  --ad-shadow-float: 0 16px 48px -16px rgba(10, 10, 11, 0.2), 0 8px 24px -8px rgba(107, 70, 254, 0.15);
+  --ad-glass: rgba(255, 255, 255, 0.78);
+  --ad-glass-border: rgba(255, 255, 255, 0.55);
+  --ad-font: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --ad-font-display: 'Playfair Display', Georgia, serif;
+  font-family: var(--ad-font);
+  color: var(--ad-ink);
+  background: var(--ad-bg);
+}
+
+.album-editor-root .ad-glass {
+  background: var(--ad-glass);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid var(--ad-glass-border);
+  box-shadow: var(--ad-shadow-soft);
+}
+
+.album-editor-root .ad-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.album-editor-root .ad-scrollbar::-webkit-scrollbar-thumb {
+  background: #d4d7de;
+  border-radius: 999px;
+}
+.album-editor-root .ad-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #b8bcc6;
+}
+
+.album-editor-root .ad-grid-overlay {
+  background-image:
+    linear-gradient(to right, rgba(107, 70, 254, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(107, 70, 254, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.album-editor-root .ad-safe-area {
+  box-shadow: inset 0 0 0 1px rgba(107, 70, 254, 0.2);
+}
+
+.album-editor-root .ad-bleed-area {
+  box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.25);
+}
+
+.album-editor-root .ad-print-margin {
+  box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.3);
+}

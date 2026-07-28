@@ -13,11 +13,11 @@ export const TermsCheckbox = forwardRef<HTMLInputElement, TermsCheckboxProps>(
         label={
           <>
             I agree to the{' '}
-            <Link to="/terms" className="font-semibold text-auth-accent hover:text-indigo-700">
+            <Link to="/terms" className="font-semibold text-auth-primary hover:text-auth-accent">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link to="/privacy" className="font-semibold text-auth-accent hover:text-indigo-700">
+            <Link to="/privacy" className="font-semibold text-auth-primary hover:text-auth-accent">
               Privacy Policy
             </Link>
           </>

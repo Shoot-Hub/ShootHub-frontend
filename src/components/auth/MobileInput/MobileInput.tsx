@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { Phone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { COUNTRY_CODES } from '@/constants/auth';
 
@@ -21,7 +22,7 @@ export const MobileInput = forwardRef<HTMLInputElement, MobileInputProps>(functi
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={inputId} className="text-sm font-medium text-ink">
+      <label htmlFor={inputId} className="text-sm font-semibold text-ink">
         {label}
       </label>
       <div
@@ -51,23 +52,28 @@ export const MobileInput = forwardRef<HTMLInputElement, MobileInputProps>(functi
 
         <div className="w-px shrink-0 bg-border" />
 
-        <input
-          ref={ref}
-          id={inputId}
-          name={name}
-          type="tel"
-          inputMode="numeric"
-          value={value}
-          onChange={(event) => onChange?.(event.target.value)}
-          placeholder="Enter your mobile number"
-          className="min-w-0 flex-1 bg-transparent px-4 text-sm text-ink placeholder:text-ink-light focus:outline-none"
-          aria-invalid={!!error}
-          aria-describedby={error ? `${inputId}-error` : undefined}
-        />
+        <div className="relative min-w-0 flex-1">
+          <Phone
+            className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 !text-auth-primary"
+            strokeWidth={2}
+            aria-hidden="true"
+          />
+          <input
+            ref={ref}
+            id={inputId}
+            name={name}
+            type="tel"
+            inputMode="numeric"
+            value={value}
+            onChange={(event) => onChange?.(event.target.value)}
+            placeholder="Enter your mobile number"
+            className="h-12 w-full bg-transparent py-0 pl-10 pr-4 text-sm text-ink placeholder:text-ink-light focus:outline-none"
+            aria-invalid={!!error}
+            aria-describedby={error ? `${inputId}-error` : undefined}
+          />
+        </div>
       </div>
-      <span className="sr-only">
-        Selected country: {selectedCountry.label}
-      </span>
+      <span className="sr-only">Selected country: {selectedCountry.label}</span>
       {error && (
         <p id={`${inputId}-error`} className="text-sm text-red-500" role="alert">
           {error}

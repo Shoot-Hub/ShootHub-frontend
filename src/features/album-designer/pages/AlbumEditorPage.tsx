@@ -5,14 +5,16 @@ import { ShootHubLoader } from '@/components/ShootHubLoader';
 import {
   EditorTopBar,
   EditorLeftPanel,
+  EditorRightPanel,
   CanvasToolbar,
   SpreadCanvas,
   PageFilmstrip,
-  PagesNavigator,
   ContextualPropertiesBar,
+  AiToolsBar,
 } from '../components/editor';
 import { useEditorStore } from '../store';
 import { useEditorKeyboard } from '../hooks';
+import '../styles/editor-theme.css';
 
 function useAutosaveLabel(updatedAt?: string) {
   const [now, setNow] = useState(Date.now());
@@ -53,7 +55,6 @@ export function AlbumEditorPage() {
     setReady(true);
   }, [albumId, load]);
 
-  // Autosave every 45s while editing
   useEffect(() => {
     if (!album) return;
     const t = setInterval(() => {
@@ -64,7 +65,7 @@ export function AlbumEditorPage() {
 
   if (!ready) {
     return (
-      <div className="flex h-dvh items-center justify-center bg-[#F8F9FB]">
+      <div className="album-editor-root flex h-dvh items-center justify-center bg-[var(--ad-canvas)]">
         <ShootHubLoader size="lg" label="Opening album…" />
       </div>
     );
@@ -72,16 +73,16 @@ export function AlbumEditorPage() {
 
   if (missing || !album) {
     return (
-      <div className="flex h-dvh items-center justify-center bg-[#F8F9FB] p-6">
-        <div className="max-w-md rounded-2xl border border-[#EEF0F4] bg-white p-8 text-center shadow-sm">
-          <h2 className="text-lg font-bold text-[#2D3436]">Album not found</h2>
-          <p className="mt-2 text-sm text-[#A0A4B0]">
+      <div className="album-editor-root flex h-dvh items-center justify-center bg-[var(--ad-canvas)] p-6">
+        <div className="max-w-md rounded-[20px] border border-[var(--ad-border)] bg-white p-8 text-center shadow-[var(--ad-shadow-panel)]">
+          <h2 className="text-lg font-bold text-[var(--ad-ink)]">Album not found</h2>
+          <p className="mt-2 text-sm text-[var(--ad-ink-muted)]">
             This album may have been deleted or never saved.
           </p>
           <button
             type="button"
             onClick={() => navigate('/creator/album-designer')}
-            className="mt-5 rounded-xl bg-[#6B46FE] px-4 py-2.5 text-sm font-semibold text-white"
+            className="mt-5 rounded-[12px] bg-[var(--ad-primary)] px-4 py-2.5 text-sm font-semibold text-white"
           >
             Back to Album Designer
           </button>
@@ -91,7 +92,7 @@ export function AlbumEditorPage() {
   }
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-white">
+    <div className="album-editor-root flex h-dvh flex-col overflow-hidden bg-white">
       <EditorTopBar
         lastSavedLabel={lastSavedLabel}
         onRename={() => {
@@ -112,24 +113,27 @@ export function AlbumEditorPage() {
         </div>
 
         <div className="relative flex min-w-0 flex-1 flex-col">
-          <div className="flex items-center gap-2 border-b border-[#E8EAEF] px-3 py-2 md:hidden">
+          <div className="flex items-center gap-2 border-b border-[var(--ad-border)] px-3 py-2 md:hidden">
             <button
               type="button"
               onClick={() => setMobileToolsOpen(true)}
-              className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-[#E8EAEF] bg-white px-3 text-xs font-semibold text-[#2D3436] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40"
+              className="inline-flex h-9 items-center gap-1.5 rounded-[12px] border border-[var(--ad-border)] bg-white px-3 text-xs font-semibold text-[var(--ad-ink)]"
               aria-label="Open design tools"
             >
-              <LayoutTemplate className="h-4 w-4 text-[#6B46FE]" />
+              <LayoutTemplate className="h-4 w-4 text-[var(--ad-primary)]" />
               Tools
             </button>
           </div>
-          <CanvasToolbar />
-          <SpreadCanvas />
+          <div className="relative min-h-0 flex-1">
+            <CanvasToolbar />
+            <SpreadCanvas />
+            <ContextualPropertiesBar />
+          </div>
           <PageFilmstrip />
-          <ContextualPropertiesBar />
+          <AiToolsBar />
         </div>
 
-        <PagesNavigator />
+        <EditorRightPanel />
       </div>
 
       {mobileToolsOpen ? (
@@ -140,19 +144,19 @@ export function AlbumEditorPage() {
             aria-label="Close design tools"
             onClick={() => setMobileToolsOpen(false)}
           />
-          <div className="absolute inset-y-0 left-0 flex w-[min(100%,300px)] flex-col bg-white shadow-xl">
-            <div className="flex h-12 items-center justify-between border-b border-[#E8EAEF] px-3">
-              <span className="text-sm font-bold text-[#2D3436]">Design tools</span>
+          <div className="absolute inset-y-0 left-0 flex w-[min(100%,372px)] flex-col overflow-hidden bg-white shadow-xl">
+            <div className="flex h-12 items-center justify-between border-b border-[var(--ad-border)] px-3">
+              <span className="text-sm font-bold text-[var(--ad-ink)]">Design tools</span>
               <button
                 type="button"
                 aria-label="Close"
                 onClick={() => setMobileToolsOpen(false)}
-                className="rounded-lg p-2 text-[#636E72] hover:bg-[#F8F9FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40"
+                className="rounded-[12px] p-2 text-[var(--ad-ink-soft)] hover:bg-[#F8F9FB]"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="min-h-0 flex-1 overflow-hidden">
               <EditorLeftPanel />
             </div>
           </div>

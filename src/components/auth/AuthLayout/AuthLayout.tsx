@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils';
 import { Logo } from '@/pages/LandingPage/landing/Logo';
 import { AUTH_ROUTES } from '@/constants/auth';
 import { AuthBanner } from '@/components/auth/AuthBanner';
+import { AuthFooterBanner } from '@/components/auth/AuthFooterBanner';
+import { LanguageSelector } from '@/components/auth/LanguageSelector';
 import type { AuthBannerVariant } from '@/types/auth';
 
 type AuthLayoutProps = {
@@ -14,6 +16,7 @@ type AuthLayoutProps = {
 
 export function AuthLayout({ variant, children }: AuthLayoutProps) {
   const isSignup = variant === 'signup';
+  const showLoginChrome = variant === 'login';
 
   return (
     <div className="flex min-h-dvh flex-col overflow-y-auto bg-auth-bg lg:h-dvh lg:overflow-hidden">
@@ -31,23 +34,44 @@ export function AuthLayout({ variant, children }: AuthLayoutProps) {
 
         <div
           className={cn(
-            'flex min-h-0 w-full flex-1 flex-col rounded-[20px] bg-white shadow-auth-shell lg:overflow-hidden lg:flex-row',
-            isSignup ? 'lg:max-h-[700px]' : 'lg:max-h-[720px]',
+            'flex min-h-0 w-full flex-1 flex-col rounded-[var(--radius-auth)] bg-white shadow-auth-shell lg:overflow-hidden lg:flex-row',
+            isSignup ? 'lg:max-h-[860px]' : 'lg:max-h-[760px]',
           )}
         >
-          <aside className="hidden min-h-0 lg:flex lg:w-[44%] xl:w-[42%]">
+          <aside className="hidden min-h-0 lg:flex lg:w-[46%] xl:w-[48%]">
             <AuthBanner variant={variant} />
           </aside>
 
           <main
             className={cn(
-              'flex min-h-0 flex-1 bg-white px-4 py-4 sm:px-5 lg:px-5 lg:py-5',
+              'relative flex min-h-0 flex-1 flex-col bg-white',
               isSignup
-                ? 'items-start justify-center overflow-y-auto'
-                : 'items-center justify-center overflow-y-auto lg:overflow-hidden',
+                ? 'overflow-y-auto px-4 py-5 sm:px-6 lg:px-7 lg:py-6'
+                : 'overflow-y-auto lg:overflow-hidden',
             )}
           >
-            <div className="mx-auto w-full max-w-[440px]">{children}</div>
+            {showLoginChrome && (
+              <div className="absolute right-4 top-4 z-10 sm:right-6 sm:top-5">
+                <LanguageSelector />
+              </div>
+            )}
+
+            <div
+              className={cn(
+                'mx-auto flex w-full max-w-[440px] flex-1 flex-col',
+                showLoginChrome
+                  ? 'justify-center px-4 pb-4 pt-14 sm:px-6 sm:pb-5 sm:pt-16 lg:px-5'
+                  : 'justify-start',
+              )}
+            >
+              {children}
+            </div>
+
+            {showLoginChrome && (
+              <div className="mt-auto shrink-0 px-4 pb-4 sm:px-5 sm:pb-5">
+                <AuthFooterBanner />
+              </div>
+            )}
           </main>
         </div>
       </div>

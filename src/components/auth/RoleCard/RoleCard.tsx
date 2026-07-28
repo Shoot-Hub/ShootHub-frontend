@@ -27,9 +27,9 @@ export function RoleCard({
       whileTap={{ scale: 0.99 }}
       className={cn(
         'relative flex cursor-pointer flex-col rounded-2xl border p-3.5 transition-all duration-200',
-        'focus-within:ring-2 focus-within:ring-auth-accent/30 focus-within:ring-offset-2',
+        'focus-within:ring-2 focus-within:ring-auth-primary/30 focus-within:ring-offset-2',
         selected
-          ? 'border-auth-accent bg-auth-accent/[0.04] shadow-sm'
+          ? 'border-auth-primary bg-auth-primary/[0.06] shadow-sm'
           : 'border-border bg-white hover:border-gray-300',
       )}
     >
@@ -46,22 +46,22 @@ export function RoleCard({
       <span
         className={cn(
           'mb-3 flex h-[18px] w-[18px] items-center justify-center rounded-full border-2 transition-colors',
-          selected ? 'border-auth-accent' : 'border-gray-300',
+          selected ? 'border-auth-primary' : 'border-gray-300',
         )}
         aria-hidden="true"
       >
-        {selected && <span className="h-2 w-2 rounded-full bg-auth-accent" />}
+        {selected && <span className="h-2 w-2 rounded-full bg-auth-primary" />}
       </span>
 
       <div className="flex items-start gap-3">
         <div
           className={cn(
             'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors',
-            selected ? 'bg-auth-accent/10' : 'bg-gray-100',
+            selected ? 'bg-auth-primary/10' : 'bg-gray-100',
           )}
         >
           <Icon
-            className={cn('h-5 w-5', selected ? 'text-auth-accent' : 'text-ink-muted')}
+            className={cn('h-5 w-5', selected ? 'text-auth-primary' : 'text-ink-muted')}
             strokeWidth={2}
           />
         </div>

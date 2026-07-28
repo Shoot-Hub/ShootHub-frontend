@@ -17,14 +17,14 @@ export function SocialButton({ label, icon, onClick }: SocialButtonProps) {
       whileTap={{ scale: 0.99 }}
       onClick={onClick}
       className={cn(
-        'flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-border bg-white',
-        'text-sm font-semibold text-ink transition-colors duration-200',
+        'flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-border bg-white',
+        'text-[13px] font-semibold text-ink transition-colors duration-200',
         'hover:border-auth-primary/30 hover:bg-gray-50 hover:shadow-sm',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-auth-primary/30',
       )}
     >
       {icon}
-      {label}
+      <span className="truncate">{label}</span>
     </motion.button>
   );
 }

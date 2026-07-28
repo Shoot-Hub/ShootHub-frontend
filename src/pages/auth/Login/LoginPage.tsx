@@ -9,9 +9,9 @@ import {
   AuthInput,
   PasswordInput,
   RememberMe,
+  AuthSubmitButton,
   SocialLogin,
   Divider,
-  AuthSubmitButton,
 } from '@/components/auth';
 import { loginSchema, type LoginFormData } from '@/schemas/auth';
 import { AUTH_ROUTES } from '@/constants/auth';
@@ -43,7 +43,7 @@ export function LoginPage() {
         if (user.role === 'photographer') {
           navigate('/creator');
         } else {
-          navigate('/');
+          navigate('/user');
         }
         toast.success('Welcome back!');
       } else {
@@ -56,10 +56,6 @@ export function LoginPage() {
     }
   };
 
-  const handleSocialLogin = (provider: string) => {
-    toast(`Continue with ${provider} — connect your OAuth provider`);
-  };
-
   return (
     <AuthLayout variant="login">
       <AuthCard
@@ -68,7 +64,7 @@ export function LoginPage() {
         description="Continue to ShootHub and manage your bookings, galleries and more."
         footer={
           <p className="text-center text-sm text-ink-muted">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link
               to={AUTH_ROUTES.SIGNUP}
               className="font-semibold text-auth-primary transition-colors hover:text-auth-accent"
@@ -108,10 +104,15 @@ export function LoginPage() {
           <AuthSubmitButton loading={isSubmitting} loadingText="Logging in...">
             Log in
           </AuthSubmitButton>
-        </form>
 
-        <Divider label="or continue with" />
-        <SocialLogin onSocialLogin={handleSocialLogin} />
+          <Divider label="or continue with" />
+
+          <SocialLogin
+            onSocialLogin={(provider) => {
+              toast(`${provider} login coming soon`);
+            }}
+          />
+        </form>
       </AuthCard>
     </AuthLayout>
   );

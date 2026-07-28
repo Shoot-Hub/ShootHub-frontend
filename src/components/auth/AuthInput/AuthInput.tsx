@@ -13,7 +13,7 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(function A
   return (
     <Input
       ref={ref}
-      leftIcon={<Icon className="h-[18px] w-[18px]" strokeWidth={2} />}
+      leftIcon={<Icon className="h-[18px] w-[18px] !text-auth-primary" strokeWidth={2} />}
       {...props}
     />
   );

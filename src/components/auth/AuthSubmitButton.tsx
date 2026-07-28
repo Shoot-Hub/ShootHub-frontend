@@ -25,16 +25,16 @@ export function AuthSubmitButton({
         disabled={disabled || loading}
         aria-busy={loading}
         className={cn(
-          'flex h-12 w-full items-center justify-between rounded-xl bg-auth-accent px-5 text-[15px] font-semibold text-white',
-          'shadow-[0_4px_16px_-2px_rgba(79,70,229,0.45)] transition-colors hover:bg-indigo-700',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-auth-accent/40 focus-visible:ring-offset-2',
+          'relative flex h-12 w-full items-center justify-center rounded-xl bg-auth-primary px-5 text-[15px] font-semibold text-white',
+          'shadow-auth-button transition-colors hover:bg-auth-accent',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-auth-primary/40 focus-visible:ring-offset-2',
           'disabled:pointer-events-none disabled:opacity-50',
           className,
         )}
       >
         <span>{loading && loadingText ? loadingText : children}</span>
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
-          <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+        <span className="absolute right-2.5 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-sm">
+          <ArrowRight className="h-4 w-4 text-auth-primary" strokeWidth={2.5} />
         </span>
       </button>
     </motion.div>
