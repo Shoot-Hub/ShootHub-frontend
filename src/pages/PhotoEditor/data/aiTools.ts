@@ -1,4 +1,4 @@
-import type { AiFaceBox, AiToolId } from '../types';
+import type { Adjustments, AiFaceBox, AiToolId } from '../types';
 
 export type AiToolDefinition = {
   id: AiToolId;
