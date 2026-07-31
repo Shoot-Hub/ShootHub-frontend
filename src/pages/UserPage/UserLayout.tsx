@@ -3,53 +3,49 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   Bell,
-  BookImage,
   CalendarDays,
   ChevronDown,
-  CircleHelp,
-  CreditCard,
-  Glasses,
-  Grid2x2,
+  ChevronsLeft,
   Heart,
-  Home,
-  Images,
+  Headphones,
+  Image,
+  LayoutGrid,
   LogOut,
-  MapPin,
   Menu,
+  MessageSquare,
+  MoreVertical,
   Search,
   Settings,
-  UserRound,
-  Users,
-  Video,
-  X,
+  Sparkles,
+  Star,
+  UserSearch,
+  Wallet,
 } from 'lucide-react';
 import { useAuth } from '@/store';
 import { userService } from '@/services/user';
 import shoothubLogo from '@/assets/landing/shoothub-logo-mark.png';
+import shoothubLogoIcon from '@/assets/landing/shoothub-logo-icon.png';
 
 type SidebarBadge = number | string;
 
 const sidebarNav: {
-  icon: typeof Home;
+  icon: typeof LayoutGrid;
   label: string;
   path: string;
   badge?: SidebarBadge;
 }[] = [
-  { icon: Home, label: 'Dashboard', path: '/user' },
-  { icon: CalendarDays, label: 'My Events', path: '/user/my-events', badge: 2 },
-  { icon: Images, label: 'All Galleries', path: '/user/galleries' },
-  { icon: BookImage, label: 'All Albums', path: '/user/albums' },
-  { icon: Video, label: 'All Reels', path: '/user/reels' },
-  { icon: Glasses, label: 'AI Face Search', path: '/user/ai-face-search', badge: 'New' },
-  { icon: Bell, label: 'Notifications', path: '/user/notifications', badge: 6 },
-  { icon: CreditCard, label: 'Payments', path: '/user/payments' },
-  { icon: UserRound, label: 'My Photographer', path: '/user/my-photographer' },
+  { icon: LayoutGrid, label: 'Dashboard', path: '/user' },
+  { icon: UserSearch, label: 'Find Professionals', path: '/user/find-professionals' },
+  { icon: CalendarDays, label: 'My Bookings', path: '/user/my-bookings' },
+  { icon: MessageSquare, label: 'Messages', path: '/user/messages', badge: 3 },
   { icon: Heart, label: 'Favorites', path: '/user/favorites' },
-  { icon: Users, label: 'Explore Creators', path: '/user/explore-creators' },
-  { icon: MapPin, label: 'Top Locations', path: '/user/top-locations' },
-  { icon: Grid2x2, label: 'Categories', path: '/user/categories' },
-  { icon: CircleHelp, label: 'Support', path: '/user/support' },
+  { icon: Sparkles, label: 'AI Face Search', path: '/user/ai-face-search' },
+  { icon: Star, label: 'Reviews', path: '/user/reviews' },
+  { icon: Image, label: 'My Galleries', path: '/user/galleries' },
+  { icon: Wallet, label: 'Payments', path: '/user/payments' },
+  { icon: Bell, label: 'Notifications', path: '/user/notifications', badge: 6 },
   { icon: Settings, label: 'Settings', path: '/user/settings' },
+  { icon: Headphones, label: 'Help & Support', path: '/user/support' },
 ];
 
 function getPageTitle(pathname: string) {
@@ -59,13 +55,40 @@ function getPageTitle(pathname: string) {
 }
 
 function getSearchPlaceholder(pathname: string) {
-  if (pathname.startsWith('/user/my-events')) return 'Search events, dates, creators...';
-  if (pathname.startsWith('/user/galleries')) return 'Search galleries...';
-  if (pathname.startsWith('/user/albums')) return 'Search albums...';
-  if (pathname.startsWith('/user/reels')) return 'Search reels...';
+  if (pathname.startsWith('/user/find-professionals')) return 'Search professionals...';
+  if (pathname.startsWith('/user/my-bookings')) return 'Search bookings, dates...';
+  if (pathname.startsWith('/user/messages')) return 'Search messages, photographers, bookings...';
+  if (pathname.startsWith('/user/favorites')) return 'Search favorites...';
   if (pathname.startsWith('/user/ai-face-search')) return 'Search faces, events...';
-  if (pathname.startsWith('/user/explore-creators')) return 'Search creators...';
+  if (pathname.startsWith('/user/reviews')) return 'Search reviews...';
+  if (pathname.startsWith('/user/notifications')) return 'Search notifications, bookings, messages...';
+  if (pathname.startsWith('/user/galleries')) return 'Search galleries, events, photographers...';
+  if (pathname.startsWith('/user/payments')) return 'Search payments, invoices, bookings...';
   return 'Search anything...';
+}
+
+function ShootHubMark({ collapsed }: { collapsed?: boolean }) {
+  if (collapsed) {
+    return (
+      <Link to="/user" className="flex h-10 w-10 items-center justify-center">
+        <img
+          src={shoothubLogoIcon}
+          alt="ShootHub"
+          className="h-9 w-9 object-contain"
+        />
+      </Link>
+    );
+  }
+
+  return (
+    <Link to="/user" className="flex min-w-0 flex-1 items-center">
+      <img
+        src={shoothubLogo}
+        alt="ShootHub"
+        className="h-11 w-auto max-w-[180px] object-contain object-left"
+      />
+    </Link>
+  );
 }
 
 export function UserLayout() {
@@ -73,10 +96,13 @@ export function UserLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [headerMenuOpen, setHeaderMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   useEffect(() => {
     setSidebarOpen(false);
+    setUserMenuOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -113,6 +139,7 @@ export function UserLayout() {
     .toUpperCase()
     .slice(0, 2);
   const userAvatar = user?.avatar?.url || null;
+  const userEmail = user?.email || '';
   const pageTitle = getPageTitle(location.pathname);
   const searchPlaceholder = getSearchPlaceholder(location.pathname);
 
@@ -120,61 +147,92 @@ export function UserLayout() {
     <div className="min-h-screen bg-[#F8F9FB]">
       <aside
         id="user-sidebar"
-        className={`fixed inset-y-0 left-0 z-50 flex w-[272px] flex-col bg-white shadow-[4px_0_24px_-4px_rgba(107,70,254,0.08)] transition-transform duration-300 lg:translate-x-0 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 flex w-[268px] flex-col bg-white shadow-[4px_0_24px_-4px_rgba(107,70,254,0.08)] transition-all duration-300 lg:translate-x-0 ${
+          sidebarCollapsed ? 'lg:w-[88px]' : 'lg:w-[268px]'
+        } ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
-        <div className="flex h-[84px] shrink-0 items-center justify-between gap-2 px-4 pt-1">
-          <Link to="/user" className="flex min-w-0 flex-1 flex-col items-start justify-center gap-0.5">
-            <img
-              src={shoothubLogo}
-              alt="ShootHub"
-              className="h-11 w-auto max-w-[210px] object-contain object-left"
-            />
-            <span className="pl-0.5 text-[10px] font-medium tracking-wide text-[#A0A4B0]">
-              Capture. Connect. Cherish.
-            </span>
-          </Link>
-          <button
-            type="button"
-            aria-label="Close sidebar"
-            onClick={() => setSidebarOpen(false)}
-            className="rounded-lg p-1.5 text-[#636E72] hover:bg-[#F8F9FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40 lg:hidden"
-          >
-            <X className="h-5 w-5" />
-          </button>
+        {/* Brand header */}
+        <div
+          className={`flex h-[76px] shrink-0 items-center gap-2 border-b border-[#F3F4F8] ${
+            sidebarCollapsed ? 'justify-center px-2' : 'justify-between px-4'
+          }`}
+        >
+          <ShootHubMark collapsed={sidebarCollapsed} />
+          {!sidebarCollapsed && (
+            <button
+              type="button"
+              aria-label="Collapse sidebar"
+              onClick={() => {
+                if (window.matchMedia('(min-width: 1024px)').matches) {
+                  setSidebarCollapsed(true);
+                } else {
+                  setSidebarOpen(false);
+                }
+              }}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F3EEFF] text-[#6B46FE] transition-colors hover:bg-[#EBE4FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40"
+            >
+              <ChevronsLeft className="h-4 w-4" />
+            </button>
+          )}
+          {sidebarCollapsed && (
+            <button
+              type="button"
+              aria-label="Expand sidebar"
+              onClick={() => setSidebarCollapsed(false)}
+              className="absolute right-[-14px] top-[22px] hidden h-7 w-7 items-center justify-center rounded-full border border-[#EEF0F4] bg-white text-[#6B46FE] shadow-sm hover:bg-[#F3EEFF] lg:flex"
+            >
+              <ChevronsLeft className="h-3.5 w-3.5 rotate-180" />
+            </button>
+          )}
         </div>
 
-        <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 pb-3 pt-1">
+        {/* Nav */}
+        <nav
+          className={`flex-1 overflow-y-auto py-3 ${
+            sidebarCollapsed ? 'space-y-1 px-2' : 'space-y-0.5 px-3'
+          }`}
+        >
           {sidebarNav.map((item) => {
             const active = isActive(item.path);
-            const isTextBadge = typeof item.badge === 'string';
             return (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13.5px] transition-all ${
+                title={sidebarCollapsed ? item.label : undefined}
+                className={`group relative flex items-center rounded-xl text-[13.5px] transition-all ${
+                  sidebarCollapsed ? 'justify-center px-0 py-2' : 'gap-3 px-3 py-2.5'
+                } ${
                   active
-                    ? 'bg-[#6B46FE] font-semibold text-white shadow-sm shadow-[#6B46FE]/25'
-                    : 'font-medium text-[#2D3436] hover:bg-[#F8F9FB]'
+                    ? 'bg-[#F3EEFF] font-bold text-[#6B46FE]'
+                    : 'font-medium text-[#5B6472] hover:bg-[#F8F9FB] hover:text-[#2D3436]'
                 }`}
               >
-                <item.icon
-                  className={`h-[18px] w-[18px] shrink-0 ${active ? 'text-white' : 'text-[#636E72]'}`}
-                />
-                <span className="flex-1">{item.label}</span>
-                {item.badge != null ? (
-                  <span
-                    className={`flex items-center justify-center font-bold ${
-                      isTextBadge
-                        ? `rounded-full px-2 py-0.5 text-[10px] ${
-                            active ? 'bg-white/20 text-white' : 'bg-[#6B46FE] text-white'
-                          }`
-                        : `h-5 min-w-5 rounded-full px-1.5 text-[10px] ${
-                            active ? 'bg-white text-[#6B46FE]' : 'bg-[#6B46FE] text-white'
-                          }`
-                    }`}
-                  >
+                {active && !sidebarCollapsed && (
+                  <span className="absolute left-0 top-1/2 h-7 w-[3px] -translate-y-1/2 rounded-r-full bg-[#6B46FE]" />
+                )}
+                <span
+                  className={`flex shrink-0 items-center justify-center rounded-lg ${
+                    sidebarCollapsed ? 'h-9 w-9' : 'h-8 w-8'
+                  } ${
+                    active
+                      ? 'bg-[#6B46FE] text-white shadow-sm shadow-[#6B46FE]/30'
+                      : 'text-[#8B93A1] group-hover:text-[#6B46FE]'
+                  }`}
+                >
+                  <item.icon className="h-[17px] w-[17px]" />
+                </span>
+                {!sidebarCollapsed && (
+                  <>
+                    <span className="flex-1 truncate">{item.label}</span>
+                    {item.badge != null ? (
+                      <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#6B46FE] px-1.5 text-[10px] font-bold text-white">
+                        {item.badge}
+                      </span>
+                    ) : null}
+                  </>
+                )}
+                {sidebarCollapsed && item.badge != null ? (
+                  <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#6B46FE] px-1 text-[9px] font-bold text-white ring-2 ring-white">
                     {item.badge}
                   </span>
                 ) : null}
@@ -183,17 +241,66 @@ export function UserLayout() {
           })}
         </nav>
 
-        <div className="shrink-0 border-t border-[#EEF0F4] p-3">
+        {/* User profile footer */}
+        <div className="relative shrink-0 border-t border-[#EEF0F4] p-3">
           <button
             type="button"
-            onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-xl px-2.5 py-2.5 text-sm font-semibold text-[#EA5455] transition-colors hover:bg-red-50"
+            onClick={() => setUserMenuOpen((v) => !v)}
+            className={`flex w-full items-center rounded-xl bg-[#FAFBFC] text-left transition-colors hover:bg-[#F5F4FF] ${
+              sidebarCollapsed ? 'justify-center p-2' : 'gap-2.5 px-2.5 py-2.5'
+            }`}
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FCE8E8]">
-              <LogOut className="h-4 w-4" />
-            </span>
-            Logout
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#6B46FE] to-[#8A60FF] text-xs font-bold text-white ring-2 ring-[#EDE9FE]">
+              {userAvatar ? (
+                <img src={userAvatar} alt="" className="h-full w-full object-cover" />
+              ) : (
+                initials
+              )}
+            </div>
+            {!sidebarCollapsed && (
+              <>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-bold text-[#1A1A2E]">{userName}</p>
+                  <p className="truncate text-[11px] text-[#8B8FA3]">{userEmail}</p>
+                </div>
+                <MoreVertical className="h-4 w-4 shrink-0 text-[#8B8FA3]" />
+              </>
+            )}
           </button>
+
+          <AnimatePresence>
+            {userMenuOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 6 }}
+                  className="absolute bottom-[4.5rem] left-3 right-3 z-50 rounded-2xl border border-[#EEF0F4] bg-white py-2 shadow-xl"
+                >
+                  <Link
+                    to="/user/settings"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#636E72] hover:bg-[#F8F9FB]"
+                  >
+                    <Settings className="h-4 w-4 text-[#6B46FE]" />
+                    Settings
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUserMenuOpen(false);
+                      handleLogout();
+                    }}
+                    className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-[#EA5455] hover:bg-red-50"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Logout
+                  </button>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
       </aside>
 
@@ -209,11 +316,18 @@ export function UserLayout() {
         )}
       </AnimatePresence>
 
-      <div className="lg:pl-[272px]">
+      <div
+        className={`min-h-screen transition-[padding-left] duration-300 ${
+          sidebarCollapsed ? 'lg:pl-[88px]' : 'lg:pl-[268px]'
+        }`}
+      >
         <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-[#EEF0F4] bg-white/95 px-3 backdrop-blur-xl sm:h-[72px] sm:gap-3 sm:px-6">
           <button
             type="button"
-            onClick={() => setSidebarOpen(true)}
+            onClick={() => {
+              setSidebarCollapsed(false);
+              setSidebarOpen(true);
+            }}
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-[#636E72] hover:bg-[#F8F9FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6B46FE]/40 lg:hidden"
             aria-label="Open menu"
             aria-expanded={sidebarOpen}
@@ -287,7 +401,7 @@ export function UserLayout() {
                     >
                       <div className="border-b border-[#F5F6F8] px-4 py-3">
                         <p className="text-sm font-bold text-[#2D3436]">{userName}</p>
-                        <p className="text-xs text-[#A0A4B0]">{user?.email}</p>
+                        <p className="text-xs text-[#A0A4B0]">{userEmail}</p>
                       </div>
                       <Link
                         to="/user/settings"

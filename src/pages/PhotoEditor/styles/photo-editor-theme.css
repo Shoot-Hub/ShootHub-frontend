@@ -1,0 +1,181 @@
+/* Photo Editor — Dark premium Lightroom-inspired theme */
+.photo-editor-root {
+  --pe-bg: #0b0f19;
+  --pe-surface: #151a24;
+  --pe-surface-2: #1a2030;
+  --pe-elevated: #1e2536;
+  --pe-canvas: #0a0d14;
+  --pe-ink: #f4f6fb;
+  --pe-ink-soft: #a8b0c0;
+  --pe-ink-muted: #6b7385;
+  --pe-border: rgba(255, 255, 255, 0.06);
+  --pe-border-strong: rgba(255, 255, 255, 0.12);
+  --pe-primary: #6d5df6;
+  --pe-primary-hover: #5b4be8;
+  --pe-primary-soft: rgba(109, 93, 246, 0.16);
+  --pe-primary-mid: rgba(109, 93, 246, 0.28);
+  --pe-primary-glow: rgba(109, 93, 246, 0.35);
+  --pe-danger: #ff6b6b;
+  --pe-success: #22c55e;
+  --pe-radius: 18px;
+  --pe-radius-sm: 12px;
+  --pe-radius-xs: 8px;
+  --pe-shadow-soft: 0 4px 24px -6px rgba(0, 0, 0, 0.45);
+  --pe-shadow-panel: 0 8px 40px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(109, 93, 246, 0.08);
+  --pe-shadow-float: 0 20px 60px -16px rgba(0, 0, 0, 0.7), 0 8px 24px -8px rgba(109, 93, 246, 0.25);
+  --pe-glass: rgba(21, 26, 36, 0.72);
+  --pe-glass-border: rgba(255, 255, 255, 0.08);
+  --pe-track: rgba(255, 255, 255, 0.08);
+  --pe-thumb-size: 72px;
+  --pe-img-filter: none;
+  --pe-vignette: 0;
+  --pe-font: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--pe-font);
+  color: var(--pe-ink);
+  background: var(--pe-bg);
+}
+
+.photo-editor-root .pe-glass {
+  background: var(--pe-glass);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid var(--pe-glass-border);
+  box-shadow: var(--pe-shadow-soft);
+}
+
+.photo-editor-root .pe-panel {
+  background: var(--pe-surface);
+  border-color: var(--pe-border);
+}
+
+.photo-editor-root .pe-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.photo-editor-root .pe-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+.photo-editor-root .pe-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+.photo-editor-root .pe-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.photo-editor-root .pe-canvas-bg {
+  background-color: var(--pe-canvas);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(109, 93, 246, 0.06), transparent 70%),
+    linear-gradient(45deg, #0e121c 25%, transparent 25%),
+    linear-gradient(-45deg, #0e121c 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #0e121c 75%),
+    linear-gradient(-45deg, transparent 75%, #0e121c 75%);
+  background-size: auto, 20px 20px, 20px 20px, 20px 20px, 20px 20px;
+  background-position: 0 0, 0 0, 0 10px, 10px -10px, -10px 0;
+}
+
+.photo-editor-root .pe-skeleton {
+  background: var(--pe-elevated);
+}
+
+.photo-editor-root .pe-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.06),
+    transparent
+  );
+  animation: pe-shimmer 1.4s infinite;
+}
+
+@keyframes pe-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* react-easy-crop dark chrome */
+.photo-editor-root .reactEasyCrop_Container {
+  background: var(--pe-canvas);
+}
+.photo-editor-root .reactEasyCrop_CropArea {
+  border: 2px solid rgba(109, 93, 246, 0.85) !important;
+  color: rgba(109, 93, 246, 0.5) !important;
+}
+
+/* Dynamic image filter via CSS variables (set by FilteredImage) */
+.photo-editor-root .pe-filtered-img {
+  filter: var(--pe-img-filter);
+}
+
+.photo-editor-root .pe-vignette-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 45%,
+    rgba(0, 0, 0, var(--pe-vignette)) 100%
+  );
+}
+
+.photo-editor-root .pe-thumb-box {
+  width: var(--pe-thumb-size);
+  height: var(--pe-thumb-size);
+}
+
+.photo-editor-root .pe-compare-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.photo-editor-root .pe-compare-img--after {
+  filter: var(--pe-img-filter);
+}
+
+/* Radix slider track overrides inside dark editor */
+.photo-editor-root .pe-slider-track {
+  background: var(--pe-track);
+}
+
+.photo-editor-root .pe-display-canvas {
+  width: var(--pe-display-w, auto);
+  height: var(--pe-display-h, auto);
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.photo-editor-root .pe-viewport-stage {
+  cursor: grab;
+  touch-action: none;
+}
+.photo-editor-root .pe-viewport-stage[data-dragging='1'] {
+  cursor: grabbing;
+}
+
+.photo-editor-root .pe-viewport-transform {
+  transform: translate(var(--pe-view-pan-x, 0px), var(--pe-view-pan-y, 0px))
+    scale(var(--pe-view-zoom, 1));
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.photo-editor-root .pe-badge-new {
+  background: var(--pe-primary);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 2px 6px;
+  line-height: 1;
+}

@@ -32,6 +32,8 @@ import {
   BookImage,
   GitCommitHorizontal,
   ReceiptIndianRupee,
+  Aperture,
+  Clapperboard,
 } from 'lucide-react';
 import { useAuth, setAuth } from '@/store';
 import { userService } from '@/services/user';
@@ -46,6 +48,8 @@ const sidebarNav = [
   { icon: Video, label: 'Reels', path: '/creator/reels' },
   { icon: Upload, label: 'Uploads', path: '/creator/uploads' },
   { icon: BookImage, label: 'Album Designer', path: '/creator/album-designer', badge: 'New' },
+  { icon: Aperture, label: 'Photo Editor', path: '/creator/photo-editor', badge: 'New' },
+  { icon: Clapperboard, label: 'Video Editor', path: '/creator/video-editor', badge: 'New' },
   { icon: GitCommitHorizontal, label: 'Event Timeline', path: '/creator/event-timeline', badge: 'New' },
   { icon: Package, label: 'Packages', path: '/creator/packages' },
   { icon: CreditCard, label: 'Subscriptions', path: '/creator/subscriptions' },
@@ -82,6 +86,12 @@ function getPageSubtitle(pathname: string, isCreateUpload: boolean) {
   if (pathname.startsWith('/creator/album-designer')) {
     return 'Design professional photo albums for your clients.';
   }
+  if (pathname.startsWith('/creator/photo-editor')) {
+    return 'Edit, enhance and batch-process client photos.';
+  }
+  if (pathname.startsWith('/creator/video-editor')) {
+    return 'Cut, grade and export wedding films & reels.';
+  }
   if (pathname.startsWith('/creator/event-timeline')) {
     return 'Track every moment of the big day.';
   }
@@ -102,6 +112,8 @@ function getSearchPlaceholder(pathname: string) {
   if (pathname.startsWith('/creator/portfolio')) return 'Search portfolio...';
   if (pathname.startsWith('/creator/uploads')) return 'Search uploads, galleries...';
   if (pathname.startsWith('/creator/album-designer')) return 'Search albums, clients, templates...';
+  if (pathname.startsWith('/creator/photo-editor')) return 'Search photos, edits, presets...';
+  if (pathname.startsWith('/creator/video-editor')) return 'Search clips, sequences, exports...';
   if (pathname.startsWith('/creator/event-timeline')) return 'Search events, team, venues...';
   if (pathname.startsWith('/creator/payments')) return 'Search invoices, clients, bookings...';
   if (pathname.startsWith('/creator/profile')) return 'Search anything...';
@@ -175,6 +187,9 @@ export function CreatorLayout() {
   const isAlbumEditor =
     location.pathname.startsWith('/creator/album-designer/') &&
     location.pathname.endsWith('/edit');
+  const isPhotoEditor = location.pathname.startsWith('/creator/photo-editor');
+  const isVideoEditor = location.pathname.startsWith('/creator/video-editor');
+  const isImmersiveEditor = isAlbumEditor || isPhotoEditor || isVideoEditor;
   const isCreateUpload =
     isUploadsPage && new URLSearchParams(location.search).get('create') === '1';
   const pageTitle = getPageTitle(location.pathname, isCreateUpload);
@@ -182,13 +197,16 @@ export function CreatorLayout() {
   const searchPlaceholder = getSearchPlaceholder(location.pathname);
 
   return (
-    <div className={`min-h-screen bg-[#F8F9FB] ${isAlbumEditor ? 'overflow-hidden' : ''}`}>
-      {/* Sidebar */}
+    <div
+      className={`min-h-screen ${
+        isPhotoEditor || isVideoEditor ? 'bg-[#09090B]' : 'bg-[#F8F9FB]'
+      } ${isImmersiveEditor ? 'overflow-hidden' : ''}`}
+    >      {/* Sidebar */}
       <aside
         id="creator-sidebar"
         className={`fixed inset-y-0 left-0 z-50 flex w-[272px] flex-col bg-white shadow-[4px_0_24px_-4px_rgba(107,70,254,0.08)] transition-transform duration-300 lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } ${isAlbumEditor ? 'hidden' : ''}`}
+        } ${isImmersiveEditor ? 'hidden' : ''}`}
       >
         {/* Logo — cropped ShootHub wordmark */}
         <div className="flex h-[84px] shrink-0 items-center justify-between gap-2 px-4 pt-1">
@@ -359,10 +377,10 @@ export function CreatorLayout() {
       </AnimatePresence>
 
       {/* Main */}
-      <div className={isAlbumEditor ? '' : 'lg:pl-[272px]'}>
+      <div className={isImmersiveEditor ? '' : 'lg:pl-[272px]'}>
         <header
           className={`sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-[#EEF0F4] bg-white/95 px-3 backdrop-blur-xl sm:h-[72px] sm:gap-3 sm:px-6 ${
-            isAlbumEditor ? 'hidden' : ''
+            isImmersiveEditor ? 'hidden' : ''
           }`}
         >
           <button
@@ -391,7 +409,7 @@ export function CreatorLayout() {
             </p>
           </div>
 
-          <div className={`mx-auto hidden max-w-lg flex-1 md:block ${isCreateUpload || isAlbumEditor ? 'lg:hidden' : ''}`}>
+          <div className={`mx-auto hidden max-w-lg flex-1 md:block ${isCreateUpload || isImmersiveEditor ? 'lg:hidden' : ''}`}>
             <div className="relative">
               <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A0A4B0]" />
               <input
@@ -440,6 +458,22 @@ export function CreatorLayout() {
               >
                 <Plus className="h-4 w-4" />
                 Create Album
+              </Link>
+            ) : location.pathname.startsWith('/creator/photo-editor') ? (
+              <Link
+                to="/creator/photo-editor"
+                className="hidden items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg sm:flex"
+              >
+                <Aperture className="h-4 w-4" />
+                Open Editor
+              </Link>
+            ) : location.pathname.startsWith('/creator/video-editor') ? (
+              <Link
+                to="/creator/video-editor"
+                className="hidden items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#6B46FE] to-[#8A60FF] px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#6B46FE]/25 transition-all hover:shadow-lg sm:flex"
+              >
+                <Clapperboard className="h-4 w-4" />
+                Open Studio
               </Link>
             ) : (
               <button
@@ -554,8 +588,8 @@ export function CreatorLayout() {
 
         <main
           className={
-            isAlbumEditor
-              ? 'h-dvh overflow-hidden p-0'
+            isImmersiveEditor
+              ? 'flex h-dvh min-h-0 flex-col overflow-hidden p-0'
               : 'min-h-[calc(100dvh-3.5rem)] px-3 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-4 sm:min-h-[calc(100vh-72px)] sm:px-6 sm:pt-6 lg:px-8 lg:pb-8'
           }
         >
@@ -572,7 +606,7 @@ export function CreatorLayout() {
       {/* Mobile bottom nav */}
       <nav
         className={`fixed bottom-0 left-0 right-0 z-40 pb-[env(safe-area-inset-bottom)] lg:hidden ${
-          isAlbumEditor ? 'hidden' : ''
+          isImmersiveEditor ? 'hidden' : ''
         }`}
       >
         <div className="border-t border-[#EEF0F4] bg-white/95 shadow-[0_-8px_30px_-4px_rgba(107,70,254,0.08)] backdrop-blur-2xl">

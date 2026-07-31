@@ -1,0 +1,380 @@
+import type { PresetCategory, PresetDefinition } from '../types';
+
+export const PRESET_CATEGORIES: {
+  id: PresetCategory | 'all' | 'favorites';
+  label: string;
+}[] = [
+  { id: 'all', label: 'All' },
+  { id: 'favorites', label: 'Favorites' },
+  { id: 'wedding', label: 'Wedding' },
+  { id: 'haldi', label: 'Haldi' },
+  { id: 'mehendi', label: 'Mehendi' },
+  { id: 'reception', label: 'Reception' },
+  { id: 'outdoor', label: 'Outdoor' },
+  { id: 'portrait', label: 'Portrait' },
+  { id: 'vintage', label: 'Vintage' },
+  { id: 'bw', label: 'B&W' },
+  { id: 'cinematic', label: 'Cinematic' },
+  { id: 'minimal', label: 'Minimal' },
+];
+
+export const EDITOR_PRESETS: PresetDefinition[] = [
+  {
+    id: 'wedding',
+    name: 'Wedding',
+    category: 'wedding',
+    description: 'Soft warm ceremony glow',
+    thumbnail: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=70',
+    adjustments: {
+      exposure: 0.2,
+      contrast: 8,
+      highlights: -15,
+      shadows: 18,
+      temperature: 12,
+      saturation: 8,
+      vibrance: 12,
+    },
+  },
+  {
+    id: 'wedding-ivory',
+    name: 'Ivory Soft',
+    category: 'wedding',
+    description: 'Airy whites & gentle blush',
+    thumbnail: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&q=70',
+    adjustments: {
+      exposure: 0.3,
+      contrast: -4,
+      highlights: -22,
+      shadows: 20,
+      whites: 12,
+      temperature: 8,
+      saturation: -6,
+      vibrance: 10,
+    },
+  },
+  {
+    id: 'haldi',
+    name: 'Haldi',
+    category: 'haldi',
+    description: 'Golden yellow celebration',
+    thumbnail: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=400&q=70',
+    adjustments: {
+      exposure: 0.35,
+      contrast: 12,
+      temperature: 28,
+      tint: 8,
+      saturation: 22,
+      vibrance: 18,
+      highlights: -10,
+    },
+  },
+  {
+    id: 'haldi-marigold',
+    name: 'Marigold',
+    category: 'haldi',
+    description: 'Deep turmeric punch',
+    thumbnail: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&q=70',
+    adjustments: {
+      exposure: 0.2,
+      contrast: 16,
+      temperature: 34,
+      tint: 10,
+      saturation: 28,
+      vibrance: 15,
+      sharpen: 8,
+    },
+  },
+  {
+    id: 'mehendi',
+    name: 'Mehendi',
+    category: 'mehendi',
+    description: 'Earthy greens & oranges',
+    thumbnail: 'https://images.unsplash.com/photo-1591604127959-e8c8b0b0c2b3?w=400&q=70',
+    adjustments: {
+      contrast: 15,
+      saturation: 18,
+      vibrance: 20,
+      temperature: 8,
+      shadows: 12,
+      sharpen: 15,
+    },
+  },
+  {
+    id: 'mehendi-henna',
+    name: 'Henna Glow',
+    category: 'mehendi',
+    description: 'Warm skin with rich detail',
+    thumbnail: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400&q=70',
+    adjustments: {
+      exposure: 0.15,
+      contrast: 12,
+      temperature: 14,
+      tint: 4,
+      saturation: 12,
+      vibrance: 16,
+      shadows: 16,
+      sharpen: 18,
+    },
+  },
+  {
+    id: 'reception',
+    name: 'Reception',
+    category: 'reception',
+    description: 'Dramatic evening light',
+    thumbnail: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&q=70',
+    adjustments: {
+      exposure: -0.1,
+      contrast: 22,
+      highlights: -25,
+      shadows: 20,
+      blacks: -12,
+      vibrance: 10,
+      vignette: 25,
+    },
+  },
+  {
+    id: 'reception-sparkle',
+    name: 'Sparkle Night',
+    category: 'reception',
+    description: 'Moody lights & deep blacks',
+    thumbnail: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=70',
+    adjustments: {
+      exposure: -0.2,
+      contrast: 28,
+      highlights: -18,
+      shadows: 10,
+      blacks: -20,
+      temperature: -6,
+      vibrance: 12,
+      vignette: 35,
+    },
+  },
+  {
+    id: 'outdoor',
+    name: 'Outdoor',
+    category: 'outdoor',
+    description: 'Fresh daylight clarity',
+    thumbnail: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&q=70',
+    adjustments: {
+      exposure: 0.15,
+      contrast: 10,
+      highlights: -20,
+      shadows: 15,
+      saturation: 6,
+      vibrance: 14,
+      sharpen: 10,
+    },
+  },
+  {
+    id: 'outdoor-garden',
+    name: 'Garden Light',
+    category: 'outdoor',
+    description: 'Lush greens, soft sun',
+    thumbnail: 'https://images.unsplash.com/photo-1529634597503-139d3726fed9?w=400&q=70',
+    adjustments: {
+      exposure: 0.2,
+      contrast: 8,
+      highlights: -16,
+      shadows: 18,
+      temperature: 6,
+      tint: 4,
+      vibrance: 16,
+      saturation: 8,
+    },
+  },
+  {
+    id: 'portrait',
+    name: 'Portrait',
+    category: 'portrait',
+    description: 'Flattering skin tones',
+    thumbnail: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=70',
+    adjustments: {
+      exposure: 0.25,
+      contrast: 5,
+      highlights: -18,
+      shadows: 22,
+      temperature: 6,
+      tint: -4,
+      blur: 4,
+    },
+  },
+  {
+    id: 'portrait-glow',
+    name: 'Soft Glow',
+    category: 'portrait',
+    description: 'Creamy skin, gentle lift',
+    thumbnail: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=400&q=70',
+    adjustments: {
+      exposure: 0.3,
+      contrast: -2,
+      highlights: -20,
+      shadows: 25,
+      whites: 8,
+      temperature: 10,
+      saturation: -4,
+      vibrance: 8,
+      blur: 6,
+    },
+  },
+  {
+    id: 'vintage',
+    name: 'Vintage',
+    category: 'vintage',
+    description: 'Faded film nostalgia',
+    thumbnail: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=400&q=70',
+    adjustments: {
+      contrast: -8,
+      highlights: 10,
+      shadows: 8,
+      temperature: 18,
+      saturation: -15,
+      vignette: 35,
+      blacks: 10,
+    },
+  },
+  {
+    id: 'vintage-sepia',
+    name: 'Sepia Film',
+    category: 'vintage',
+    description: 'Warm aged print look',
+    thumbnail: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=70',
+    adjustments: {
+      contrast: -5,
+      temperature: 28,
+      tint: 8,
+      saturation: -25,
+      vibrance: -10,
+      vignette: 40,
+      blacks: 8,
+    },
+  },
+  {
+    id: 'bw',
+    name: 'Black & White',
+    category: 'bw',
+    description: 'Classic monochrome contrast',
+    thumbnail: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=70',
+    adjustments: {
+      saturation: -100,
+      contrast: 18,
+      highlights: -10,
+      shadows: 12,
+      sharpen: 12,
+      vignette: 12,
+    },
+  },
+  {
+    id: 'bw-drama',
+    name: 'Mono Drama',
+    category: 'bw',
+    description: 'High-contrast B&W punch',
+    thumbnail: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&q=70',
+    adjustments: {
+      saturation: -100,
+      contrast: 32,
+      highlights: -20,
+      shadows: 8,
+      blacks: -22,
+      whites: 10,
+      vignette: 28,
+      sharpen: 18,
+    },
+  },
+  {
+    id: 'cinematic',
+    name: 'Cinematic',
+    category: 'cinematic',
+    description: 'Teal & orange grade',
+    thumbnail: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=70',
+    adjustments: {
+      contrast: 25,
+      highlights: -30,
+      shadows: 15,
+      temperature: -8,
+      tint: 6,
+      saturation: -5,
+      vibrance: 8,
+      vignette: 40,
+      blacks: -18,
+    },
+  },
+  {
+    id: 'cinematic-blockbuster',
+    name: 'Blockbuster',
+    category: 'cinematic',
+    description: 'Wide contrast, cool shadows',
+    thumbnail: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&q=70',
+    adjustments: {
+      exposure: -0.05,
+      contrast: 30,
+      highlights: -28,
+      shadows: 18,
+      temperature: -12,
+      tint: 8,
+      saturation: -8,
+      vibrance: 10,
+      vignette: 45,
+      blacks: -22,
+    },
+  },
+  {
+    id: 'minimal',
+    name: 'Minimal',
+    category: 'minimal',
+    description: 'Clean soft neutrals',
+    thumbnail: 'https://images.unsplash.com/photo-1529634597503-139d3726fed9?w=400&q=70',
+    adjustments: {
+      exposure: 0.1,
+      contrast: -5,
+      highlights: -8,
+      shadows: 10,
+      saturation: -20,
+      vibrance: -8,
+      whites: 8,
+    },
+  },
+  {
+    id: 'minimal-airy',
+    name: 'Airy',
+    category: 'minimal',
+    description: 'Bright, quiet, editorial',
+    thumbnail: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=70',
+    adjustments: {
+      exposure: 0.35,
+      contrast: -10,
+      highlights: -12,
+      shadows: 16,
+      whites: 14,
+      saturation: -28,
+      vibrance: -12,
+      temperature: 4,
+    },
+  },
+];
+
+export function getPresetById(id: string) {
+  return EDITOR_PRESETS.find((p) => p.id === id);
+}
+
+export function filterPresets(
+  presets: PresetDefinition[],
+  opts: {
+    query: string;
+    category: PresetCategory | 'all' | 'favorites';
+    favorites: string[];
+  },
+) {
+  const q = opts.query.trim().toLowerCase();
+  return presets.filter((p) => {
+    if (opts.category === 'favorites' && !opts.favorites.includes(p.id)) return false;
+    if (opts.category !== 'all' && opts.category !== 'favorites' && p.category !== opts.category) {
+      return false;
+    }
+    if (!q) return true;
+    return (
+      p.name.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q)
+    );
+  });
+}

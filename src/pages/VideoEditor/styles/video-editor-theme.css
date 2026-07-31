@@ -1,0 +1,190 @@
+/* ShootHub Studio — Dark Luxury Video Editor */
+.video-editor-root {
+  --ve-bg: #09090b;
+  --ve-surface: #111827;
+  --ve-card: #1a1a22;
+  --ve-elevated: #1e2433;
+  --ve-canvas: #0a0a0e;
+  --ve-ink: #ffffff;
+  --ve-ink-soft: #9ca3af;
+  --ve-ink-muted: #6b7280;
+  --ve-border: rgba(255, 255, 255, 0.06);
+  --ve-border-strong: rgba(255, 255, 255, 0.12);
+  --ve-primary: #6366f1;
+  --ve-primary-hover: #4f46e5;
+  --ve-accent: #8b5cf6;
+  --ve-primary-soft: rgba(99, 102, 241, 0.16);
+  --ve-primary-mid: rgba(99, 102, 241, 0.28);
+  --ve-primary-glow: rgba(99, 102, 241, 0.4);
+  --ve-accent-glow: rgba(139, 92, 246, 0.35);
+  --ve-success: #22c55e;
+  --ve-danger: #ef4444;
+  --ve-warning: #f59e0b;
+  --ve-playhead: #ef4444;
+  --ve-clip-video: #0e7490;
+  --ve-clip-video-alt: #155e75;
+  --ve-clip-text: #ea580c;
+  --ve-clip-audio: #0d9488;
+  --ve-clip-voice: #2563eb;
+  --ve-clip-fx: #7c3aed;
+  --ve-clip-overlay: #a855f7;
+  --ve-radius: 18px;
+  --ve-radius-md: 14px;
+  --ve-radius-sm: 10px;
+  --ve-radius-xs: 8px;
+  --ve-shadow-soft: 0 4px 24px -6px rgba(0, 0, 0, 0.5);
+  --ve-shadow-panel: 0 8px 40px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(99, 102, 241, 0.08);
+  --ve-shadow-float: 0 20px 60px -16px rgba(0, 0, 0, 0.75), 0 8px 24px -8px rgba(99, 102, 241, 0.3);
+  --ve-glass: rgba(17, 24, 39, 0.75);
+  --ve-glass-border: rgba(255, 255, 255, 0.08);
+  --ve-track: rgba(255, 255, 255, 0.08);
+  --ve-font: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --ve-sidebar-w: 56px;
+  --ve-media-w: 280px;
+  --ve-props-w: 300px;
+  --ve-timeline-h: 260px;
+  --ve-mobile-nav-h: 0px;
+  --ve-track-header-w: 112px;
+  --ve-safe-bottom: env(safe-area-inset-bottom, 0px);
+  font-family: var(--ve-font);
+  color: var(--ve-ink);
+  background: var(--ve-bg);
+}
+
+.video-editor-root .ve-glass {
+  background: var(--ve-glass);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid var(--ve-glass-border);
+  box-shadow: var(--ve-shadow-soft);
+}
+
+.video-editor-root .ve-panel {
+  background: var(--ve-surface);
+  border-color: var(--ve-border);
+}
+
+.video-editor-root .ve-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.video-editor-root .ve-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+.video-editor-root .ve-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+.video-editor-root .ve-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.video-editor-root .ve-canvas-bg {
+  background-color: var(--ve-canvas);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 45%, rgba(99, 102, 241, 0.07), transparent 65%),
+    linear-gradient(45deg, #0e0e14 25%, transparent 25%),
+    linear-gradient(-45deg, #0e0e14 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #0e0e14 75%),
+    linear-gradient(-45deg, transparent 75%, #0e0e14 75%);
+  background-size: auto, 16px 16px, 16px 16px, 16px 16px, 16px 16px;
+  background-position: 0 0, 0 0, 0 8px, 8px -8px, -8px 0;
+}
+
+.video-editor-root .ve-slider-track {
+  background: var(--ve-track);
+}
+
+.video-editor-root .ve-badge-new {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--ve-primary), var(--ve-accent));
+  padding: 1px 6px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: white;
+  line-height: 1.4;
+}
+
+.video-editor-root .ve-safe-area {
+  border: 1.5px dashed rgba(139, 92, 246, 0.45);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.video-editor-root .ve-waveform {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(13, 148, 136, 0.35) 20%,
+    rgba(13, 148, 136, 0.7) 50%,
+    rgba(13, 148, 136, 0.35) 80%,
+    transparent 100%
+  );
+}
+
+.video-editor-root .ve-vu-green {
+  background: linear-gradient(to top, #22c55e 0%, #84cc16 55%, #eab308 78%, #ef4444 100%);
+}
+
+.video-editor-root .ve-mobile-nav {
+  min-height: calc(var(--ve-mobile-nav-h) + var(--ve-safe-bottom));
+  padding-bottom: var(--ve-safe-bottom);
+}
+
+/* Large desktop */
+@media (max-width: 1280px) {
+  .video-editor-root {
+    --ve-media-w: 240px;
+    --ve-props-w: 260px;
+    --ve-timeline-h: 230px;
+  }
+}
+
+/* Tablet — props become sheet; mobile nav appears */
+@media (max-width: 1023px) {
+  .video-editor-root {
+    --ve-media-w: 220px;
+    --ve-props-w: 0px;
+    --ve-timeline-h: 200px;
+    --ve-mobile-nav-h: 56px;
+  }
+}
+
+/* Phone — docked side panels gone */
+@media (max-width: 767px) {
+  .video-editor-root {
+    --ve-sidebar-w: 0px;
+    --ve-media-w: 0px;
+    --ve-timeline-h: 156px;
+    --ve-track-header-w: 72px;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-editor-root {
+    --ve-timeline-h: 132px;
+    --ve-track-header-w: 56px;
+  }
+}
+
+@media (max-width: 360px) {
+  .video-editor-root {
+    --ve-timeline-h: 118px;
+  }
+}
+
+/* Short landscape phones / small heights */
+@media (max-height: 560px) {
+  .video-editor-root {
+    --ve-timeline-h: 110px;
+  }
+}
+
+@media (max-height: 480px) {
+  .video-editor-root {
+    --ve-timeline-h: 96px;
+  }
+}

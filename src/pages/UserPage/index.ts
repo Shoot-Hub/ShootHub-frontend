@@ -1,4 +1,10 @@
 export { UserLayout } from './UserLayout';
 export { MyEventsPage } from './pages/MyEventsPage';
+export { MyBookingsPage } from './pages/MyBookingsPage';
+export { FindProfessionalsPage } from './pages/FindProfessionalsPage';
+export { MyGalleriesPage } from './pages/MyGalleriesPage';
+export { PaymentsPage } from './pages/PaymentsPage';
+export { MessagesPage } from './pages/MessagesPage';
+export { NotificationsPage } from './pages/NotificationsPage';
 export { UserDashboardPage } from './pages/UserDashboardPage';
 export { UserPlaceholderPage } from './pages/UserPlaceholderPage';

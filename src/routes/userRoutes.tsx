@@ -9,7 +9,13 @@ import {
 } from '@/pages/auth';
 import { AUTH_ROUTES } from '@/constants/auth';
 import {
+  FindProfessionalsPage,
+  MessagesPage,
+  MyBookingsPage,
   MyEventsPage,
+  MyGalleriesPage,
+  NotificationsPage,
+  PaymentsPage,
   UserDashboardPage,
   UserLayout,
   UserPlaceholderPage,
@@ -24,16 +30,60 @@ export const userRoutes = [
   <Route key="user" element={<ProtectedRoute roles={['user']} />}>
     <Route path="/user" element={<UserLayout />}>
       <Route index element={<UserDashboardPage />} />
+      <Route path="find-professionals" element={<FindProfessionalsPage />} />
+      <Route path="find-photographers" element={<FindProfessionalsPage />} />
+      <Route path="my-bookings" element={<MyBookingsPage />} />
       <Route path="my-events" element={<MyEventsPage />} />
+      <Route path="messages" element={<MessagesPage />} />
       <Route
-        path="galleries"
+        path="favorites"
         element={
           <UserPlaceholderPage
-            title="All Galleries"
-            description="Browse all shared photo galleries from your events."
+            title="Favorites"
+            description="Your saved creators, galleries, and moments."
           />
         }
       />
+      <Route
+        path="ai-face-search"
+        element={
+          <UserPlaceholderPage
+            title="AI Face Search"
+            description="Find your photos instantly with AI face recognition."
+          />
+        }
+      />
+      <Route
+        path="reviews"
+        element={
+          <UserPlaceholderPage
+            title="Reviews"
+            description="Manage and share reviews for your shoots."
+          />
+        }
+      />
+      <Route path="galleries" element={<MyGalleriesPage />} />
+      <Route path="payments" element={<PaymentsPage />} />
+      <Route path="notifications" element={<NotificationsPage />} />
+      <Route
+        path="settings"
+        element={
+          <UserPlaceholderPage
+            title="Settings"
+            description="Manage your profile, preferences, and account."
+          />
+        }
+      />
+      <Route
+        path="support"
+        element={
+          <UserPlaceholderPage
+            title="Help & Support"
+            description="Get help with bookings, payments, and account issues."
+          />
+        }
+      />
+      {/* Legacy routes kept for existing in-app links */}
       <Route
         path="albums"
         element={
@@ -53,47 +103,11 @@ export const userRoutes = [
         }
       />
       <Route
-        path="ai-face-search"
-        element={
-          <UserPlaceholderPage
-            title="AI Face Search"
-            description="Find your photos instantly with AI face recognition."
-          />
-        }
-      />
-      <Route
-        path="notifications"
-        element={
-          <UserPlaceholderPage
-            title="Notifications"
-            description="Stay updated on bookings, deliveries, and messages."
-          />
-        }
-      />
-      <Route
-        path="payments"
-        element={
-          <UserPlaceholderPage
-            title="Payments"
-            description="Track invoices, advances, and payment history."
-          />
-        }
-      />
-      <Route
         path="my-photographer"
         element={
           <UserPlaceholderPage
             title="My Photographer"
             description="See photographers linked to your bookings."
-          />
-        }
-      />
-      <Route
-        path="favorites"
-        element={
-          <UserPlaceholderPage
-            title="Favorites"
-            description="Your saved creators, galleries, and moments."
           />
         }
       />
@@ -121,24 +135,6 @@ export const userRoutes = [
           <UserPlaceholderPage
             title="Categories"
             description="Browse by wedding, pre-wed, events, and more."
-          />
-        }
-      />
-      <Route
-        path="support"
-        element={
-          <UserPlaceholderPage
-            title="Support"
-            description="Get help with bookings, payments, and account issues."
-          />
-        }
-      />
-      <Route
-        path="settings"
-        element={
-          <UserPlaceholderPage
-            title="Settings"
-            description="Manage your profile, preferences, and account."
           />
         }
       />

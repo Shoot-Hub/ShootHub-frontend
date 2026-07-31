@@ -26,6 +26,8 @@ import {
   AnalyticsPage,
   UploadsPage,
 } from '@/pages/CreatorPage';
+import { PhotoEditorRoute } from '@/pages/PhotoEditor/PhotoEditorRoute';
+import { VideoEditor } from '@/pages/VideoEditor';
 
 export const creatorRoutes: ReactNode[] = [
   <Route key="creator" element={<ProtectedRoute roles={['photographer']} />}>
@@ -39,6 +41,8 @@ export const creatorRoutes: ReactNode[] = [
       <Route path="album-designer" element={<AlbumDashboardPage />} />
       <Route path="album-designer/new" element={<AlbumWizardPage />} />
       <Route path="album-designer/:albumId/edit" element={<AlbumEditorPage />} />
+      <Route path="photo-editor" element={<PhotoEditorRoute />} />
+      <Route path="video-editor" element={<VideoEditor />} />
       <Route path="packages" element={<PackagesPage />} />
       <Route path="subscriptions" element={<SubscriptionsPage />} />
       <Route path="bookings" element={<BookingsPage />} />

@@ -1,0 +1,111 @@
+import type { PhotoItem } from '../types';
+import { DEFAULT_ADJUSTMENTS, DEFAULT_TRANSFORM } from '../types';
+
+const base = (
+  partial: Omit<PhotoItem, 'adjustments' | 'transform' | 'presetId' | 'filterId'>,
+): PhotoItem => ({
+  ...partial,
+  adjustments: { ...DEFAULT_ADJUSTMENTS },
+  transform: { ...DEFAULT_TRANSFORM },
+  presetId: null,
+  filterId: null,
+});
+
+export const MOCK_PHOTOS: PhotoItem[] = [
+  base({
+    id: 'photo_1',
+    name: 'DSC_1256.JPG',
+    src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=240&q=60',
+    width: 4000,
+    height: 2667,
+  }),
+  base({
+    id: 'photo_2',
+    name: 'DSC_1257.JPG',
+    src: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=240&q=60',
+    width: 4000,
+    height: 2667,
+  }),
+  base({
+    id: 'photo_3',
+    name: 'DSC_1258.JPG',
+    src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=240&q=60',
+    width: 3600,
+    height: 2400,
+  }),
+  base({
+    id: 'photo_4',
+    name: 'DSC_1259.JPG',
+    src: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=240&q=60',
+    width: 4000,
+    height: 2667,
+  }),
+  base({
+    id: 'photo_5',
+    name: 'Haldi_001.JPG',
+    src: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=240&q=60',
+    width: 3840,
+    height: 2560,
+  }),
+  base({
+    id: 'photo_6',
+    name: 'Mehendi_012.JPG',
+    src: 'https://images.unsplash.com/photo-1591604127959-e8c8b0b0c2b3?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1591604127959-e8c8b0b0c2b3?w=240&q=60',
+    width: 4000,
+    height: 2667,
+  }),
+  base({
+    id: 'photo_7',
+    name: 'Reception_003.JPG',
+    src: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=240&q=60',
+    width: 4200,
+    height: 2800,
+  }),
+  base({
+    id: 'photo_8',
+    name: 'Portrait_021.JPG',
+    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&q=60',
+    width: 3000,
+    height: 4000,
+  }),
+  base({
+    id: 'photo_9',
+    name: 'Outdoor_008.JPG',
+    src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=240&q=60',
+    width: 4000,
+    height: 2667,
+  }),
+  base({
+    id: 'photo_10',
+    name: 'Ceremony_015.JPG',
+    src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=240&q=60',
+    width: 4000,
+    height: 2667,
+  }),
+  base({
+    id: 'photo_11',
+    name: 'Couple_044.JPG',
+    src: 'https://images.unsplash.com/photo-1529634597503-139d3726fed9?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1529634597503-139d3726fed9?w=240&q=60',
+    width: 3800,
+    height: 2533,
+  }),
+  base({
+    id: 'photo_12',
+    name: 'Details_009.JPG',
+    src: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=1600&q=80',
+    thumb: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=240&q=60',
+    width: 3600,
+    height: 2400,
+  }),
+];
