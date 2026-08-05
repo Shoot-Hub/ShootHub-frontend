@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-  BASE_URL: 'https://shoothub-backend-apis.onrender.com/api/v1',
+  BASE_URL: 'https://s-b-api-production.up.railway.app/api/v1',
   ENDPOINTS: {
     // Auth endpoints
     LOGIN: '/auth/login',
